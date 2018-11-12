@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<#include "../include/head.html" />
+<title><@s.m code="shift.management" /></title>
+<link type="text/css" rel="stylesheet"
+	href="${res}/css/dialog_index.css" />
+<style type="text/css">
+/* body,td,th {
+	font-size: 12px;
+} */ 
+* {
+  font-size: 20px;
+  box-sizing: border-box;
+}
+</style>
+</head>
+<body style="overflow-y:auto;">
+  <form id="res_auth_add_form" enctype="multipart/form-data" method="post">
+		<div id="templet" class="res_auth_content" style="width: 800px;">
+				<style>
+					.bdbox{
+						-moz-box-sizing: border-box;
+						-webkit-box-sizing: border-box;
+						box-sizing: border-box;
+					}
+					.res-auth-parent,.res-auth-child{ 
+					    border:1px solid #99BBE8;
+					    min-height: 100px;
+					}
+					.res-auth-floor{
+						position: relative;
+					}
+					.res-auth-parent{
+						position: absolute;
+						top: 0;
+						left: 0;
+						bottom: 0;
+					}
+					.clearfix:after{
+						content:'';
+						display: table;
+						clear: both;
+					}
+					.res_auth_content ul li{ float:left; margin-left:20px; list-style-type:none;}
+					.res_auth_content ul{
+					    margin-bottom: 0px;
+					 }
+					 .res_auth_content ul.pl100{
+					    padding-left: 100px;
+					 }
+					 .res-auth-parent{
+					   justify-content:center;/* 子元素水平居中 */
+                       align-items:center;/* 子元素垂直居中 */
+                       display: -webkit-flex;
+					 }
+				</style>
+	
+				<input type="hidden" value="${chId !''}" name="chId" id="chId"/>
+				<input type="hidden" value="${token !''}" name="token" id="token"/>
+				<input type="hidden" value="${chaHosId !''}" name="chaHosId" id="chaHosId"/>
+				
+			<!-- js动态生成html示例: -->		       
+		    <!-- <div class="clearfix res-auth-floor">
+		           <div id="res3" class="res-auth-parent clearfix" style="float:left;width:100px;">	               
+		                  <label><input type="checkbox" id="res3-parent" value="res3Parent"/>支付接口</label>
+		           </div>
+		           <div id="res3-child" class="res-auth-child">
+		                  <ul class="clearfix pl100">
+		                        <li><label><input type="checkbox" id="res3-child1" name="resId" value="res3Child1" resId="001"/>支付接口1</label></li>
+		                        <li><label><input type="checkbox" id="res3-child2" name="resId" value="res3Child2" resId="002"/>支付接口2</label></li>
+		                        <li><label><input type="checkbox" id="res3-child3" name="resId" value="res3Child3" resId="003"/>支付接口3</label></li>		                   
+		                  </ul>
+		          </div>
+	        </div> -->
+		           
+		</div>
+	</form>
+</body>
+</html>

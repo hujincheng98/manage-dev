@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.channelInfo.dao.OtherHisChannelsInfoDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.channelInfo.vo.OtherHisChannelsInfo" >
+    <id column="CH_HIS_ID" property="chHisId" jdbcType="VARCHAR" />
+    <result column="CH_HIS_NAME" property="chHisName" jdbcType="VARCHAR" />
+    <result column="CH_HIS_URL" property="chHisUrl" jdbcType="VARCHAR" />
+    <result column="CH_HIS_TOKEN" property="chHisToken" jdbcType="VARCHAR" />
+    <result column="CH_HIS_NAMESPACE" property="chHisNamespace" jdbcType="VARCHAR" />
+    <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="CH_STATE" property="chState" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="HOS_NAME" property="hosName" jdbcType="VARCHAR" />
+    <result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+    <result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+    <result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CH_HIS_ID, CH_HIS_NAME, CH_HIS_URL, CH_HIS_TOKEN, CH_HIS_NAMESPACE, HOS_ID, ORG_ID, CH_STATE,
+    REMARKS, EXT1, EXT2, EXT3, CREATE_DATE, CREATE_USER, UPDATE_DATE, UPDATE_USER
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from other_his_channels_info
+    where CH_HIS_ID = #{chHisId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from other_his_channels_info
+    where CH_HIS_ID = #{chHisId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.skynet.rimp.channelInfo.vo.OtherHisChannelsInfo" >
+    insert into other_his_channels_info (CH_HIS_ID, CH_HIS_NAME, CH_HIS_URL,
+      CH_HIS_TOKEN, CH_HIS_NAMESPACE, HOS_ID, 
+      ORG_ID, CH_STATE, REMARKS, 
+      EXT1, EXT2, EXT3, CREATE_DATE, 
+      CREATE_USER, UPDATE_DATE, UPDATE_USER
+      )
+    values (#{chHisId,jdbcType=INTEGER}, #{chHisName,jdbcType=VARCHAR}, #{chHisUrl,jdbcType=VARCHAR},
+      #{chHisToken,jdbcType=VARCHAR}, #{chHisNamespace,jdbcType=VARCHAR}, #{hosId,jdbcType=VARCHAR}, 
+      #{orgId,jdbcType=VARCHAR}, #{chState,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.skynet.rimp.channelInfo.vo.OtherHisChannelsInfo" >
+    insert into other_his_channels_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="chHisId != null" >
+       CH_HIS_ID,
+      </if>
+      <if test="chHisName != null" >
+        CH_HIS_NAME,
+      </if>
+      <if test="chHisUrl != null" >
+        CH_HIS_URL,
+      </if>
+      <if test="chHisToken != null" >
+        CH_HIS_TOKEN,
+      </if>
+      <if test="chHisNamespace != null" >
+        CH_HIS_NAMESPACE,
+      </if>
+      <if test="hosId != null" >
+        HOS_ID,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="chState != null" >
+        CH_STATE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="ext1 != null" >
+        EXT1,
+      </if>
+      <if test="ext2 != null" >
+        EXT2,
+      </if>
+      <if test="ext3 != null" >
+        EXT3,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="chHisId != null" >
+        #{chHisId,jdbcType=INTEGER},
+      </if>
+      <if test="chHisName != null" >
+        #{chHisName,jdbcType=VARCHAR},
+      </if>
+      <if test="chHisUrl != null" >
+        #{chHisUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="chHisToken != null" >
+        #{chHisToken,jdbcType=VARCHAR},
+      </if>
+      <if test="chHisNamespace != null" >
+        #{chHisNamespace,jdbcType=VARCHAR},
+      </if>
+      <if test="hosId != null" >
+        #{hosId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="chState != null" >
+        #{chState,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.skynet.rimp.channelInfo.vo.OtherHisChannelsInfo" >
+    update other_his_channels_info
+    <set >
+      <if test="chHisName != null" >
+        CH_HIS_NAME = #{chHisName,jdbcType=VARCHAR},
+      </if>
+      <if test="chHisUrl != null" >
+        CH_HIS_URL = #{chHisUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="chHisToken != null" >
+        CH_HIS_TOKEN = #{chHisToken,jdbcType=VARCHAR},
+      </if>
+      <if test="chHisNamespace != null" >
+        CH_HIS_NAMESPACE = #{chHisNamespace,jdbcType=VARCHAR},
+      </if>
+      <if test="hosId != null" >
+        HOS_ID = #{hosId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="chState != null" >
+        CH_STATE = #{chState,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        EXT2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        EXT3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CH_HIS_ID = #{chHisId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.skynet.rimp.channelInfo.vo.OtherHisChannelsInfo" >
+    update other_his_channels_info
+    set CH_HIS_NAME = #{chHisName,jdbcType=VARCHAR},
+      CH_HIS_URL = #{chHisUrl,jdbcType=VARCHAR},
+      CH_HIS_TOKEN = #{chHisToken,jdbcType=VARCHAR},
+      CH_HIS_NAMESPACE = #{chHisNamespace,jdbcType=VARCHAR},
+      HOS_ID = #{hosId,jdbcType=VARCHAR},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      CH_STATE = #{chState,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      EXT1 = #{ext1,jdbcType=VARCHAR},
+      EXT2 = #{ext2,jdbcType=VARCHAR},
+      EXT3 = #{ext3,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR}
+    where CH_HIS_ID = #{chHisId,jdbcType=INTEGER}
+  </update>
+    <!-- 查询 -->
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT CH.*, HOS.HOS_NAME FROM OTHER_HIS_CHANNELS_INFO CH, HOS_INFO HOS WHERE CH.HOS_ID = HOS.HOS_ID
+    </select>
+
+    <select id="findByCondition" parameterType="com.skynet.common.SearchParams" resultMap="BaseResultMap">
+        SELECT CH.*, HOS.HOS_NAME FROM OTHER_HIS_CHANNELS_INFO CH, HOS_INFO HOS WHERE CH.HOS_ID = HOS.HOS_ID
+        <if test="searchParams.chHisName!=null and searchParams.chHisName!=''">
+            AND CH.CH_HIS_NAME like '%${searchParams.chHisName}%'
+        </if>
+        <if test="searchParams.chHisId!=null and searchParams.chHisId!=''">
+            AND CH.CH_HIS_ID = #{searchParams.chHisId,jdbcType=VARCHAR}
+        </if>
+        <if test="searchParams.chState!=null and searchParams.chState!=''">
+            AND CH.CH_STATE = #{searchParams.chState,jdbcType=VARCHAR}
+        </if>
+    </select>
+</mapper>

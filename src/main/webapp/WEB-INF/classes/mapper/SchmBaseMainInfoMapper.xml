@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.schmInfo.dao.SchmBaseMainInfoDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.schmInfo.vo.SchmBaseMainInfoEntity" >
+    <id column="SCHM_ID" property="schmId" jdbcType="VARCHAR" />
+    <result column="SCHM_DATE" property="schmDate" jdbcType="DATE" />
+    <result column="DOCM_ID" property="docmId" jdbcType="VARCHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="SCHM_DEPT_ID" property="schmDeptId" jdbcType="VARCHAR" />
+    <result column="SCHM_WEEK" property="schmWeek" jdbcType="VARCHAR" />
+    <result column="SHIFT_ID" property="shiftId" jdbcType="VARCHAR" />
+    <result column="SCHM_STATE" property="schmState" jdbcType="VARCHAR" />
+    <result column="SCHM_REGI_SUM" property="schmRegiSum" jdbcType="INTEGER" />
+    <result column="SCHM_ON_SUM" property="schmOnSum" jdbcType="INTEGER" />
+    <result column="SCHM_DOWN_SUM" property="schmDownSum" jdbcType="INTEGER" />
+    <result column="SCHM_ON_REGI_SUM" property="schmOnRegiSum" jdbcType="INTEGER" />
+    <result column="SCHM_DOWN_REGI_SUM" property="schmDownRegiSum" jdbcType="INTEGER" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+    <result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+    <result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR"/>
+    <result column="SCHM_DEPT_NAME" property="schmDeptName" jdbcType="VARCHAR"/>
+    <result column="SHIFT_NAME" property="shiftName" jdbcType="VARCHAR"/>
+    <result column="DOCM_NAME" property="docmName" jdbcType="VARCHAR"/>
+  	<result column="DOCM_TITLE" property="docmTitle" jdbcType="VARCHAR"/>
+  	<result column="dept_hos_id" property="deptHosId" jdbcType="VARCHAR"/>
+  	<result column="DIAGNOSIS_INTE" property="diagnosisInte" jdbcType="INTEGER" />
+
+    <result column="REG_CATEGORY" property="regcategory" jdbcType="VARCHAR" />
+    <result column="ID" property="regCategoryId" jdbcType="VARCHAR" />
+    <result column="SERV_CODING" property="servCoding" jdbcType="VARCHAR" />
+  	
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    SCHM_ID, SCHM_DATE, DOCM_ID, DEPT_ID, SCHM_DEPT_ID, SCHM_WEEK, SHIFT_ID, SCHM_STATE, SCHM_REGI_SUM, 
+    SCHM_ON_SUM, SCHM_DOWN_SUM, SCHM_ON_REGI_SUM, SCHM_DOWN_REGI_SUM, ORG_ID, REMARKS, 
+    EXT1, EXT2, EXT3, CREATE_DATE, CREATE_USER, UPDATE_DATE, UPDATE_USER
+  </sql>
+  <!-- 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from schm_base_main_info
+    where SCHM_ID = #{schmId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from schm_base_main_info
+    where SCHM_ID = #{schmId,jdbcType=VARCHAR}
+  </delete>
+  -->
+  <insert id="insert" parameterType="com.skynet.rimp.schmInfo.vo.SchmBaseMainInfoEntity" >
+    insert into schm_base_main_info (SCHM_ID, SCHM_DATE, DOCM_ID, 
+      DEPT_ID, SCHM_DEPT_ID, SCHM_WEEK, 
+      SHIFT_ID, SCHM_STATE, SCHM_REGI_SUM, SCHM_ON_SUM, 
+      SCHM_DOWN_SUM, SCHM_ON_REGI_SUM, SCHM_DOWN_REGI_SUM, 
+      ORG_ID, REMARKS, EXT1, 
+      EXT2, EXT3, CREATE_DATE, 
+      CREATE_USER, UPDATE_DATE, UPDATE_USER
+      )
+    values (#{schmId,jdbcType=VARCHAR}, #{schmDate,jdbcType=DATE}, #{docmId,jdbcType=VARCHAR}, 
+      #{deptId,jdbcType=VARCHAR}, #{schmDeptId,jdbcType=VARCHAR}, #{schmWeek,jdbcType=VARCHAR}, 
+      #{shiftId,jdbcType=VARCHAR}, #{schmState,jdbcType=VARCHAR}, #{schmRegiSum,jdbcType=INTEGER}, #{schmOnSum,jdbcType=INTEGER}, 
+      #{schmDownSum,jdbcType=INTEGER}, #{schmOnRegiSum,jdbcType=INTEGER}, #{schmDownRegiSum,jdbcType=INTEGER}, 
+      #{orgId,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR}, 
+      #{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <update id="update" parameterType="com.skynet.rimp.schmInfo.vo.SchmBaseMainInfoEntity" >
+    update schm_base_main_info
+    <set >
+      <if test="schmDate != null" >
+        SCHM_DATE = #{schmDate,jdbcType=DATE},
+      </if>
+      <if test="docmId != null" >
+        DOCM_ID = #{docmId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="schmDeptId != null" >
+        SCHM_DEPT_ID = #{schmDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="schmWeek != null" >
+        SCHM_WEEK = #{schmWeek,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftId != null" >
+        SHIFT_ID = #{shiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="schmState != null" >
+        SCHM_STATE = #{schmState,jdbcType=VARCHAR},
+      </if>
+      <if test="schmRegiSum != null" >
+        SCHM_REGI_SUM = #{schmRegiSum,jdbcType=INTEGER},
+      </if>
+      <if test="schmOnSum != null" >
+        SCHM_ON_SUM = #{schmOnSum,jdbcType=INTEGER},
+      </if>
+      <if test="schmDownSum != null" >
+        SCHM_DOWN_SUM = #{schmDownSum,jdbcType=INTEGER},
+      </if>
+      <if test="schmOnRegiSum != null" >
+        SCHM_ON_REGI_SUM = #{schmOnRegiSum,jdbcType=INTEGER},
+      </if>
+      <if test="schmDownRegiSum != null" >
+        SCHM_DOWN_REGI_SUM = #{schmDownRegiSum,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        EXT2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        EXT3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SCHM_ID = #{schmId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 查询 -->
+	<select id="findAll" resultMap="BaseResultMap">
+		SELECT
+				A.*,
+				B.SHIFT_NAME ,
+				C.DEPT_NAME AS DEPT_NAME ,
+				D.DEPT_NAME AS SCHM_DEPT_NAME ,
+				E.DOCM_NAME ,
+				E.DOCM_TITLE,
+				D.HOS_ID AS dept_hos_id,
+				F.REG_CATEGORY,
+				F.ID,
+				F.SERV_CODING
+		FROM  SCHM_BASE_MAIN_INFO A 
+		LEFT JOIN  SCHM_SHIFT_INFO B ON A.SHIFT_ID = B.SHIFT_ID
+		LEFT JOIN HOS_DEPT_INFO C ON A.DEPT_ID = C.DEPT_ID
+		LEFT JOIN HOS_DEPT_INFO D ON A.SCHM_DEPT_ID = D.DEPT_ID
+		LEFT JOIN HOS_DOCM_INFO E ON A.DOCM_ID = E.DOCM_ID
+		left join schm_reg_category F on A.EXT1=F.ID
+	</select>
+	
+	<!-- 查询 -->
+	<select id="findAllAuto" resultMap="BaseResultMap">
+		SELECT
+				A.*,
+				B.SHIFT_NAME ,
+				C.DEPT_NAME AS DEPT_NAME ,
+				D.DEPT_NAME AS SCHM_DEPT_NAME ,
+				E.DOCM_NAME ,
+				E.DOCM_TITLE,
+				D.HOS_ID AS dept_hos_id,
+				E.DIAGNOSIS_INTE,
+				F.REG_CATEGORY,
+				F.ID,
+				F.SERV_CODING
+		FROM  SCHM_BASE_MAIN_INFO A 
+		LEFT JOIN  SCHM_SHIFT_INFO B ON A.SHIFT_ID = B.SHIFT_ID
+		LEFT JOIN HOS_DEPT_INFO C ON A.DEPT_ID = C.DEPT_ID
+		LEFT JOIN HOS_DEPT_INFO D ON A.SCHM_DEPT_ID = D.DEPT_ID
+		LEFT JOIN HOS_DOCM_INFO E ON A.DOCM_ID = E.DOCM_ID
+		left join schm_reg_category F on A.EXT1=F.ID where A.SCHM_STATE = 'state_1'
+	</select>
+	
+	
+	<select id="findByShiftId" parameterType="java.lang.String" resultType="int">
+		select count(*) FROM SCHM_BASE_MAIN_INFO WHERE SHIFT_ID = #{shiftId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="findByCondition" parameterType="com.skynet.common.SearchParams" resultMap="BaseResultMap">
+		SELECT
+				A.*,
+				B.SHIFT_NAME ,
+				C.DEPT_NAME AS DEPT_NAME ,
+				D.DEPT_NAME AS SCHM_DEPT_NAME ,
+				E.DOCM_NAME ,
+				E.DOCM_TITLE,
+				D.HOS_ID AS dept_hos_id,
+                F.REG_CATEGORY,
+                F.ID,
+                F.SERV_CODING
+		FROM  (
+		select  * from SCHM_BASE_MAIN_INFO where 1=1 
+		<if test="searchParams!=null">
+			<if test="searchParams.schmDeptId != null and searchParams.schmDeptId != ''">
+				AND SCHM_DEPT_ID = #{searchParams.schmDeptId}
+			</if>
+			<if test="searchParams.docmId != null and searchParams.docmId != ''">
+				AND DOCM_ID = #{searchParams.docmId}
+			</if>
+			<if test="searchParams.schmState != null and searchParams.schmState != ''">
+				AND SCHM_STATE = #{searchParams.schmState}
+			</if>
+		</if>
+		) A 
+		 
+		LEFT JOIN SCHM_SHIFT_INFO B ON A.SHIFT_ID = B.SHIFT_ID
+		LEFT JOIN HOS_DEPT_INFO C ON A.DEPT_ID = C.DEPT_ID
+		LEFT JOIN HOS_DEPT_INFO D ON A.SCHM_DEPT_ID = D.DEPT_ID
+		LEFT JOIN HOS_DOCM_INFO E ON A.DOCM_ID = E.DOCM_ID
+        left join schm_reg_category F on A.EXT1=F.ID
+<!--
+		<if test="sort != null and sort != '' and order != null and order != ''">
+			 <choose>
+			 	<when test="sort=='schmWeek'">
+			 		ORDER BY 
+					CASE A.SCHM_WEEK
+						WHEN '星期一' THEN '1'
+						WHEN '星期二' THEN '2'
+						WHEN '星期三' THEN '3'
+						WHEN '星期四' THEN '4'
+						WHEN '星期五' THEN '5'
+						WHEN '星期六' THEN '6'
+						WHEN '星期日' THEN '7'
+					ELSE '0' END ${order}
+			 	</when>
+			 	<otherwise>
+			 		ORDER BY
+			 		<if test="sort=='shiftId'">
+			 			B.SHIFT_NAME
+			 		</if> 
+			 		<if test="sort=='docmId'">
+			 			E.DOCM_NAME
+			 		</if> 
+			 		<if test="sort=='docmTitleName'">
+			 			E.DOCM_TITLE
+			 		</if> 
+			 		<if test="sort=='schmDeptId'">
+			 			C.DEPT_NAME
+			 		</if> 
+			 		<if test="sort=='deptName'">
+			 			D.DEPT_NAME
+			 		</if> 
+			 		<if test="sort=='schmRegiSum'">
+			 			A.SCHM_REGI_SUM
+			 		</if> 
+			 		<if test="sort=='schmOnSum'">
+			 			A.SCHM_ON_SUM
+			 		</if> 
+			 		<if test="sort=='schmDownSum'">
+			 			A.SCHM_DOWN_SUM
+			 		</if> 
+			 		<if test="sort=='schmOnRegiSum'">
+			 			A.SCHM_ON_REGI_SUM
+			 		</if> 
+			 		<if test="sort=='schmDownRegiSum'">
+			 			A.SCHM_DOWN_REGI_SUM
+			 		</if> 
+			 		${order}
+			 	</otherwise>
+			 </choose>	
+		</if>
+-->
+	</select>
+	
+	<select id="findByConditionBydel" parameterType="com.skynet.common.SearchParams" resultMap="BaseResultMap">
+		select  SCHM_ID from SCHM_BASE_MAIN_INFO where 1=1 
+		<if test="searchParams!=null">
+			<if test="searchParams.deptId != null and searchParams.deptId != ''">
+				AND SCHM_DEPT_ID = #{searchParams.deptId}
+			</if>
+			<if test="searchParams.docmId != null and searchParams.docmId != ''">
+				AND DOCM_ID = #{searchParams.docmId}
+			</if>
+		</if>
+	</select>
+	
+	
+	<delete id="deleteByKeyArr" parameterType="java.util.List">
+		DELETE FROM SCHM_BASE_MAIN_INFO WHERE SCHM_ID IN
+		<foreach collection="array" index="index" item="item" open="(" separator="," close=")">  
+            #{item}   
+    	</foreach>  
+	</delete>
+	
+	
+	<select id="findByConditionByAutoSchm" parameterType="com.skynet.rimp.schmInfo.vo.SchmAutoSchmInfoVo" resultMap="BaseResultMap">
+		SELECT
+				A.*,
+				B.SHIFT_NAME ,
+				C.DEPT_NAME AS DEPT_NAME ,
+				D.DEPT_NAME AS SCHM_DEPT_NAME ,
+				E.DOCM_NAME ,
+				E.DOCM_TITLE,
+				D.HOS_ID AS dept_hos_id,
+				E.DIAGNOSIS_INTE,
+                F.REG_CATEGORY,
+                F.ID,
+                F.SERV_CODING
+		FROM  (
+		select  * from SCHM_BASE_MAIN_INFO  where 1=1 
+			<if test="deptid != null and deptid != ''">
+					AND SCHM_DEPT_ID = #{deptid}
+			</if>
+			<if test="docmid != null and docmid != ''">
+					And DOCM_ID = #{docmid}
+			</if>
+			<if test="schmState != null and schmState != ''">
+					And SCHM_STATE = #{schmState}
+			</if>
+            <if test="shiftId != null and shiftId != ''">
+                    AND SHIFT_ID = #{shiftId}
+            </if>
+            <if test="schmWeek != null and schmWeek != ''">
+                    AND  SCHM_WEEK= #{schmWeek}
+            </if>
+		) A  
+		LEFT JOIN  SCHM_SHIFT_INFO B ON A.SHIFT_ID = B.SHIFT_ID
+		LEFT JOIN HOS_DEPT_INFO C ON A.DEPT_ID = C.DEPT_ID
+		LEFT JOIN HOS_DEPT_INFO D ON A.SCHM_DEPT_ID = D.DEPT_ID
+		LEFT JOIN HOS_DOCM_INFO E ON A.DOCM_ID = E.DOCM_ID
+        left join schm_reg_category F on A.EXT1=F.ID
+		
+	</select>
+	
+	
+	<select id="findCountBydocmAndWeek" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM SCHM_BASE_MAIN_INFO WHERE DOCM_ID=#{docmId} AND SCHM_WEEK=#{schmWeek} AND SHIFT_ID=#{shiftId} AND SCHM_DEPT_ID=#{schmDeptId}
+		<if test="schmId != null and schmId != ''">
+				AND SCHM_ID  != #{schmId}
+		</if>
+	</select>
+</mapper>

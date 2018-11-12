@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>资源管理</title> 
+	[#include "../include/head.html" /]
+	<script type="text/javascript" src="${res}/js_custom/res_edit.js"></script>
+  </head>
+  
+  <body>
+		<!-- 按钮区域 -->
+		<div id="button-bar">
+			[@shiro.hasPermission name="/platform/res/save.json"]
+		    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="addBtn">新增</a>
+		    [/@shiro.hasPermission]
+			[@shiro.hasPermission name="/platform/res/delete.json"]
+		    <a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true" id="deleteBtn">删除</a>
+		    [/@shiro.hasPermission]
+			[@shiro.hasPermission name="/platform/res/update.json"]
+		    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="editBtn">编辑</a>
+		    [/@shiro.hasPermission]
+			[@shiro.hasPermission name="/platform/res/update.json"]
+		    <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" id="saveBtn">保存</a>
+		    [/@shiro.hasPermission]
+		    <a href="#" class="easyui-linkbutton" style="display:none;" iconCls="icon-tabicons_03_04" plain="true" id="resetDataBtn">撤销</a>
+		</div>
+		<script type="text/javascript">
+			var parentId = "${resource.resId}";
+			var tableTitle = "【${resource.resName!}】资源列表";
+			var tableUrl = "children.json?resId=${resource.resId}";
+		</script>
+	  	
+	  	<div id="tableList"></div>
+  	
+  </body>
+</html>

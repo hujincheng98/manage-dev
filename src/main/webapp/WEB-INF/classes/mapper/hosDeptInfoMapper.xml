@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.hisBaseInfo.dao.HosDeptInfoDao">
+	
+	<resultMap id="BaseResultMap" type="com.skynet.rimp.hisBaseInfo.vo.HosDeptInfo">
+		<id column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+		<result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+		<result column="DEPT_PINY_CODE" property="deptPinyCode"
+			jdbcType="VARCHAR" />
+		<result column="DEPT_HIS_CODE" property="deptHisCode" jdbcType="VARCHAR" />
+		<result column="PARENT_DEPT_ID" property="parentDeptId"
+			jdbcType="VARCHAR" />
+		<result column="DEPT_TYPE" property="deptType" jdbcType="VARCHAR" />
+		<result column="DEPT_TELEP" property="deptTelep" jdbcType="VARCHAR" />
+		<result column="DEPT_ATTR" property="deptAttr" jdbcType="VARCHAR" />
+		<result column="DEPT_DISE_AREA" property="deptDiseArea"
+			jdbcType="VARCHAR" />
+		<result column="DEPT_HOS_AREA" property="deptHosArea" jdbcType="VARCHAR" />
+		<result column="DEPT_SORT" property="deptSort" jdbcType="VARCHAR" />
+		<result column="DEPT_POSI" property="deptPosi" jdbcType="VARCHAR" />
+		<result column="DEPT_INTRO" property="deptIntro" jdbcType="VARCHAR" />
+		<result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+		<result column="DEPT_STATE" property="deptState" jdbcType="VARCHAR" />
+		<result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+		<!-- 放号天数 -->
+		<result column="RELE_DAY_NUM" property="releDayNum" jdbcType="INTEGER" />
+		<!-- 放号时间 -->
+		<result column="RELE_DATE" property="releDate" jdbcType="TIME" />
+		<result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+		<result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+		<result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+		<!-- 医院信息 -->
+		<association property="hosInfo" javaType="com.skynet.rimp.hisBaseInfo.vo.HosInfo" column="HOS_ID" select="findByHosId">
+		</association>
+		<!-- 院区 -->
+		<association property="hosArea" javaType="com.skynet.rimp.hisBaseInfo.vo.HosAreaInfo" column="DEPT_HOS_AREA" select="findByHosAreaId">
+		</association>
+		<!-- 病区 -->
+		<association property="hosDisArea" javaType="com.skynet.rimp.hisBaseInfo.vo.HosDisAreaInfo" column="DEPT_DISE_AREA" select="findByHosDisAreaId">
+		</association>
+	</resultMap>
+	
+	<!-- 医院信息 -->
+	<resultMap id="RequestMapHos" type="com.skynet.rimp.hisBaseInfo.vo.HosInfo">
+		<id column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    	<result column="HOS_NAME" property="hosName" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 院区信息 -->
+	<resultMap id="RequestMapHosArea" type="com.skynet.rimp.hisBaseInfo.vo.HosAreaInfo">
+		<id column="HOS_AREA_ID" property="areaId" jdbcType="VARCHAR" />
+    	<result column="HOS_AREA_NAME" property="areaName" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 病区 -->
+	<resultMap id="RequestMapHosDisArea" type="com.skynet.rimp.hisBaseInfo.vo.HosDisAreaInfo">
+		<id column="DIS_ID" property="disId" jdbcType="VARCHAR" />
+    	<result column="DIS_NAME" property="disName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 查询病区信息 -->
+	<select id="findByHosDisAreaId" parameterType="java.lang.String"
+		resultMap="RequestMapHosDisArea">
+		select * from hos_disease_area_info 
+		where DIS_ID =  #{disId,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 查询院区信息 -->
+	<select id="findByHosAreaId" parameterType="java.lang.String"
+		resultMap="RequestMapHosArea">
+		select * from hos_area_info 
+		where HOS_AREA_ID =  #{areaId,jdbcType=VARCHAR}
+	</select>
+	<select id="selectMaxReleDayNum" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT MAX(RELE_DAY_NUM) FROM hos_dept_info WHERE hos_id =  #{hosId,jdbcType=VARCHAR}
+	</select>
+	<!-- 查询医院信息 -->
+	<select id="findByHosId" parameterType="java.lang.String"
+		resultMap="RequestMapHos">
+		select * from hos_info 
+		where hos_id =  #{hosId,jdbcType=VARCHAR}
+	</select>
+	<select id="findByAreaId" parameterType="java.lang.String" resultType="java.lang.Integer">
+	select count(*) from hos_dept_info where DEPT_HOS_AREA=#{areaId}
+	</select>
+	<select id="findByDisId" parameterType="java.lang.String" resultType="java.lang.Integer">
+	select count(*) from hos_dept_info where DEPT_DISE_AREA=#{disId}
+	</select>
+	<sql id="Base_Column_List" >
+	    DEPT_ID, DEPT_NAME, DEPT_PINY_CODE, DEPT_HIS_CODE, PARENT_DEPT_ID, DEPT_TYPE, DEPT_TELEP, 
+	    DEPT_ATTR, DEPT_DISE_AREA, DEPT_HOS_AREA, DEPT_SORT, DEPT_POSI, DEPT_INTRO, HOS_ID, 
+	    ORG_ID, DEPT_STATE, REMARKS,RELE_DAY_NUM, RELE_DATE, EXT1, EXT2, EXT3, CREATE_DATE, CREATE_USER, UPDATE_DATE, 
+	    UPDATE_USER
+    </sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    from hos_dept_info
+	    where DEPT_ID = #{deptId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectByHisCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    from hos_dept_info
+	    where DEPT_HIS_CODE = #{hisCode,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+	    delete from hos_dept_info
+	    where DEPT_ID = #{deptId,jdbcType=VARCHAR}
+	</delete>
+	
+	<delete id="deleteByKeyArr" parameterType="java.util.List">
+		DELETE FROM hos_dept_info WHERE DEPT_ID IN
+		<foreach collection="array" index="index" item="item" open="(" separator="," close=")">  
+            #{item}   
+    	</foreach>  
+	</delete>
+	
+	<!-- 查询 -->
+	<select id="findAll" resultMap="BaseResultMap">
+		select * from HOS_DEPT_INFO order by DEPT_HOS_AREA, DEPT_NAME
+	</select>
+
+	<select id="findByParentId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select * from HOS_DEPT_INFO where 1=1
+		<if test="parentId==null  or  parentId==''">
+			and PARENT_DEPT_ID = ''
+		</if>
+		<if test="parentId!=null and  parentId!=''">
+			and PARENT_DEPT_ID = #{parentId}
+		</if>
+		order by DEPT_HOS_AREA, DEPT_NAME
+	</select>
+
+	<select id="findCountByParentId" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM HOS_DEPT_INFO WHERE PARENT_DEPT_ID = #{parentId}
+	</select>
+
+	 <select id="findByCondition" resultMap="BaseResultMap" parameterType="com.skynet.common.SearchParams">
+	  	select * from HOS_DEPT_INFO
+	    where 1=1
+	    <if test="searchParams==null and searchParams.size = 0">
+	    	PARENT_DEPT_ID != ''
+	    </if> 
+	    <if test="searchParams!=null and searchParams.size > 0">
+			<if test="searchParams.deptId != null  and searchParams.deptId != ''"> 
+				and DEPT_ID = #{searchParams.deptId,jdbcType=VARCHAR}
+			</if>
+			<if test="searchParams.deptName != null  and searchParams.deptName != ''"> 
+				and DEPT_NAME like '%${searchParams.deptName}%'
+			</if>
+			<if test="searchParams.deptNameNoLike != null  and searchParams.deptNameNoLike != ''"> 
+				and DEPT_NAME = #{searchParams.deptNameNoLike,jdbcType=VARCHAR}
+			</if>
+			<if test="searchParams.deptPinyCode != null  and searchParams.deptPinyCode != ''"> 
+				and DEPT_PINY_CODE like '%${searchParams.deptPinyCode}%'
+			</if>   
+			<if test="searchParams.deptState != null  and searchParams.deptState != ''"> 
+				and DEPT_STATE = #{searchParams.deptState,jdbcType=VARCHAR}
+			</if>  
+			<if test="searchParams.parentDeptId != null  and searchParams.parentDeptId != ''">
+				and PARENT_DEPT_ID = #{searchParams.parentDeptId,jdbcType=VARCHAR}
+			</if>
+			<if test="searchParams.hosId != null  and searchParams.hosId != ''">
+				and HOS_ID = #{searchParams.hosId,jdbcType=VARCHAR}
+			</if>    	
+	    </if>
+	    order by DEPT_HOS_AREA, DEPT_NAME
+	  </select>
+
+	<select id="findExistByCondition" resultMap="BaseResultMap" parameterType="com.skynet.common.SearchParams">
+		select * from HOS_DEPT_INFO
+		where 1=1
+		<if test="searchParams!=null and searchParams.size > 0">
+
+			<if test="searchParams.deptName != null  and searchParams.deptName != ''">
+				and DEPT_NAME = #{searchParams.deptName,jdbcType=VARCHAR}
+			</if>
+
+			<if test="searchParams.parentDeptId != null  and searchParams.parentDeptId != ''">
+				and PARENT_DEPT_ID = #{searchParams.parentDeptId,jdbcType=VARCHAR}
+			</if>
+			<if test="searchParams.hosId != null  and searchParams.hosId != ''">
+				and HOS_ID = #{searchParams.hosId,jdbcType=VARCHAR}
+			</if>
+		</if>
+		order by DEPT_HOS_AREA, DEPT_NAME
+	</select>
+
+    <select id="listChildren" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT * FROM HOS_DEPT_INFO WHERE PARENT_DEPT_ID = #{value}
+	</select>
+	<select id="getChildrenCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT COUNT(1) FROM HOS_DEPT_INFO  WHERE PARENT_DEPT_ID = #{value}
+	</select>
+	
+	<insert id="insert" parameterType="com.skynet.rimp.hisBaseInfo.vo.HosDeptInfo" >
+	    insert into hos_dept_info (DEPT_ID, DEPT_NAME, DEPT_PINY_CODE, 
+	      DEPT_HIS_CODE, PARENT_DEPT_ID, DEPT_TYPE, 
+	      DEPT_TELEP, DEPT_ATTR, DEPT_DISE_AREA, 
+	      DEPT_HOS_AREA, DEPT_SORT, DEPT_POSI, 
+	      DEPT_INTRO, HOS_ID, ORG_ID, 
+	      DEPT_STATE, REMARKS, RELE_DAY_NUM, RELE_DATE, EXT1, 
+	      EXT2, EXT3, CREATE_DATE, 
+	      CREATE_USER, UPDATE_DATE, UPDATE_USER
+	      )
+	    values (#{deptId,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, #{deptPinyCode,jdbcType=VARCHAR}, 
+	      #{deptHisCode,jdbcType=VARCHAR}, #{parentDeptId,jdbcType=VARCHAR}, #{deptType,jdbcType=VARCHAR}, 
+	      #{deptTelep,jdbcType=VARCHAR}, #{deptAttr,jdbcType=VARCHAR}, #{deptDiseArea,jdbcType=VARCHAR}, 
+	      #{deptHosArea,jdbcType=VARCHAR}, #{deptSort,jdbcType=VARCHAR}, #{deptPosi,jdbcType=VARCHAR}, 
+	      #{deptIntro,jdbcType=VARCHAR}, #{hosId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, 
+	      #{deptState,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{releDayNum,jdbcType=INTEGER}, 
+	      #{releDate,jdbcType=TIME}, #{ext1,jdbcType=VARCHAR}, 
+	      #{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+	      #{createUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}
+	      )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.skynet.rimp.hisBaseInfo.vo.HosDeptInfo" >
+	    update hos_dept_info
+    <set >
+      <if test="deptName != null" >
+        DEPT_NAME = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptPinyCode != null" >
+        DEPT_PINY_CODE = #{deptPinyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptHisCode != null" >
+        DEPT_HIS_CODE = #{deptHisCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentDeptId != null" >
+        PARENT_DEPT_ID = #{parentDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptType != null" >
+        DEPT_TYPE = #{deptType,jdbcType=VARCHAR},
+      </if>
+      <if test="deptTelep != null" >
+        DEPT_TELEP = #{deptTelep,jdbcType=VARCHAR},
+      </if>
+      <if test="deptAttr != null" >
+        DEPT_ATTR = #{deptAttr,jdbcType=VARCHAR},
+      </if>
+      <if test="deptDiseArea != null" >
+        DEPT_DISE_AREA = #{deptDiseArea,jdbcType=VARCHAR},
+      </if>
+      <if test="deptHosArea != null" >
+        DEPT_HOS_AREA = #{deptHosArea,jdbcType=VARCHAR},
+      </if>
+      <if test="deptSort != null" >
+        DEPT_SORT = #{deptSort,jdbcType=VARCHAR},
+      </if>
+      <if test="deptPosi != null" >
+        DEPT_POSI = #{deptPosi,jdbcType=VARCHAR},
+      </if>
+      <if test="deptIntro != null" >
+        DEPT_INTRO = #{deptIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="hosId != null" >
+        HOS_ID = #{hosId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptState != null" >
+        DEPT_STATE = #{deptState,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="releDayNum != null" >
+        RELE_DAY_NUM = #{releDayNum,jdbcType=INTEGER},
+      </if>
+      RELE_DATE = #{releDate,jdbcType=TIME},
+      <if test="ext1 != null" >
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        EXT2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        EXT3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DEPT_ID = #{deptId,jdbcType=VARCHAR}
+  </update>
+</mapper>

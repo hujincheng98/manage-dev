@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>登录日志</title> 
+	[#include "../include/head.html" /]
+	<script type="text/javascript" src="${res}/js_custom/log_collection.js"></script>
+</head>
+<body>
+
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>登录日志采集</legend>
+		<form action="">
+			<table class="n_input" id="myform">
+	             <tr>
+	                 <td height="20" align="right" nowrap>起始时间：</td>
+	                 <td><input class="easyui-datebox" required style="width:100px" id="startDate"></td>
+	                 <td height="20" align="right" nowrap>结束时间：</td>
+	                 <td><input class="easyui-datebox" required style="width:100px" id="endDate"></td>
+	                 <td height="32" colspan="18" align="center">
+	                 	<a id="loginBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">开始</a>
+	                 </td>
+	             </tr>
+	         </table>
+		</form>
+     </fieldset>
+     
+     
+     <fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>操作日志采集</legend>
+		<form action="">
+			<table class="n_input" id="optform">
+	             <tr>
+	                 <td height="20" align="right" nowrap>起始时间：</td>
+	                 <td><input class="easyui-datebox" required style="width:100px" id="optStartDate"></td>
+	                 <td height="20" align="right" nowrap>结束时间：</td>
+	                 <td><input class="easyui-datebox" required style="width:100px" id="optEndDate"></td>
+	                 <td height="32" colspan="18" align="center">
+	                 	<a id="optBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">开始</a>
+	                 </td>
+	             </tr>
+	         </table>
+		</form>
+     </fieldset>
+
+</body>
+</html>

@@ -1,0 +1,363 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>skynet</groupId>
+	<artifactId>rimp</artifactId>
+	<version>v1.0</version>
+	<packaging>war</packaging>
+
+	<properties>
+		<platform.version>1.0</platform.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-web-api</artifactId>
+			<version>6.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+           <groupId>net.sourceforge.jexcelapi</groupId>
+           <artifactId>jxl</artifactId>
+           <version>2.6.12</version>
+        </dependency>
+		<dependency>
+			<groupId>skynet</groupId>
+			<artifactId>platform-web</artifactId>
+			<version>${platform.version}</version>
+			<type>war</type>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>skynet</groupId>
+			<artifactId>platform-web</artifactId>
+			<version>${platform.version}</version>
+			<type>jar</type>
+			<classifier>classes</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.0.b2</version>
+		</dependency>
+		<!-- base64编解码工具 -->
+		<dependency>
+			<groupId>net.iharder</groupId>
+			<artifactId>base64</artifactId>
+			<version>2.3.8</version>
+		</dependency>
+		<!-- 图片压缩裁剪工具 -->
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.8</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.3.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier><!--指定jdk版本 -->
+		</dependency>
+		
+		<!-- redis -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.7.3</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>1.6.0.RELEASE</version>
+		</dependency>
+		<dependency>
+         <groupId>com.alibaba</groupId>
+         <artifactId>fastjson</artifactId>
+         <version>1.1.43</version>
+    </dependency>		
+	</dependencies>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<attachClasses>true</attachClasses>
+					<webappDirectory>src/main/webapp</webappDirectory>
+					<dependentWarExcludes>WEB-INF/classes/jdbc.properties,WEB-INF/lib/*.jar,WEB-INF/web.xml</dependentWarExcludes>
+					<useCache>false</useCache>
+					<archive>
+						<addMavenDescriptor>true</addMavenDescriptor>
+					</archive>
+					<overlays>
+						<overlay>
+							<groupId>skynet</groupId>
+							<artifactId>platform-web</artifactId>
+							<excludes>
+								<exclude>WEB-INF/lib/*.jar</exclude>
+								<exclude>WEB-INF/classes/jdbc.properties</exclude>
+								<exclude>WEB-INF/web.xml</exclude>
+								<exclude>WEB-INF/classes/log4j.properties</exclude>
+								<exclude>WEB-INF/classes/application-context.xml</exclude>
+							</excludes>
+						</overlay>
+						<overlay>
+							<!-- 空块 代表当前build -->
+							<excludes>
+								<exclude>WEB-INF/lib/*.jar</exclude>
+							</excludes>
+						</overlay>
+					</overlays>
+				</configuration>
+			</plugin>
+
+			<!-- 检查代码规范报告 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<failOnError>true</failOnError>
+					<failOnViolation>true</failOnViolation>
+					<configLocation>${check-style-config}\checkstyle-rules.xml</configLocation>
+					<propertiesLocation>${check-style-config}\checkstyle-checker.xml</propertiesLocation>
+					<suppressionsLocation>${check-style-config}\checkstyle-suppressions.xml</suppressionsLocation>
+					<cacheFile>${check-style-report}\checkstyle-cachefile</cacheFile>
+					<outputFile>${check-style-report}\checkstyle-result.xml</outputFile>
+					<xrefLocation>${check-style-config}/contrib/checkstyle-noframes.xsl</xrefLocation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<threshold>High</threshold>
+					<effort>Default</effort>
+					<findbugsXmlOutput>true</findbugsXmlOutput>
+					<findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+					<failOnError>true</failOnError>
+					<xmlOutput>true</xmlOutput>
+					<noUpdateChecks>true</noUpdateChecks>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<targetJdk>1.7</targetJdk>
+					<linkXref>true</linkXref>
+				</configuration>
+			</plugin>
+		</plugins>
+
+
+		<pluginManagement>
+			<plugins>
+				<!-- 将源码打包 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>2.4</version>
+					<executions>
+						<execution>
+							<phase>verify</phase>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+							<configuration>
+								<tasks>
+									<echo>打包........</echo>
+								</tasks>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- Tomcat7 -->
+				<plugin>
+					<groupId>org.apache.tomcat.maven</groupId>
+					<artifactId>tomcat7-maven-plugin</artifactId>
+					<version>2.1</version>
+					<configuration>
+						<port>81</port>
+						<path>/</path>
+						<uriEncoding>UTF-8</uriEncoding>
+						<server>tomcat7</server>
+					</configuration>
+				</plugin>
+
+				<!-- 编译配置 -->
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
+					<configuration>
+						<source>1.7</source>
+						<target>1.7</target>
+						<encoding>utf-8</encoding>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.12</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>3.0</version>
+					<configuration>
+						<locales>zh_CN</locales>
+						<outputEncoding>UTF-8</outputEncoding>
+						<!-- <port>9000</port> <tempWebappDirectory>${basedir}/target/site/tempdir</tempWebappDirectory> -->
+						<reportPlugins>
+
+							<!-- 项目基本信息报告 -->
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-project-info-reports-plugin</artifactId>
+								<version>2.4</version>
+								<reports>
+									<report>license</report>
+									<report>mailing-list</report>
+									<report>dependencies</report>
+									<report>dependency-convergence</report>
+									<report>plugin-management</report>
+									<report>cim</report>
+									<report>issue-tracking</report>
+									<report>scm</report>
+									<report>summary</report>
+									<report>index</report>
+								</reports>
+							</plugin>
+
+
+							<!-- 检查代码规范报告 -->
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-checkstyle-plugin</artifactId>
+								<version>2.9.1</version>
+								<configuration>
+								</configuration>
+								<reports>
+									<report>checkstyle-aggregate</report>
+								</reports>
+							</plugin>
+
+
+							<!-- 项目源代码报告 -->
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-jxr-plugin</artifactId>
+								<version>2.3</version>
+								<configuration>
+									<aggregate>true</aggregate>
+								</configuration>
+							</plugin>
+
+							<!-- 项目API doc报告 -->
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-javadoc-plugin</artifactId>
+								<version>2.8.1</version>
+							</plugin>
+
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-surefire-report-plugin</artifactId>
+								<version>2.12</version>
+							</plugin>
+
+							<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>cobertura-maven-plugin</artifactId> 
+								<version>2.5.1</version> <configuration> <formats> <format>xml</format> <format>html</format> 
+								</formats> </configuration> </plugin> -->
+
+							<plugin>
+								<groupId>org.codehaus.mojo</groupId>
+								<artifactId>findbugs-maven-plugin</artifactId>
+								<version>3.0.0</version>
+								<configuration>
+									<threshold>High</threshold>
+									<effort>Default</effort>
+									<findbugsXmlOutput>true</findbugsXmlOutput>
+									<findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+									<failOnError>true</failOnError>
+									<xmlOutput>true</xmlOutput>
+									<noUpdateChecks>true</noUpdateChecks>
+								</configuration>
+							</plugin>
+
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-pmd-plugin</artifactId>
+								<version>2.7</version>
+								<configuration>
+									<targetJdk>1.6</targetJdk>
+									<linkXref>true</linkXref>
+								</configuration>
+							</plugin>
+
+							<!-- 项目还需要做的TODO报告 -->
+							<plugin>
+								<groupId>org.codehaus.mojo</groupId>
+								<artifactId>taglist-maven-plugin</artifactId>
+								<version>2.4</version>
+								<configuration>
+									<tags>
+										<tag>fixme</tag>
+										<tag>FixMe</tag>
+										<tag>FIXME</tag>
+										<tag>@todo</tag>
+										<tag>todo</tag>
+										<tag>TODO</tag>
+										<tag>@deprecated</tag>
+									</tags>
+								</configuration>
+							</plugin>
+
+
+							<!-- 生成站点文件具体信息报告 <plugin> <groupId>org.apache.maven.plugins</groupId> 
+								<artifactId>maven-linkcheck-plugin</artifactId> <version>1.1</version> </plugin> -->
+						</reportPlugins>
+					</configuration>
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>

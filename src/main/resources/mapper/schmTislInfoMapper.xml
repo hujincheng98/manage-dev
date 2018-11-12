@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.schmInfo.dao.SchmTislInfoDao">
+
+	<resultMap id="Schm_Tisl_Info" type="com.skynet.rimp.schmInfo.vo.SchmTislInfoEntity">
+		<id column="TISL_ID" property="tislId" jdbcType="VARCHAR" />
+		<result column="SHIFT_ID" property="shiftId" jdbcType="VARCHAR" />
+		<result column="TISL_START_DATE" property="tislStartDate" jdbcType="TIME" />
+		<result column="TISL_END_DATE" property="tislEndDate" jdbcType="TIME" />
+		<result column="TISL_ONLINE" property="tislOnline" jdbcType="INTEGER" />
+		<result column="TISL_OFFLINE" property="tislOffline" jdbcType="INTEGER" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+		<result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+		<result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+		<result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+		<result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		TISL_ID, SHIFT_ID, TISL_START_DATE, TISL_END_DATE, TISL_ONLINE, TISL_OFFLINE,
+		ORG_ID,
+		REMARKS, EXT1, EXT2, EXT3, CREATE_DATE, CREATE_USER, UPDATE_DATE, UPDATE_USER
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="Schm_Tisl_Info"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from schm_tisl_info
+		where TISL_ID = #{tislId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectByShiftId" resultMap="Schm_Tisl_Info" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from schm_tisl_info
+		where SHIFT_ID = #{shiftId,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from schm_tisl_info
+		where TISL_ID = #{tislId,jdbcType=VARCHAR}
+	</delete>
+	
+	<delete id="deleteByShiftId" parameterType="java.lang.String">
+		delete from schm_tisl_info
+		where SHIFT_ID = #{shiftId,jdbcType=VARCHAR}
+	</delete>
+	
+	<insert id="insert" parameterType="com.skynet.rimp.schmInfo.vo.SchmTislInfoEntity">
+		insert into schm_tisl_info (TISL_ID, SHIFT_ID, TISL_START_DATE,
+		TISL_END_DATE, TISL_ONLINE, TISL_OFFLINE,
+		ORG_ID, REMARKS, EXT1,
+		EXT2, EXT3, CREATE_DATE,
+		CREATE_USER, UPDATE_DATE, UPDATE_USER
+		)
+		values (#{tislId,jdbcType=VARCHAR}, #{shiftId,jdbcType=VARCHAR},
+		#{tislStartDate,jdbcType=TIME},
+		#{tislEndDate,jdbcType=TIME}, #{tislOnline,jdbcType=INTEGER}, #{tislOffline,jdbcType=INTEGER},
+		#{orgId,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR},
+		#{ext1,jdbcType=VARCHAR},
+		#{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+		#{createUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP},
+		#{updateUser,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.skynet.rimp.schmInfo.vo.SchmTislInfoEntity">
+		insert into schm_tisl_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="tislId != null">
+				TISL_ID,
+			</if>
+			<if test="shiftId != null">
+				SHIFT_ID,
+			</if>
+			<if test="tislStartDate != null">
+				TISL_START_DATE,
+			</if>
+			<if test="tislEndDate != null">
+				TISL_END_DATE,
+			</if>
+			<if test="tislOnline != null">
+				TISL_ONLINE,
+			</if>
+			<if test="tislOffline != null">
+				TISL_OFFLINE,
+			</if>
+			<if test="orgId != null">
+				ORG_ID,
+			</if>
+			<if test="remarks != null">
+				REMARKS,
+			</if>
+			<if test="ext1 != null">
+				EXT1,
+			</if>
+			<if test="ext2 != null">
+				EXT2,
+			</if>
+			<if test="ext3 != null">
+				EXT3,
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE,
+			</if>
+			<if test="createUser != null">
+				CREATE_USER,
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE,
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="tislId != null">
+				#{tislId,jdbcType=VARCHAR},
+			</if>
+			<if test="shiftId != null">
+				#{shiftId,jdbcType=VARCHAR},
+			</if>
+			<if test="tislStartDate != null">
+				#{tislStartDate,jdbcType=TIME},
+			</if>
+			<if test="tislEndDate != null">
+				#{tislEndDate,jdbcType=TIME},
+			</if>
+			<if test="tislOnline != null">
+				#{tislOnline,jdbcType=INTEGER},
+			</if>
+			<if test="tislOffline != null">
+				#{tislOffline,jdbcType=INTEGER},
+			</if>
+			<if test="orgId != null">
+				#{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="ext1 != null">
+				#{ext1,jdbcType=VARCHAR},
+			</if>
+			<if test="ext2 != null">
+				#{ext2,jdbcType=VARCHAR},
+			</if>
+			<if test="ext3 != null">
+				#{ext3,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.skynet.rimp.schmInfo.vo.SchmTislInfoEntity">
+		update schm_tisl_info
+		<set>
+			<if test="shiftId != null">
+				SHIFT_ID = #{shiftId,jdbcType=VARCHAR},
+			</if>
+			<if test="tislStartDate != null">
+				TISL_START_DATE = #{tislStartDate,jdbcType=TIME},
+			</if>
+			<if test="tislEndDate != null">
+				TISL_END_DATE = #{tislEndDate,jdbcType=TIME},
+			</if>
+			<if test="tislOnline != null">
+				TISL_ONLINE = #{tislOnline,jdbcType=INTEGER},
+			</if>
+			<if test="tislOffline != null">
+				TISL_OFFLINE = #{tislOffline,jdbcType=INTEGER},
+			</if>
+			<if test="orgId != null">
+				ORG_ID = #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="remarks != null">
+				REMARKS = #{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="ext1 != null">
+				EXT1 = #{ext1,jdbcType=VARCHAR},
+			</if>
+			<if test="ext2 != null">
+				EXT2 = #{ext2,jdbcType=VARCHAR},
+			</if>
+			<if test="ext3 != null">
+				EXT3 = #{ext3,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUser != null">
+				CREATE_USER = #{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where TISL_ID = #{tislId,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.skynet.rimp.schmInfo.vo.SchmTislInfoEntity">
+		update schm_tisl_info
+		set SHIFT_ID = #{shiftId,jdbcType=VARCHAR},
+		TISL_START_DATE = #{tislStartDate,jdbcType=TIME},
+		TISL_END_DATE = #{tislEndDate,jdbcType=TIME},
+		TISL_ONLINE = #{tislOnline,jdbcType=INTEGER},
+		TISL_OFFLINE = #{tislOffline,jdbcType=INTEGER},
+		ORG_ID = #{orgId,jdbcType=VARCHAR},
+		REMARKS = #{remarks,jdbcType=VARCHAR},
+		EXT1 = #{ext1,jdbcType=VARCHAR},
+		EXT2 = #{ext2,jdbcType=VARCHAR},
+		EXT3 = #{ext3,jdbcType=VARCHAR},
+		CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+		CREATE_USER = #{createUser,jdbcType=VARCHAR},
+		UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+		UPDATE_USER = #{updateUser,jdbcType=VARCHAR}
+		where TISL_ID = #{tislId,jdbcType=VARCHAR}
+	</update>
+	
+</mapper>

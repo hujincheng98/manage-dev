@@ -1,0 +1,22 @@
+<style type="text/css">  
+ 
+</style>
+<script type="text/javascript">
+
+$(".bianji-textarea-l").height($(".bianji-textarea-l")[0].scrollHeight);
+$(".bianji-textarea-l").on("keyup keydown", function(){
+    $(this).height(this.scrollHeight);
+});
+</script>
+<form id="qbank_edit_form" enctype="multipart/form-data" method="post">
+	<!-- <div>
+		<label>医院名称</label> <input class="easyui-textbox" type="text"
+			name=hosName id="hosName" data-options="required:true"
+			missingMessage="题目不能为空！" />
+	</div> -->
+	<div style="display: block;width: 95%; height: 20%">            	
+        	<textarea style="width: 80%" rows="" cols="20" class="bianji-textarea-l" id="resolve" name="resolve">${servletDetails !''}</textarea>
+        	<!-- <div style='border: 1px solid #95B8E7;width: 631px;height: auto;'>${servletDetails !''}</div> -->
+    </div>
+	<div><input type="hidden" name="hfid" id="hfid"></div>	
+</form>

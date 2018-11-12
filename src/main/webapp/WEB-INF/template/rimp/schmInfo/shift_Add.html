@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<title><@s.m code="shift.management" /></title>
+    <#include "../include/head.html" />
+    <script type="text/javascript" src="${res}/js/tab.js"></script>
+   	<script type="text/javascript" src="${res}/js/schmInfo/shiftAdd.js"></script>
+   <style type="text/css">
+		body,td,th {font-size: 12px;} 
+	</style>
+  </head>
+  <body>
+  
+  	<div>  
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="saveBtn">保存</a>    
+	    <a href="#" class="easyui-linkbutton easyui-closetab" iconCls="icon-cut" plain="true" onclick="javascript:closeTab()">取消</a>    
+	</div>
+	
+	<!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>添加</legend>
+           <form id="addForm" name="addForm">
+	           <input type="hidden" name="shiftId" id="shiftId" value="">       
+	           <input type="hidden" name="hosId" id="hosId" value="">       
+	           <input type="hidden" name="orgId" id="orgId" value="">       
+	           <input type="hidden" name="remarks" id="remarks" value="">       
+	           <table class="n_input">
+	               <tr>
+	                   <td width="100" height="20" align="right" nowrap>班次名称：</td>
+	                   <td nowrap>
+	                      <input class="easyui-textbox" name="shiftName" id="shiftName" data-options="required:true, validType:{remote:['select_shift_name.json','shiftName']}" 
+	                      		missingMessage="班次名称不能为空" invalidMessage="班次名称重复，请重新输入"/>
+	                   </td>
+	               </tr>
+	               <tr>
+	                   <td width="100" height="20" align="right" nowrap>起始时间：</td>
+	                   <td nowrap>
+	                   		<input type="text" class="easyui-my97" width="149px" id="shiftStartDate" name="shiftStartDate" data-options="dateFmt:'H:mm',maxDate:'#F{$dp.$D(\'shiftEndDate\')}'" required="true" />
+	                   </td>
+	                   <td width="100" height="20" align="right" nowrap>结束时间：</td>
+	                   <td nowrap>
+	                   		<input type="text" class="easyui-my97" width="149px" id="shiftEndDate" name="shiftEndDate" data-options="dateFmt:'H:mm',minDate:'#F{$dp.$D(\'shiftStartDate\')}'" onFocus="checkStartTime(this, shiftStartDate)" required="true" />
+	                   </td>
+	             </tr>
+	             <tr>
+	                 <td height="20" align="right" nowrap>备注：</td>
+	                 <td height="20" colspan="3" nowrap><textarea name="remarks" id="remarks" maxlength="255" cols="62"></textarea></td>
+                 </tr>
+	           </table>  
+           </form>
+       </fieldset>
+       
+       
+       	<!-- 按钮区域 -->
+	<div id="button-bar">  
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="addBtn">新增</a>    
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true" id="deleteBtn">删除</a>    
+	</div>
+	
+	<div id="addTable"></div>
+
+  </body>
+</html>

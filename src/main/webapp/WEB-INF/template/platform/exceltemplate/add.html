@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<title>Excel模板管理</title> [#include "../../platform/include/head.html" /]
+<script type="text/javascript">
+	var formSubmit = function(){
+		var isValid = $("#add_ET_form").form('validate');
+		if (!isValid) {
+			$.messager.alert("提示", "请输入相关信息.", "warning");
+			return false;
+		}
+		$("#add_ET_form").submit();
+	}
+</script>
+</head>
+<body style="padding:5px 5px 5px 5px;">
+
+<form id="add_ET_form" action="save.do" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="etId" /> 
+		<input type="hidden" name="replaceEtFile" value="true">
+		<table width="100%" border="0">
+			<tbody>
+				<tr>
+					<td width="15%" align="right"><label for="etName">模板名称
+							: &nbsp;</label></td>
+					<td><input class="easyui-validatebox" style="width:450px;"
+						type="text" name="etName"
+						data-options="required:true,validType:{'chinese':'[2,20]',remote : [ 'check_etname.json', 'etName' ]}" />
+					</td>
+				</tr>
+				<tr>
+					<td width="20%" align="right"><label for="etCode">编码 :
+							&nbsp;</label></td>
+					<td>
+					<label style="color:#9d9d9d;font-size:11px;">编码输入后不可再编辑</label>
+					<br/>
+					<input class="easyui-validatebox" style="width:450px;"
+						type="text" name="etCode"
+						data-options="required:true,validType:{'english':'[2,20]',remote : [ 'check_etcode.json', 'etCode' ]}" />
+					</td>
+				</tr>
+				<tr>
+					<td width="20%" align="right"><label for="etFile">模板文件
+							: &nbsp;</label></td>
+					<td><input class="easyui-validatebox" style="width:450px;"
+						type="file" name="etFile"  data-options="required:true,validType:['xlsFile']"/>
+					</td>
+				</tr>
+				<tr>
+					<td width="20%" align="right"><label for="etRemarks">描述 :
+							&nbsp;</label></td>
+					<td><input class="easyui-validatebox" style="width:450px;"
+						type="text" name="etRemarks"
+						data-options="validType:['length[0,200]']" />
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>	
+</body>
+</html>

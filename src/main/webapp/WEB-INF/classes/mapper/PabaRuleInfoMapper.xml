@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.blackListInfo.dao.PabaRuleInfoDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.blackListInfo.vo.PabaRuleInfo" >
+    <id column="PABA_ID" property="pabaId" jdbcType="VARCHAR" />
+    <result column="PABA_RULE_NAME" property="pabaRuleName" jdbcType="VARCHAR" />
+    <result column="PABA_RULE_TYPE" property="pabaRuleType" jdbcType="VARCHAR" />
+    <result column="PABA_RULE_NUM" property="pabaRuleNum" jdbcType="VARCHAR" />
+    <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <result column="HOS_NAME" property="hosName" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+    <result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+    <result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PABA_ID, PABA_RULE_NAME, PABA_RULE_TYPE, PABA_RULE_NUM, HOS_ID, HOS_NAME, ORG_ID, EXT1, EXT2, 
+    EXT3, CREATE_DATE, CREATE_USER, UPDATE_DATE, UPDATE_USER
+  </sql>
+  
+  <!-- 插入 -->
+  <insert id="insert" parameterType="com.skynet.rimp.blackListInfo.vo.PabaRuleInfo" >
+    insert into paba_rule_info (PABA_ID, PABA_RULE_NAME, PABA_RULE_TYPE, 
+      PABA_RULE_NUM, HOS_ID, ORG_ID, 
+      EXT1, EXT2, EXT3, CREATE_DATE, 
+      CREATE_USER, UPDATE_DATE, UPDATE_USER
+      )
+    values (#{pabaId,jdbcType=VARCHAR}, #{pabaRuleName,jdbcType=VARCHAR}, #{pabaRuleType,jdbcType=VARCHAR}, 
+      #{pabaRuleNum,jdbcType=VARCHAR}, #{hosId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, 
+      #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from paba_rule_info
+    where PABA_ID = #{pabaId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 更新 -->
+  <update id="update" parameterType="com.skynet.rimp.blackListInfo.vo.PabaRuleInfo" >
+    update paba_rule_info
+    <set >
+      <if test="pabaRuleName != null" >
+        PABA_RULE_NAME = #{pabaRuleName,jdbcType=VARCHAR},
+      </if>
+      <if test="pabaRuleType != null" >
+        PABA_RULE_TYPE = #{pabaRuleType,jdbcType=VARCHAR},
+      </if>
+      <if test="pabaRuleNum != null" >
+        PABA_RULE_NUM = #{pabaRuleNum,jdbcType=VARCHAR},
+      </if>
+      <if test="hosId != null" >
+        HOS_ID = #{hosId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        EXT2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        EXT3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PABA_ID = #{pabaId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 查询 -->
+  <select id="findAll" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select paba.*, hos.hos_name from paba_rule_info paba left join hos_info hos ON paba.HOS_ID = hos.HOS_ID
+  </select>
+  
+  <select id="findByCondition" parameterType="com.skynet.common.SearchParams" resultMap="BaseResultMap">
+    select paba.*, hos.hos_name from paba_rule_info paba left join hos_info hos ON paba.HOS_ID = hos.HOS_ID where 1=1
+    <if test="searchParams.pabaId!=null and searchParams.pabaId!=''">
+		AND paba.PABA_ID = #{searchParams.pabaId}
+	</if>
+	<if test="searchParams.pabaRuleName!=null and searchParams.pabaRuleName!=''">
+		AND paba.PABA_RULE_NAME = #{searchParams.pabaRuleName}
+	</if>
+	<if test="searchParams.likePabaRuleName!=null and searchParams.likePabaRuleName!=''">
+		AND paba.PABA_RULE_NAME like '%${searchParams.likePabaRuleName}%'
+	</if>
+	<if test="searchParams.hosId!=null and searchParams.hosId!=''">
+		AND paba.HOS_ID = #{searchParams.hosId}
+	</if>
+	<if test="searchParams.pabaRuleType!=null and searchParams.pabaRuleType!=''">
+		AND paba.PABA_RULE_TYPE = #{searchParams.pabaRuleType}
+	</if>
+  </select>
+  
+  <!-- 系统默认规则 -->
+  <select id="finddefault" resultMap="BaseResultMap" parameterType="java.lang.String" >
+     SELECT PABA_RULE_TYPE,PABA_RULE_NUM FROM paba_rule_info where HOS_ID  is null 
+  </select>
+  
+   <!-- 查询所有渠道接入的医院 -->
+  <select id="findHosBychanne" resultMap="BaseResultMap" parameterType="java.lang.String" >
+     SELECT distinct HOS_ID as hosId FROM other_channels_info 
+  </select>
+  
+   <!-- 查询各自医院的规则 -->
+  <select id="findHosRule" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT PABA_RULE_TYPE,PABA_RULE_NUM FROM paba_rule_info where HOS_ID = #{hosId,jdbcType=VARCHAR}
+  </select>
+ 
+</mapper>

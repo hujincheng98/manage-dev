@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>区域数据管理</title> 
+	[#include "../include/head.html" /]
+	<script type="text/javascript" src="${res}/js_custom/area.js"></script>
+	<script type="text/javascript" src="${base}/plug-in/common.area.js"></script>
+</head>
+<body>
+
+	<!-- 搜索区域 
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>区域信息查询</legend>
+		<form action="">
+			<table class="n_input" id="searchform">
+	             <tr>
+	                 <td height="20" align="right" nowrap>系统名称：</td>
+	                 <td><input type="text" class="easyui-textbox" name="sysName" id="sysName" /></td>
+	                 <td height="20" align="right" nowrap>应用路径：</td>
+	                 <td><input type="text" class="easyui-textbox" name="contentPath" id="contentPath" /></td>
+	                 <td height="32" colspan="18" align="center">
+	                 	<a id="searchBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+	                 	<a id="resetBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">重置</a>
+	                 </td>
+	             </tr>
+	         </table>
+		</form>
+     </fieldset>
+-->
+	<div id="areaTable"></div>
+	
+	<hr />
+	 
+<table width="98%" border="0" cellpadding="0" cellspacing="1" bgcolor="#333333">
+  <tr>
+    <th align="left" bgcolor="#666666" scope="row"><span style="color: #FFFFFF">代码：</span></th>
+  </tr>
+  <tr>
+    <th align="left" bgcolor="#CCCCCC" scope="row">
+		<pre>
+			&lt;script type="text/javascript" src="${base}/plug-in/common.area.js"&gt;&lt;/script&gt;
+			&lt;select id="provinceSelect" name="provinceSelect"&gt;&lt;/select&gt;
+			&lt;select id="citySelect" name="citySelect"&gt;&lt;/select&gt;
+			&lt;select id="countySelect" name="countySelect"&gt;&lt;/select&gt;</pre>
+	</th>
+  </tr>
+   <tr>
+    <th align="left" bgcolor="#FFFFFF" scope="row">
+		效果： <select id="provinceSelect" name="provinceSelect"></select>
+	<select id="citySelect" name="citySelect"></select>
+	<select id="countySelect" name="countySelect"></select>
+	</th>
+  </tr>
+</table>
+
+	
+</body>
+</html>

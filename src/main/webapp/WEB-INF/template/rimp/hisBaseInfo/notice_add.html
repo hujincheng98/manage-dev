@@ -1,0 +1,149 @@
+<script type="text/javascript" src="${res}/js/previewImage.js"></script>
+<form id="notice_add_form" enctype="multipart/form-data" method="post">
+	<div>
+		<label><span class="tip">*</span>通告名称</label>
+		<input class="easyui-textbox" type="text" name="noticename" id="noticename" data-options="required:true" missingMessage="通告不能为空！"/>
+	</div>
+	<div>
+		<label><span class="tip">*</span>所属医院</label>
+		<select class="easyui-combobox" 
+			data-options="
+      		valueField:'hosId',
+      		textField:'hosName',
+      		editable:false,
+      		required:true,
+            missingMessage:'请选择所属医院',
+            url:'${base}/rimp/hosNotice/listByOrgId.json',
+            
+            onChange: function(){
+        		   var hosId = $('#affiliatedhos').combobox('getValue').trim();
+        		   var noticetype = $('#noticetype').combobox('getValue').trim();
+        		   	 if(hosId !== null && hosId !== undefined && hosId !== '' && noticetype !==null && noticetype !==undefined && noticetype!== ''){		
+			              
+			             if(noticetype == 'noticetype_01' || noticetype == 'noticetype_02'){
+				           $.ajax({
+					        url: 'checkNoticeUnique.do?state= save',
+				            dataType : 'json',
+				            type : 'post',
+				            data : {'hosId':hosId,'noticetype':noticetype},
+				            success : function(data){
+				    	      if (data.state == 'fail') {
+				    	      $('#checkNoticeUnique').val('false');
+				    		  console.log(data);
+				    		  $.messager.alert('错误',data.message, 'error', function (){
+								
+							     });
+				    	      }else{
+				    	        $('#checkNoticeUnique').val('');
+				    	      }					
+				           }
+					
+				          });				
+			          }else{
+			              $('#checkNoticeUnique').val('');
+			          }
+		           }
+        		},
+            
+            onLoadSuccess:function(){
+            	
+			  }
+            " 
+			style="width:170px;" name="affiliatedhos" id="affiliatedhos">
+			<!-- 
+        		onLoadSuccess:function()中内容
+        		var data = $(this).combobox('getData');
+            	$(this).combobox('select',data[0].hosId); -->
+		</select>
+	</div>
+	<div>
+        <label><span class="tip">*</span>通告类型</label>
+        <select class="easyui-combobox" data-options="
+        		valueField:'dictValue',
+        		textField:'dictName',
+        		editable:false,
+        		required:true,
+                missingMessage:'请选择通告类型',
+        		url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=noticetype',
+        		onChange: function(){
+        		   var hosId = $('#affiliatedhos').combobox('getValue').trim();
+        		   var noticetype = $('#noticetype').combobox('getValue').trim();
+        		   	 if(hosId !== null && hosId !== undefined && hosId !== '' && noticetype !==null && noticetype !==undefined && noticetype!== ''){		
+			             if(noticetype == 'noticetype_01' || noticetype == 'noticetype_02'){
+			               $('#uploadp').css('display','none');
+				           $.ajax({
+					        url: 'checkNoticeUnique.do?state= save',
+				            dataType : 'json',
+				            type : 'post',
+				            data : {'hosId':hosId,'noticetype':noticetype},
+				            success : function(data){
+				    	      if (data.state == 'fail') {
+				    	      $('#checkNoticeUnique').val('false');
+				    		  $.messager.alert('错误',data.message, 'error', function (){
+								
+							     });
+				    	      }else{
+				    	         $('#checkNoticeUnique').val('');
+				    	      }						
+				           }
+					
+				          });				
+			          }else{
+			            $('#uploadp').css('display','block');
+			            $('#checkNoticeUnique').val('');
+			          }
+			          
+		           }
+        		},
+        		onLoadSuccess:function(){
+				 
+				}"
+        		style="width:170px;" name="noticetype" id="noticetype">
+        		<!-- 
+        		onLoadSuccess:function()中内容
+        		var data = $(this).combobox('getData');
+				     $(this).combobox('select',data[0].dictValue); -->
+        </select>
+     </div>
+     <div>
+		<label><span class=""></span>排序顺序</label>
+		<input type="text" id="sortorder" name="sortorder" class="easyui-numberbox" precision=0 min="0"/>
+	</div>
+     
+      <div>
+       	<label><span class="tip">*</span>下线日期</label>
+      	<input id="offlinedate" name="offlinedate" type="text" class="easyui-datebox" style="width: 170px" data-options="required:true"></input>
+      </div>
+
+     <!-- style="display:none; -->
+     <div id="uploadp" style="width: 95%; height: 140px;">
+        <label><!-- <span class="tip">*</span> -->上传图片</label>
+        <div id="preview" style="float: left;">
+		    <img src='${res}/images/docmPhoto.jpg' style="width: 100px;height: 100px; float:left;">
+		</div>
+		<div style="float: left; width:500px; height:20px; margin-top:85px; margin-left:95px;">
+	        <input name="file" id="file" style="width:160px; border:0px;" type="file" onchange="previewImage(this);">
+		</div>
+		<input type="hidden" name="uploadpictures" id="uploadpictures"/>
+    </div>
+    <div style="display: block;width: 95%; height: 20%">
+        	<label>简要内容</label>
+        	<textarea rows="" cols="" id="briefcontent" name="briefcontent"></textarea>
+    </div>
+    <div style="display: block;width: 95%; height: 20%">
+        	<label>详情</label>
+        	<textarea rows="" cols="" id="details" name="details"></textarea>
+    </div>
+    <div style="display: block;width: 95%; height: 20%">
+        	<label>备注</label>
+        	<textarea rows="" cols="" id="remark" name="remark"></textarea>
+    </div>   
+      
+       <div>
+        	<input type="hidden" name="id" id="id"/>
+       </div>
+       <!-- 相同医院下新建的预约说明和停诊通知进行唯一性判断 -->
+       <div>
+        	<input type="hidden" name="checkNoticeUnique" id="checkNoticeUnique" value=""/>
+       </div>
+</form>

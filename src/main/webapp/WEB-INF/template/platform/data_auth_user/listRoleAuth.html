@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>角色数据权限管理</title> 
+</head>
+<body>
+	<script type="text/javascript" src="${res}/js_custom/data_auth_role.js"></script>
+	<!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+		<table class="n_input" id="searchform_roleAuth">
+             <tr>
+                 <td height="20" align="right" nowrap>角色名称：</td>
+                 <td><input type="text" class="easyui-textbox" id="searchParams_roleName" value="" name="searchParams['roleName']" /></td>
+                  <td height="20" align="right" nowrap>表格名称：</td>
+                 <td><input type="text" class="easyui-textbox" id="searchParams_tableName_roleAuth" value="" name="searchParams['tableName_role']" /></td>
+                 <td height="32" colspan="18" align="center">
+                 	<a id="searchBtn_roleAuth" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+                 	<a id="resetBtn_roleAuth" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">重置</a>
+                 </td>
+             </tr>
+         </table>
+     </fieldset>
+	<!-- 按钮区域 -->
+	<div id="button-bar_roleAuth">
+		[@shiro.hasPermission name="/platform/data_auth_user/add_roleAuth.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="addBtn_roleAuth">新增</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/data_auth_user/delete_roleAuth.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true" id="deleteBtn_roleAuth">删除</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/data_auth_user/update_roleAuth.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="editBtn_roleAuth">编辑</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/data_auth_user/update_roleAuth.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" id="saveBtn_roleAuth">保存</a>
+	    [/@shiro.hasPermission]
+	    <a href="#" class="easyui-linkbutton" style="display:none;" iconCls="icon-tabicons_03_04" plain="true" id="resetDataBtn_roleAuth">撤销</a>
+	</div>
+	<div id="tableList_roleAuth"></div>
+</body>
+</html>

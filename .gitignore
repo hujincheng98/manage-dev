@@ -1,0 +1,21 @@
+*.class
+*.iml 
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.iml
+
+# ignore Maven generated target folders
+target
+LOG_PATH_IS_UNDEFINED
+
+# ignore eclipse files
+.project
+.classpath
+.settings
+.metadata
+overlays
+skynet.cache
+/.idea/

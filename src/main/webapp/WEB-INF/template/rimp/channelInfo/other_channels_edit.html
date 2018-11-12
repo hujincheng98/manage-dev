@@ -1,0 +1,158 @@
+<script type="text/javascript" src="${res}/js/common/hosCombox.js"></script>
+<form id="hos_other_channels_edit_form" method="post">
+	<div>
+		<label><span class="tip">*</span>渠道名称</label>
+		<input class="easyui-textbox" type="text" name="chName" data-options="required:true" missingMessage="渠道名称不能为空！"/>
+	</div>
+	<div>
+		<label>渠道服务地址</label>
+		<input class="easyui-textbox" type="text" name="chUrl"/>
+	</div>
+	<div>
+		<label><span class="tip">*</span>所属医院</label>
+	    <select class="easyui-combobox" 
+			data-options="
+      		valueField:'hosId',
+      		textField:'hosName',
+      		editable:false,
+      		required:true,
+            missingMessage:'请选择所属医院',
+            url:'${base}/rimp/hos/listAll.json',
+            onLoadSuccess:function(){
+            	var data = $(this).combobox('getData');
+            	$(this).combobox('select',data[0].hosId);
+			  }
+            " style="width:170px;" name="hosId">
+		</select>
+	</div>
+	<div>
+      	<label><span class="tip">*</span>渠道类型</label>
+      	<select class="easyui-combobox" data-options="
+      		valueField:'dictValue',
+      		textField:'dictName',
+      		editable:false,
+      		required:true,
+            missingMessage:'请选择渠道类型',
+      		url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=CH_TYPE'" style="width:170px;" name="chType">
+      	</select>
+    </div>
+	<div>
+		<label><span class="tip">*</span>是否可预约</label>
+		<select class="easyui-combobox" data-options="
+				valueField:'dictValue',
+        		textField:'dictName',
+        		editable:false,
+        		required:true,
+                missingMessage:'请选择是否可预约',
+                url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=YES_OR_NO'" style="width:170px;" name="isReservation">
+		</select>
+	</div>
+	<div>
+		<label>是否可挂号</label>
+		<select class="easyui-combobox" data-options="
+				valueField:'dictValue',
+        		textField:'dictName',
+        		editable:false,
+        		required:true,
+                missingMessage:'请选择是否可挂号',
+                url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=YES_OR_NO'" style="width:170px;" name="isRegistration">
+		</select>
+	</div>
+	<div>
+		<label>接入号源有效期</label>
+		<input id="validDate" name="validDate" value="2099-12-31" type="text" class="easyui-datebox" style="width: 170px"></input>
+	</div>
+	<div>
+		<label>渠道评分</label>
+		<select class="easyui-combobox" data-options="
+				valueField:'dictValue',
+        		textField:'dictName',
+        		editable:false,
+        		required:true,
+                missingMessage:'请选择渠道评分',
+                url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=CH_GRADE'" style="width:170px;" name="chGrade">
+		</select>
+	</div>
+	<div>
+		<label>渠道状态</label>
+		<select class="easyui-combobox" data-options="
+				valueField:'dictValue',
+        		textField:'dictName',
+        		editable:false,
+        		required:true,
+                missingMessage:'请选择渠道状态',
+                url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=STATE'" style="width:170px;" name="chState">
+		
+		</select>
+	</div>
+	<div>
+		<label>是否HIS渠道</label>
+		<select class="easyui-combobox" data-options="
+				valueField:'dictValue',
+        		textField:'dictName',
+        		editable:false,
+        		required:true,
+                missingMessage:'请选择渠道状态',
+                onSelect : function (r) {
+                	if (!r.selected) {
+                		$('#regiPushMark_add').show();
+						$('#schmPushMark_add').show();
+                	} else {
+                		$('#regiPushMark_add').hide();
+						$('#schmPushMark_add').hide();
+                	}
+                }" style="width:170px;" name="ext1">
+         	<option value="HIS">是</option>
+         	<option value="" selected="selected">否</option>
+		</select>
+	</div>
+	<div id="regiPushMark_add" style="display: none;">
+		<label>是否推送预约</label>
+		<select class="easyui-combobox" data-options="
+				valueField:'dictValue',
+        		textField:'dictName',
+        		editable:false,
+        		required:true,
+                missingMessage:'请选择渠道状态'" style="width:170px;" name="regiPushMark">
+         	<option value="1">是</option>
+         	<option value="0" selected="selected">否</option>
+		</select>
+	</div>
+	<div id="schmPushMark_add" style="display: none;">
+		<label>是否推送排班</label>
+		<select class="easyui-combobox" data-options="
+				valueField:'dictValue',
+        		textField:'dictName',
+        		editable:false,
+        		required:true,
+                missingMessage:'请选择渠道状态'" style="width:170px;" name="schmPushMark">
+         	<option value="1">是</option>
+         	<option value="0" selected="selected">否</option>
+		</select>
+	</div>	
+	<!-- 添加appId -->
+	<!-- <div>
+		<label>appId</label>
+		<select class="easyui-combobox" 
+			data-options="
+      		valueField:'appid',
+      		textField:'appname',
+      		editable:false,
+      		required:false,
+            missingMessage:'请选择appId',
+            url:'http://192.168.21.190:8085/transmit/unifymanager/appsys/findall?requestJson={k:3132}',
+            onLoadSuccess:function(){
+            	var data = $(this).combobox('getData');
+            	$(this).combobox('select',data[0].appid);
+			  }
+            " style="width:170px;" name="appId">
+		</select>
+	</div>	 -->
+	<div style="display: block;width: 95%;">
+    	<label>备注</label>
+    	<textarea rows="" cols="" name="remarks"></textarea>
+    </div>
+    <div>
+    	<input type="hidden" name="chId"/>
+    </div>
+</form>

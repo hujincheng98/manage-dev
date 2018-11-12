@@ -1,0 +1,59 @@
+<script type="text/javascript" src="${res}/js/previewImage.js"></script>
+<script type="text/javascript">
+   $(function(){  
+     //alert("延迟加载");
+     //$('#option1 option').eq(3).attr('selected', true);
+   }); 
+</script>
+<form id="qbank_add_form" enctype="multipart/form-data" method="post">
+	<div>
+		<label>题目内容</label> <input value="" class="easyui-textbox" type="text"
+			name=question id="question" data-options="required:true"
+			missingMessage="题目不能为空！" />
+	</div>
+	<!-- 满意：1,基本满意：2, 一般：3, 不满意：4-->
+	<div>
+		<label>选项一</label> <select class="easyui-combobox" name=option1 id="option1"
+			style="width: 175px;height: 24px" data-options="required:true, editable:false">
+			<option value="1" selected="selected">满意</option>
+			<option value="2">基本满意</option>
+			<option value="3">一般</option>
+			<option value="4">不满意</option>
+		</select>
+	</div>
+	<div>
+		<label>选项二</label> <select class="easyui-combobox" name=option2 id="option2"
+			style="width: 175px;height: 24px" data-options="required:true, editable:false">
+			<option value="2">基本满意</option>
+			<option value="3">一般</option>
+			<option value="1">满意</option>
+			<option value="4">不满意</option>
+		</select>
+	</div>
+	<div>
+		<label>选项三</label><select class="easyui-combobox" name=option3 id="option3"
+			style="width: 175px;height: 24px" data-options="required:true, editable:false">
+			<option value="3">一般</option>
+			<option value="1">满意</option>
+			<option value="2">基本满意</option>
+			<option value="4" >不满意</option>
+		</select>
+	</div>
+
+	<div>
+		<label>选项四</label> <select class="easyui-combobox" name=option4 id="option4"
+			style="width: 175px;height: 24px" data-options="required:true, editable:false">
+			<option value="4">不满意</option>
+			<option value="1">满意</option>
+			<option value="2">基本满意</option>
+			<option value="3">一般</option>
+		</select>
+	</div>
+	<div>
+		<label>状态</label> <select class="easyui-combobox" name=hfstate id="hfstate"
+			style="width: 175px;height: 24px" data-options="required:true, editable:false">
+			<option value="1" selected="selected">启用</option>
+			<option value="0">停用</option>
+		</select>
+	</div>
+</form>

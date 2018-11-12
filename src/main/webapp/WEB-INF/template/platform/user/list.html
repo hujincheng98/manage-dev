@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>用户管理</title> 
+	[#include "../include/head.html" /]
+	<script type="text/javascript" src="${base}/plug-in/skynet.comboxGridKeyHandler.js"></script>
+	<script type="text/javascript" src="${res}/js_custom/user.js"></script>
+	<script type="text/javascript" src="${res}/js_custom/user_role_setting.js"></script>
+</head>
+<body>
+
+	<!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+		<table class="n_input" id="searchform">
+             <tr>
+                 <td height="20" align="right" nowrap>用户名称：</td>
+                 <td><input type="text" class="easyui-textbox" id="user_search_text" name="searchParams['search']" /></td>
+                 <td height="32" colspan="18" align="center">
+                 	<a id="searchBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+                 	<a id="resetBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">重置</a>
+                 </td>
+             </tr>
+         </table>
+     </fieldset>
+
+	<!-- 按钮区域 -->
+	<div id="button-bar">
+	   [@shiro.hasPermission name="/platform/user/add.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="addBtn">新增</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/user/delete.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true" id="deleteBtn">删除</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/user/update.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="editBtn">编辑</a>
+	    [/@shiro.hasPermission]
+	    [@shiro.hasPermission name="/platform/user/role_setting.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-large-clipart" plain="true" id="roleSettingBtn">角色分配</a>
+	    [/@shiro.hasPermission]
+	    [@shiro.hasPermission name="/platform/user/enable.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-ok" plain="true" id="enableBtn">启用</a>
+	    [/@shiro.hasPermission]
+	    [@shiro.hasPermission name="/platform/user/disable.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-no" plain="true" id="disableBtn">禁用</a>
+	    [/@shiro.hasPermission]
+	    
+	    [@shiro.hasPermission name="/platform/user/unLock.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-tabicons_14_02" plain="true" id="unLockBtn">解除锁定</a>
+	    [/@shiro.hasPermission]
+	    
+	    [@shiro.hasPermission name="/platform/user/resetPWD.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-tabicons_05_03" plain="true" id="resetPWDBtn">重置密码</a>
+	    [/@shiro.hasPermission]
+	</div>
+	
+	[@p.table id="tableList" url="list.json" idField="userId" toolbar="button-bar" singleSelect="true" checkOnSelect="true" selectOnCheck="true" showHeader="true" title="用户列表"]
+		[@p.column title="选择" field="userId" checkbox="true" /]
+		[@p.column title="登录名" field="loginName" /]
+		[@p.column title="salt" field="salt"  hidden="true" /]
+		[@p.column title="姓名" field="realName"  /]
+		[@p.column title="机构" field="orgId" hidden="true"  /]
+		[@p.column title="所属机构" field="orgName"  /]
+		[@p.column title="用户组" field="groupId"  hidden="true" /]
+		[@p.column title="用户组" field="groupName"  /]
+		[@p.column title="类型" field="userTypeName"  /]
+		[@p.column title="身份证号码" field="idNumber"  /]
+		[@p.column title="生日" field="birthday"  /]
+		[@p.column title="性别" field="sex"  /]
+		[@p.column title="电话" field="phone"  /]
+		[@p.column title="Email" field="email"  /]
+		[@p.column title="地址" field="address"  /]
+		[@p.column title="是否启用" field="enableName"  /]
+		[@p.column title="是否锁定" field="lockedName"  /]
+		[@p.column title="超级管理员" field="isSupperManagerName" /]
+	[/@p.table]
+	
+	<div id="addUserWin" class="easyui-dialog" title="用户新增" collapsible="false"
+		minimizable="false" maximizable="false" icon="icon-large-clipart"
+		style="width: 600px; height: 450px; padding: 5px;" closed ="true" modal="true" data-options="buttons:[{text:'保存',iconCls:'icon-ok',handler:saveAddUserBtnEvent},{text:'取消',iconCls:'icon-no',handler:cancelAddUserBtnEvent}],onBeforeClose:addUserWinBeforClose"> 
+		<div class="easyui-layout" data-options="fit:true">   
+	        <form id="user_form" method="post" >
+	        <input type="hidden" name="userId"/>
+	        <table width="100%" border="0">
+	        	<tbody>
+	        		<tr>
+	        			<td  width="20%" align="right"><label for="loginName">登录名 : &nbsp;</label>   </td>
+	        			<td><input class="easyui-validatebox" type="text" style="width:350px;" name="loginName" data-options="required:true"  validType="username[4,12]"/></td>
+	        		</tr>
+	        		<tr class="password_input">
+	        			<td align="right"><label for="password">密码 : &nbsp;</label>   </td>
+	        			<td>默认 123456</td>
+	        		</tr>
+	        		<tr>
+	        			<td align="right"><label for="realName">姓名 : &nbsp;</label>   </td>
+	        			<td><input class="easyui-validatebox" type="text" style="width:350px;" name="realName" data-options="required:true" validType="chinese[2,10]"/> </td>
+	        		</tr>
+	        		<tr>
+	        			<td align="right"><label for="orgId">所属机构 : &nbsp;</label>   </td>
+	        			<td>
+	        			<select id="org_select" class="easyui-combotree" style="width:350px;" name="orgId"  style="width:140px" 
+					        data-options="    
+					            panelWidth:200,
+					            required:true  ,
+					            editable : false,  
+					            url:'list_orgTree.json',
+					            id : 'parentId' 
+					        "></select>  
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<td align="right"><label for="groupId">用户组 : &nbsp;</label></td>
+	        			<td>
+	        			<select id="group_select" class="easyui-combogrid" style="width:350px;" name="groupId"  
+					        data-options="    
+					            panelWidth:210,
+					            required:true,    
+					            idField:'groupId',    
+					            textField:'groupName',    
+					            url:'list_group.json',    
+					            columns:[[    
+					                {field:'groupId',title:'Id',hidden:true},
+					                {field:'groupName',title:'部门名称',width:100},
+					                {field:'statusName',title:'状态',width:100}
+					            ]],
+								keyHandler : {
+									up : function() {
+										default_comboxgrid_keyUp(this);
+									},
+									down : function() {
+										default_comboxgrid_keyDown(this);
+									},
+									enter : function() {
+										default_comboxgrid_enterKey(this);
+									},
+									query : function(searchKey) {
+										if (searchKey != null) {
+											var grid = $(this).combogrid('grid');
+											var searchParam = {
+												'searchParams[groupName]' : searchKey
+											};
+											$(grid).datagrid('options').queryParams = searchParam;
+											$(grid).datagrid('reload');
+											$(this).combogrid('setValue', searchKey);
+										}
+									}
+								}        
+					        "></select>
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<td align="right"> <label for="userType">类型 : &nbsp;</label>   </td>
+	        			<td>
+	        			<select id="user_type_select" class="easyui-combogrid" name="userType"  style="width:350px;"
+					        data-options="    
+					            panelWidth:110,
+					            required:true,    
+					            idField:'dictValue',    
+					            textField:'dictName',
+					            editable : false,    
+					            url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=USER_TYPE',    
+					            columns:[[    
+					                {field:'dictValue',title:'Id',hidden:true},
+					                {field:'dictName',title:'请选择',width:100}
+					            ]]    
+					        "></select>
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<td align="right"><label for="idNumber">身份证号码 : &nbsp;</label>  </td>
+	        			<td><input class="easyui-validatebox" type="text" name="idNumber" style="width:350px;" data-options="required:true"  validType="idcard" /> </td>
+	        		</tr>
+	        		<tr>
+	        			<td align="right"><label for="birthday">生日 : &nbsp;</label>   </td>
+	        			<td><input id="user_birthday_date" class="easyui-datebox" style="width:350px;" type="text" name="birthday" data-options="required:true,
+	        			formatter:function(date){
+	        				var y = date.getFullYear();
+							var m = date.getMonth()+1;
+							var d = date.getDate();
+							return y+'-'+(m<10?'0':'')+m+'-'+(d<10?'0':'')+d;
+	        			}" /></td>
+	        		</tr>
+	        		<tr>
+	        			<td align="right"><label for="sex">性别 : &nbsp;</label>   </td>
+	        			<td>
+	        			<select id="user_sex_select" class="easyui-combogrid" name="sex"  style="width:350px;"
+					        data-options="    
+					            panelWidth:110,
+					            required:true,    
+					            editable : false,
+					            idField:'dictValue',    
+					            textField:'dictName',    
+					            url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=SEX',    
+					            columns:[[    
+					                {field:'dictValue',title:'Id',hidden:true},
+					                {field:'dictName',title:'请选择',width:100}
+					            ]]    
+					        "></select>
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<td align="right"><label for="phone">电话 : &nbsp;</label>   </td>
+	        			<td><input class="easyui-validatebox" type="text" style="width:350px;" name="phone" data-options="validType:'mobile'" /> </td>
+	        		</tr>
+	        		<tr>
+	        			<td align="right"> <label for="email">Email : &nbsp;</label>   </td>
+	        			<td><input class="easyui-validatebox" type="text" style="width:350px;" name="email" data-options="validType:'email'" /> </td>
+	        		</tr>
+	        		<tr>
+	        			<td align="right"><label for="address">地址 : &nbsp;</label>  </td>
+	        			<td><input class="easyui-validatebox" style="width:350px;" type="text" name="address" />  </td>
+	        		</tr>
+	        	</tbody>
+	        </table>   
+		</form> 
+    	</div>   
+	</div>
+	
+	<div id="userRoleSettingWin" class="easyui-dialog" title="用户角色" collapsible="false"
+		minimizable="false" maximizable="false" icon="icon-large-clipart"
+		style="width: 600px; height: 450px; padding: 5px;" closed ="true" modal="true" data-options="buttons:[{text:'保存',iconCls:'icon-ok',handler:saveUserRoleSettingBtnEvent},{text:'取消',iconCls:'icon-no',handler:cancelUserRoleSettingBtnEvent}]"> 
+		<div class="easyui-layout" data-options="fit:true">
+			 <div id="toSelectRoleTable" data-options="region:'west',collapsed:false" style="width:300px;"></div>   
+			 <div id="selectedRoleTable" data-options="region:'center'"></div>   
+		</div>
+	</div>
+	
+</body>
+</html>

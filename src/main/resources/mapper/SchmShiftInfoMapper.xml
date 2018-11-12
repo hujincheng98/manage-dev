@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.schmInfo.dao.SchmShiftInfoDao">
+
+	<resultMap id="BaseResultMapXML" type="com.skynet.rimp.schmInfo.vo.SchmShiftInfoEntity">
+		<id column="shift_Id" property="shiftId" jdbcType="VARCHAR" />
+		<id column="shift_Name" property="shiftName" jdbcType="VARCHAR" />
+		<result column="shift_Start_Date" property="shiftStartDate" />
+		<result column="shift_End_Date" property="shiftEndDate" />
+		<result column="hos_Id" property="hosId" />
+		<result column="remarks" property="remarks" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+		<result column="ext1" property="ext1" />
+		<result column="ext2" property="ext2" />
+		<result column="ext3" property="ext3" />
+		<result column="create_User" property="createUser" />
+		<result column="create_Date" property="createDate" />
+		<result column="update_User" property="updateUser" />
+		<result column="update_Date" property="updateDate" />
+		<collection property="tisls" ofType="com.skynet.rimp.schmInfo.vo.SchmTislInfoEntity">
+			<id column="TISL_ID" property="tislId" jdbcType="VARCHAR" />
+			<result column="SHIFT_ID" property="shiftId" jdbcType="VARCHAR" />
+			<result column="TISL_START_DATE" property="tislStartDate" jdbcType="TIME" />
+			<result column="TISL_END_DATE" property="tislEndDate" jdbcType="TIME" />
+			<result column="TISL_ONLINE" property="tislOnline" jdbcType="INTEGER" />
+			<result column="TISL_OFFLINE" property="tislOffline" jdbcType="INTEGER" />
+			<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+			<result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+			<result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+			<result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+			<result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+			<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+			<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+			<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+			<result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		SHIFT_ID, SHIFT_NAME, SHIFT_START_DATE, SHIFT_END_DATE, HOS_ID, ORG_ID,
+		REMARKS,
+		EXT1, EXT2, EXT3, CREATE_DATE, CREATE_USER, UPDATE_DATE, UPDATE_USER
+	</sql>
+	
+	<select id="findByDocmAndWeek" resultMap="BaseResultMapXML" parameterType="java.util.Map">
+		SELECT  
+			shift.SHIFT_START_DATE , shift.SHIFT_END_DATE , shift.SHIFT_ID
+		FROM SCHM_SHIFT_INFO shift INNER JOIN SCHM_BASE_MAIN_INFO main
+		ON shift.SHIFT_ID = main.SHIFT_ID
+		WHERE main.DOCM_ID=#{docmId} AND main.SCHM_WEEK=#{schmWeek} AND SCHM_DEPT_ID=#{schmDeptId}
+	</select>
+	
+	<select id="findByShiftName" resultMap="BaseResultMapXML" parameterType="java.lang.String">
+		SELECT
+		*
+		FROM SCHM_SHIFT_INFO
+		WHERE SHIFT_NAME=#{shiftName}
+	</select>
+	
+	<!-- 查询 -->
+	<select id="findAllByauto" resultMap="BaseResultMapXML">
+		select
+		s.SHIFT_NAME, s.SHIFT_START_DATE, s.SHIFT_END_DATE, s.HOS_ID, s.ORG_ID,
+		s.REMARKS, s.EXT1, s.EXT2, s.EXT3, s.CREATE_DATE, s.CREATE_USER, s.UPDATE_DATE, s.UPDATE_USER ,t.*		
+		from schm_shift_info s
+		left outer join schm_tisl_info t on s.SHIFT_ID = t.SHIFT_ID
+	</select>
+	
+
+	<!-- 查询 -->
+	<select id="findAll" resultMap="BaseResultMapXML">
+		select
+		*
+		from schm_shift_info s
+	</select>
+	
+	<select id="findByCondition" resultMap="BaseResultMapXML" parameterType="com.skynet.common.SearchParams">
+		select
+		*
+		from schm_shift_info
+		where 1=1
+		<if test="searchParams.shiftName != null and searchParams.shiftName != ''">
+			and SHIFT_NAME like '%${searchParams.shiftName}%'
+		</if>
+		<if test="searchParams.shiftStartDate != null and searchParams.shiftStartDate != ''">
+			and SHIFT_START_DATE &gt;= #{searchParams.shiftStartDate}
+		</if>
+		<if test="searchParams.shiftEndDate != null and searchParams.shiftEndDate != ''">
+			and SHIFT_END_DATE &lt;= #{searchParams.shiftEndDate}
+		</if>
+	</select>
+	
+	
+	
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMapXML" parameterType="java.lang.String">
+		select
+		s.SHIFT_NAME, s.SHIFT_START_DATE, s.SHIFT_END_DATE, s.HOS_ID, s.ORG_ID,
+		s.REMARKS, s.EXT1, s.EXT2, s.EXT3, s.CREATE_DATE, s.CREATE_USER, s.UPDATE_DATE, s.UPDATE_USER ,t.*		
+		from schm_shift_info s
+		left outer join  schm_tisl_info t on s.SHIFT_ID = t.SHIFT_ID
+		where s.SHIFT_ID = #{shiftId,jdbcType=VARCHAR} ORDER BY t.TISL_START_DATE ASC
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from schm_shift_info
+		where SHIFT_ID = #{shiftId,jdbcType=VARCHAR}
+	</delete>
+	
+	
+	<insert id="insert" parameterType="com.skynet.rimp.schmInfo.vo.SchmShiftInfoEntity">
+		insert into schm_shift_info (SHIFT_ID, SHIFT_NAME, SHIFT_START_DATE,
+		SHIFT_END_DATE, HOS_ID, ORG_ID,
+		REMARKS, EXT1, EXT2,
+		EXT3, CREATE_DATE, CREATE_USER,
+		UPDATE_DATE, UPDATE_USER)
+		values (#{shiftId,jdbcType=VARCHAR}, #{shiftName,jdbcType=VARCHAR},
+		#{shiftStartDate,jdbcType=TIME},
+		#{shiftEndDate,jdbcType=TIME}, #{hosId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR},
+		#{remarks,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR},
+		#{ext2,jdbcType=VARCHAR},
+		#{ext3,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR},
+		#{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR})
+	</insert>
+	
+	
+	<insert id="insertSelective" parameterType="com.skynet.rimp.schmInfo.vo.SchmShiftInfoEntity">
+		insert into schm_shift_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="shiftId != null">
+				SHIFT_ID,
+			</if>
+			<if test="shiftName != null">
+				SHIFT_NAME,
+			</if>
+			<if test="shiftStartDate != null">
+				SHIFT_START_DATE,
+			</if>
+			<if test="shiftEndDate != null">
+				SHIFT_END_DATE,
+			</if>
+			<if test="hosId != null">
+				HOS_ID,
+			</if>
+			<if test="orgId != null">
+				ORG_ID,
+			</if>
+			<if test="remarks != null">
+				REMARKS,
+			</if>
+			<if test="ext1 != null">
+				EXT1,
+			</if>
+			<if test="ext2 != null">
+				EXT2,
+			</if>
+			<if test="ext3 != null">
+				EXT3,
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE,
+			</if>
+			<if test="createUser != null">
+				CREATE_USER,
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE,
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="shiftId != null">
+				#{shiftId,jdbcType=VARCHAR},
+			</if>
+			<if test="shiftName != null">
+				#{shiftName,jdbcType=VARCHAR},
+			</if>
+			<if test="shiftStartDate != null">
+				#{shiftStartDate,jdbcType=TIME},
+			</if>
+			<if test="shiftEndDate != null">
+				#{shiftEndDate,jdbcType=TIME},
+			</if>
+			<if test="hosId != null">
+				#{hosId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+				#{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="ext1 != null">
+				#{ext1,jdbcType=VARCHAR},
+			</if>
+			<if test="ext2 != null">
+				#{ext2,jdbcType=VARCHAR},
+			</if>
+			<if test="ext3 != null">
+				#{ext3,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.skynet.rimp.schmInfo.vo.SchmShiftInfoEntity">
+		update schm_shift_info
+		<set>
+			<if test="shiftName != null">
+				SHIFT_NAME = #{shiftName,jdbcType=VARCHAR},
+			</if>
+			<if test="shiftStartDate != null">
+				SHIFT_START_DATE = #{shiftStartDate,jdbcType=TIME},
+			</if>
+			<if test="shiftEndDate != null">
+				SHIFT_END_DATE = #{shiftEndDate,jdbcType=TIME},
+			</if>
+			<if test="hosId != null">
+				HOS_ID = #{hosId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+				ORG_ID = #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="remarks != null">
+				REMARKS = #{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="ext1 != null">
+				EXT1 = #{ext1,jdbcType=VARCHAR},
+			</if>
+			<if test="ext2 != null">
+				EXT2 = #{ext2,jdbcType=VARCHAR},
+			</if>
+			<if test="ext3 != null">
+				EXT3 = #{ext3,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUser != null">
+				CREATE_USER = #{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where SHIFT_ID = #{shiftId,jdbcType=VARCHAR}
+	</update>
+	
+	
+	<update id="updateByPrimaryKey" parameterType="com.skynet.rimp.schmInfo.vo.SchmShiftInfoEntity">
+		update schm_shift_info
+		set SHIFT_NAME = #{shiftName,jdbcType=VARCHAR},
+		SHIFT_START_DATE = #{shiftStartDate,jdbcType=TIME},
+		SHIFT_END_DATE = #{shiftEndDate,jdbcType=TIME},
+		HOS_ID = #{hosId,jdbcType=VARCHAR},
+		ORG_ID = #{orgId,jdbcType=VARCHAR},
+		REMARKS = #{remarks,jdbcType=VARCHAR},
+		EXT1 = #{ext1,jdbcType=VARCHAR},
+		EXT2 = #{ext2,jdbcType=VARCHAR},
+		EXT3 = #{ext3,jdbcType=VARCHAR},
+		CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+		CREATE_USER = #{createUser,jdbcType=VARCHAR},
+		UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+		UPDATE_USER = #{updateUser,jdbcType=VARCHAR}
+		where SHIFT_ID = #{shiftId,jdbcType=VARCHAR}
+	</update>
+
+
+
+</mapper>

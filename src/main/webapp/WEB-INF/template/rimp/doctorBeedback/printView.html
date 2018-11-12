@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<#include "../include/head.html" />
+<title><@s.m code="shift.management" /></title>
+<script type="text/javascript"
+	src="${res}/js/doctorBeedback/reply.js"></script>
+<link type="text/css" rel="stylesheet"
+	href="${res}/css/dialog_index.css" />
+<style type="text/css">
+* {
+	font-size: 15px;
+}
+ body{text-align:center} 
+</style>
+</head>
+<body style="overflow-y:auto;">
+	<!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 10px; padding:5px;">
+	    <button id="printBtn" class="easyui-linkbutton" data-options="iconCls:'icon-print'">打印</button>
+	    <!--startprint-->
+		<!-- <div class="easyui-panel"> -->
+		<div align="left">
+		        <style>
+					.bdbox{
+						-moz-box-sizing: border-box;
+						-webkit-box-sizing: border-box;
+						box-sizing: border-box;
+					}
+				</style>
+				<h5 align="center" style="margin: 0px; padding: 10px;font-size: 18px;">${hosName !''}</h2>
+				<span class="inpt">
+					患者姓名:<input class="bdbox" style="border:solid  #CCE8CF;border-width: thin;width: 133px;" readonly="true" name="userName" id="patientname" value="${patFeedback.patientname !''}">
+					联系电话:<input class="bdbox" style="border:solid  #CCE8CF;border-width: thin;width: 133px;" readonly="true" name="phone" readonly="true" value="${patFeedback.telephone}" id="telephone">
+					就诊科室:<input class="bdbox" style="border:solid  #CCE8CF;border-width: thin;width: 163px;" readonly="true" name="dept" readonly="true" value="${patFeedback.department !''}" id="department">
+				</span>
+				<div class="inpt">
+					标　　题:<input class="bdbox" style="border:solid  #CCE8CF;border-width: thin;width: 570px;" readonly="true" name="title" readonly="true" value="${patFeedback.title !''}" id="title">
+					<input name="pfid" id="pfid" value="${patFeedback.pfid}" type="hidden">
+				</div>
+		</div>
+		<div id="templet" align="left">
+		</div>
+		<div class="reply" align='left'>
+			<h3 align='left'>就医反馈及意见：</h3>
+			<div style='border: 1px solid #95B8E7;width: 631px;height: auto;' id="opinion">${patFeedback.content !''}</div>
+			<!-- <textarea
+ 			class="easyui-textbox" data-options="multiline:true" style="width:580px;height:100px;" readonly="true" id="opinion">${content !''}</textarea> -->
+			<h3 align='left'>回复：</h3>
+			<div style='border: 1px solid #95B8E7;width: 631px;height: auto;'>${patFeedback.reply !''}</div>
+<!-- 			<textarea
+			class="easyui-textbox" data-options="multiline:true" style="width:580px;height:100px" readonly="true" id="reply">${reply !''}</textarea> -->
+		</div>
+		&nbsp;
+		 <!-- <div align='left'>
+		   <button id="backBtn" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">返回</button>
+		   <button id="printBtn" class="easyui-linkbutton" data-options="iconCls:'icon-print'">打印</button>
+		</div> -->
+		<div>
+		<!--endprint-->
+	</div>
+	</fieldset>
+</body>
+</html>

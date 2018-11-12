@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <#include "../include/head.html" />
+    <title><@s.m code="shift.management" /></title>
+   	<script type="text/javascript" src="${res}/js/hisBaseInfo/notice_index.js"></script>
+    <!-- <script type="text/javascript" src="${base}/plug-in/skynet.common.js"></script> -->
+
+   	<link type="text/css" rel="stylesheet" href="${res}/css/dialog_index.css" />
+    <style type="text/css">
+		/* body,td,th {font-size: 12px;} 
+		.easyui-dialog div {
+			width:270px;
+		}
+		.easyui-dialog div label {
+			width: 90px;
+		} */
+		body,td,th {font-size: 12px;} 
+	</style>
+  </head>
+  <body style="overflow-y:auto;">
+<!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 10px; padding:5px;">
+		<legend>查询条件</legend>
+           <table class="n_input" id="searchform">
+               <tr>
+               	   <td width="100" height="20" align="right" nowrap>通告名称：</td>
+                   <td><input type="text" class="easyui-textbox" name="searchParams[noticename]" id="noticeNameSearch" class=""/></td>                                                                                       
+                   <td width="100" height="20" align="right" nowrap>发布日期：</td>
+	               <td>
+	               	   <input id="releaseStartDate" name="searchParams[releaseStartDate]" type="text" class="easyui-datebox" style="width: 180px" data-options="editable:false"></input>
+	               </td>	               	
+	               <td width="40" height="20" align="right" nowrap>至：</td>
+	               <td>
+	               	   <input id="releaseEndDate" name="searchParams[releaseEndDate]" type="text" class="easyui-datebox" style="width: 180px" data-options="editable:false"></input>
+	               </td>                                               
+               </tr>
+               <tr>              
+               <td width="100" height="20" align="right" nowrap>通告类型：</td>
+                   <td>
+                   		<select class="easyui-combobox" data-options="
+                   			valueField:'dictValue',
+                   			textField:'dictName',
+                   			editable:false,
+                   			url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=noticetype'
+                   		" style="width:145px;" name="searchParams[noticetype]" id="noticeType"></select>
+                   </td>
+                                 
+                   
+                   <td width="100" height="20" align="right" nowrap>下线日期：</td>
+	               <td>
+	               		 <input id="offlineStartDate" name="searchParams[offlineStartDate]" type="text" class="easyui-datebox" style="width: 180px" data-options="editable:false"></input>
+	               </td>
+	               	
+	               	<td width="40" height="20" align="right" nowrap>至：</td>
+	                <td>
+	               		 <input id="offlineEndDate" name="searchParams[offlineEndDate]" type="text" class="easyui-datebox" style="width: 180px" data-options="editable:false"></input>
+	               	</td>	               		               	
+	               	<td height="32" colspan="10" align="center" nowrap="nowrap" style="padding-left: 30px">
+		                  &nbsp;&nbsp;<button class="easyui-linkbutton" id="searchBtn" data-options="iconCls:'icon-search'">查询</button>
+		                   <button class="easyui-linkbutton" id="clearBtn" data-options="iconCls:'icon-undo'">重置</button>
+	                </td>
+	               	
+               </tr>
+           </table>  
+       </fieldset>
+       
+   		<!-- 按钮区域 -->
+		<div id="addDialog" class="easyui-dialog" title="通知通告管理 -- 新增" data-options="closed:true,modal:true,closable: true,
+    		href:'notice_add.do',
+    		toolbar:[{
+				text:'保存',
+				iconCls:'icon-save',
+				handler:save
+			},{
+				text:'取消',
+				iconCls:'icon-cancel',
+				handler:function(){
+					$.messager.confirm('提示:','您确认要取消吗?',function(r){ 
+						if(r){ 
+							$('#addDialog').dialog('close');
+							$('#notice_add_form').form('clear');
+						}
+					}); 
+				}
+			}],
+			onLoad : function () {
+				/**
+				 *失去焦点 填充拼音码
+				 **/
+				$('input',$('#docmName').next('span')).blur(function(){  
+					var pym = CF2PY($('#docmName').val());
+					$('#docmPinyCode').next('span').find('input').val(pym);
+				});
+				$('#preview img').attr('src', '${res}/images/docmPhoto.jpg');
+       		},
+       		onOpen : function () {
+       			$('#docm_add_form').form('clear');
+       			$('#preview img').attr('src', '${res}/images/docmPhoto.jpg');
+       		}" style="width:720px;height:500px;padding:5px">
+    </div>
+    
+     <!-- 修改Dialog -->
+    	<div id="editDialog" class="easyui-dialog" title="通知通告管理 -- 修改" data-options="closed:true,modal:true,closable: true,
+    		href:'notice_edit.do',
+    		toolbar:[{
+				text:'保存',
+				iconCls:'icon-save',
+				handler:update
+			},{
+				text:'取消',
+				iconCls:'icon-cancel',
+				handler:function(){
+					$.messager.confirm('提示:','您确认要取消吗?',function(r){ 
+						if(r){ 
+							$('#editDialog').dialog('close');
+							$('#notice_edit_form').form('clear');
+						}
+					}); 
+				}
+			}],
+			onLoad : function () {
+				var row = $('#dg').datagrid('getSelected');
+				console.log(row);
+				$('#notice_edit_form').form('load', row);
+       			/**
+				 *失去焦点 填充拼音码
+				 **/
+				$('input',$('#docmName').next('span')).blur(function(){  
+					var pym = CF2PY($('#docmName').val());
+					$('#docmPinyCode').next('span').find('input').val(pym);
+				});
+				if (row.uploadpictures) {
+					$('#preview img').attr('src', 'data:image/png;base64,' + row.uploadpictures);
+					$('#uploadpictures').val(row.uploadpictures);
+				} else {
+					$('#preview img').attr('src', '${res}/images/docmPhoto.jpg');
+				}
+       		},
+       		onOpen : function () {
+				var row = $('#dg').datagrid('getSelected');
+				$('#notice_edit_form').form('load', row);
+       			/**
+				 *失去焦点 填充拼音码
+				 **/
+				$('input',$('#docmName').next('span')).blur(function(){  
+					var pym = CF2PY($('#docmName').val());
+					$('#docmPinyCode').next('span').find('input').val(pym);
+				});
+				if (row.uploadpictures) {
+					$('#preview img').attr('src', 'data:image/png;base64,' + row.uploadpictures);
+					$('#uploadpictures').val(row.uploadpictures);
+				} else {
+					$('#preview img').attr('src', '${res}/images/docmPhoto.jpg');
+				}
+       		}
+       		" style="width:720px;height:500px;padding:5px">
+    	</div>
+       
+    
+     	<!-- 详情Dialog -->
+    	<div id="detailDialog" class="easyui-dialog" title="通知通告管理 -- 详情" data-options="closed:true,modal:true,
+    		href:'docm_detail.do',
+    		toolbar:[{
+				text:'关闭',
+				iconCls:'icon-cancel',
+				handler:function(){
+					$('#detailDialog').dialog('close');
+				}
+			}],
+			onLoad : function () {
+				var row = $('#dg').datagrid('getSelected');
+				$('#docm_detail_form').form('load', row);
+				if (row && row.docmPhoto) {
+					$('#preview img').attr('src', 'data:image/png;base64,' + row.docmPhoto);
+				} else {
+					$('#preview img').attr('src', '${res}/images/docmPhoto.jpg');
+				}
+       		},
+       		onOpen : function () {
+				var row = $('#dg').datagrid('getSelected');
+				$('#docm_detail_form').form('load', row);
+				if (row && row.docmPhoto) {
+					$('#preview img').attr('src', 'data:image/png;base64,' + row.docmPhoto);
+				} else {
+					$('#preview img').attr('src', '${res}/images/docmPhoto.jpg');
+				}
+       		}
+       		" style="width:710px;height:600px;padding:5px">
+    	</div>
+       
+
+	<!-- 按钮区域 -->
+	<div id="layout" class="easyui-layout" style="width:100%;height:100%;"data-options="fit:true">
+			<div id="button-bar">  
+				<@shiro.hasPermission name="/rimp/hosdocm/docm_add.do">
+			    	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:add();">新增</a>
+			    </@shiro.hasPermission>        
+			   	<@shiro.hasPermission name="/rimp/hosdocm/docm_edit.do">
+			   		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="javascript:edit();">修改</a>
+			   	</@shiro.hasPermission>       
+			   	<@shiro.hasPermission name="/rimp/hosdocm/delete.json">
+			    	<a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true" id="deleteBtn">删除</a>
+			     </@shiro.hasPermission>    	         
+			</div>	 	
+	 <div data-options="region:'center'" style="padding:2px;background:#fff;overflow: auto;width: 100%;">
+		<div id="dg"></div>	
+	 </div>
+	 
+	</div>
+  </body>
+  <script type="text/javascript">
+     $(function(){
+          $("#editDialog,#addDialog").window({
+       onBeforeClose:function(){ 
+          $("#notice_edit_form").form('clear');
+          $("#notice_add_form").form('clear');
+       }
+   });
+     });
+  </script>
+</html>

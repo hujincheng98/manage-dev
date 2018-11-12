@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<#include "../include/head.html" />
+<title><@s.m code="shift.management" /></title>
+<script type="text/javascript"
+	src="reply.js"></script>
+<link type="text/css" rel="stylesheet"
+	href="dialog_index.css" >
+<style type="text/css">
+body,td,th {
+	font-size: 12px;
+}
+ body{text-align:center;} 
+</style>
+</head>
+<body style="overflow-y:auto;">
+	<!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 10px; padding:5px;">
+		<div class="container">
+		<div class="easyui-panel title">
+				<div class="inpt">
+					患者姓名:<input class="easyui-textbox" name="userName" disabled="true">
+				</div>
+				<div class="inpt">
+					联系电话:<input class="easyui-textbox" name="phone" disabled="true">
+				</div>
+				<div class="inpt">
+					就诊科室:<input class="easyui-textbox" name="dept" disabled="true">
+				</div>
+		</div>
+		<div class="search">
+			<h3>满意度调查：</h3>
+			<h4>1.您对我院工作人员的服务是否满意？</h4>
+			<div class="easyui-panel" style="padding:5px;">
+				<button  class="button1" name="question1" value="0" id="satQue1" disabled="true">满意</button>
+				<button  class="button1" name="question1" value="1" id="basicSatQue1" disabled="true">基本满意</button>
+				<button  class="button1" name="question1" value="2" id="sameAsQue1" disabled="true">一般</button>
+				<button  class="button1" name="question1" value="3" id="notSatQue1" disabled="true">不满意</button>
+			</div>
+			<h4>2.您对我院工作人员的服务是否满意？</h4>
+			<div class="easyui-panel" style="padding:5px;">
+				<button  class="easyui-linkbutton" disabled="true">满意</button>
+				<button  class="easyui-linkbutton" disabled="true">基本满意</button>
+				<button  class="easyui-linkbutton" disabled="true">一般</button>
+				<button  class="easyui-linkbutton" disabled="true">不满意</button>
+			</div>
+			<h4>3.您对我院工作人员的服务是否满意？</h4>
+			<div class="easyui-panel" style="padding:5px;">
+				<button  class="easyui-linkbutton" disabled="true">满意</button>
+				<button  class="easyui-linkbutton" disabled="true">基本满意</button>
+				<button  class="easyui-linkbutton" disabled="true">一般</button>
+				<button  class="easyui-linkbutton" disabled="true">不满意</button>
+			</div>
+			<h4>4.您对我院工作人员的服务是否满意？</h4>
+			<div class="easyui-panel" style="padding:5px;">
+				<button  class="easyui-linkbutton" disabled="true">满意</button>
+				<button  class="easyui-linkbutton" disabled="true">基本满意</button>
+				<button  class="easyui-linkbutton" disabled="true">一般</button>
+				<button  class="easyui-linkbutton" disabled="true">不满意</button>
+			</div>
+			<h4>5.您对我院工作人员的服务是否满意？</h4>
+			<div class="easyui-panel" style="padding:5px;">
+				<button  class="easyui-linkbutton" disabled="true">满意</button>
+				<button  class="easyui-linkbutton" disabled="true">基本满意</button>
+				<button  class="easyui-linkbutton" disabled="true">一般</button>
+				<button  class="easyui-linkbutton" disabled="true">不满意</button>
+			</div>
+		</div>
+		<span style="margin-left: 100px;"></span>
+		<div class="reply">
+			<h3 style="margin-left: -460px">就医反馈及意见：</h3>
+			<textarea
+ 			class="easyui-textbox" data-options="multiline:true" value="This TextBox will allow the user to enter multiple lines of text" style="width:580px;height:100px"></textarea>
+			<h3 style="margin-left: -530px">回复：</h3>
+			<textarea
+			class="easyui-textbox" data-options="multiline:true" value="" style="width:580px;height:100px">	
+			</textarea>
+		</div>
+		&nbsp;
+		<div>
+		   <button  style="width:80px;height:50px" id="btn" class="easyui-linkbutton linkBtn">提交</button>
+		</div>
+	</div>
+	</fieldset>
+</body>
+</html>

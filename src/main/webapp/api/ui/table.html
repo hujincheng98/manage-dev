@@ -1,0 +1,539 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>UI界面组件封装说明</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../../js/bootstarp/css/bootstrap.min.css" type="text/css"></link>
+	<link rel="stylesheet" href="../../js/bootstarp/css/bootstrap-theme.css" type="text/css"></link>
+	<link rel="stylesheet" href="../css/patch.css" type="text/css"></link>
+	<link rel="stylesheet" href="../css/docs.min.css" type="text/css"></link>
+	
+	<!--[if lt IE 9]>
+		<script type="text/javascript" src="../js/ie8-responsive-file-warning.js"></script>
+	<![endif]-->
+	<script type="text/javascript" src="../js/ie-emulation-modes-warning.js"></script>
+	<!--[if lt IE 9]>
+		<script type="text/javascript" src="../js/html5shiv.min.js"></script>
+		<script type="text/javascript" src="../js/respond.min.js"></script>
+	<![endif]-->
+	
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script type="text/javascript" src="../../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../js/bootstarp/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../js/docs.min.js"></script>
+	<script type="text/javascript" src="../js/ie10-viewport-bug-workaround.js"></script>
+	
+	<link rel="stylesheet" href="../../js/bootstarp-table/bootstrap-table.css">
+    <script type="text/javascript" src="../../js/bootstarp-table/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../../js/bootstarp-table/extensions/export/bootstrap-table-export.js"></script>
+	<!-- <script type="text/javascript" src="../../js/bootstarp-table/extensions/filter/bootstrap-table-filter.js"></script> -->
+	<script type="text/javascript" src="../../js/bootstarp-table/locale/bootstrap-table-zh-CN.js"></script>
+</head>
+<body>
+
+	<div class="container bs-docs-container" style="width:98%;margin-left: auto;margin-right: auto;">
+		<div class="bs-docs-section">
+			<h1 id="tables" class="page-header">表格 : @p.table</h1>
+
+			<h2 id="tables-example">基本实例：</h2>
+			<p>
+				封装HTML<code>&lt;table&gt;</code>标签，并对前端样式进行封装，实现数据异步获取，并填充表格。
+				对于<code>&lt;@p.column&gt;</code>标签的使用请查阅@p.column标签使用说明。
+			</p>
+			<div class="bs-example" data-example-id="simple-table">
+				<table class="easyui-datagrid" id="userTable" data-toggle="table" data-url="../data/user_list.txt" data-pagination="true" data-side-pagination="server" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="true" data-height="525" data-smart-display="true" data-show-columns="true" data-striped="true" data-method="get" data-content-type="application/json" data-data-type="json" data-show-export="true" data-show-toggle="true" data-show-filter="true"			>
+					<thead>
+						<tr>
+							<th data-field="uid">ID</th>	
+							<th data-field="userName">用户名</th>	
+							<th data-field="loginName">登录名</th>	
+							<th data-field="password">密码</th>	
+							<th data-field="address">住址</th>	
+							<th data-field="phone">手机</th>			
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<!-- /example -->
+			<div class="highlight">
+				<pre>
+					<code class="language-html" data-lang="html">
+						<span class="nt">
+&lt;@p.table id="userTable" url="${base}/user/list.json"&gt;
+	&lt;@p.column field="uid" code="ID" /&gt;
+	&lt;@p.column field="userName" code="user.userName" /&gt;
+	&lt;@p.column field="loginName" code="user.loginName" /&gt;
+	&lt;@p.column field="password" code="user.password" /&gt;
+	&lt;@p.column field="address" code="user.address" /&gt;
+	&lt;@p.column field="phone" code="user.phone" /&gt;
+&lt;/@p.table&gt;
+					</code>
+				</pre>
+			</div>
+
+			<h2 id="tables-striped">参数说明：</h2>
+			<p>
+				在模板页的任意位置调用<code>@p.table</code>标签并传入相应参数即可展现Bootstarp风格的<code>&lt;table&gt;</code>表格，并异步远程读取数据填充表格。
+			</p>
+			<div class="bs-callout bs-callout-danger"
+				id="callout-tables-striped-ie8">
+				<h4>注意</h4>
+				<p>
+					在以下参数中已经封装默认值的，在使用过程中可以根据需求来改变参数的传值以实现不同的表格效果。参数名应注意区分大小写。
+				</p>
+			</div>
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>变量</th>
+							<th>类型</th>
+							<th>默认值</th>
+							<th>参考值</th>
+							<th>是否选填</th>
+							<th>说明</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><code>dataToggle</code></td>
+							<td>String</td>
+							<td>table</td>
+							<td>table</td>
+							<td>是</td>
+							<td>不通过JavaScript的方式启动Bootstrap Table。</td>
+						</tr>
+						<tr>
+							<td><code>classes</code></td>
+							<td>String</td>
+							<td>table table-hover</td>
+							<td>table</td>
+							<td>是</td>
+							<td>表格的样式名。</td>
+						</tr>
+						<tr>
+						  <td><code>height</code></td>
+						  <td>Number</td>
+						  <td>525</td>
+						  <td>-</td>
+						  <td>是</td>
+						  <td>表格的高度。</td>
+					  </tr>
+						<tr>
+						  <td><code>undefinedText</code></td>
+						  <td>String</td>
+						  <td>-</td>
+						  <td>-</td>
+						  <td>是</td>
+						  <td>定义默认的undefined显示文字。</td>
+					  </tr>
+						<tr>
+						  <td><code>striped</code></td>
+						  <td>Boolean</td>
+						  <td>true</td>
+						  <td>true / false </td>
+						  <td>是</td>
+						  <td>使表格带有斑马线效果。</td>
+					  </tr>
+						<tr>
+						  <td><code>sortName</code></td>
+						  <td>String</td>
+						  <td>-</td>
+						  <td>-</td>
+						  <td>是</td>
+						  <td>定义哪一列可被排序。</td>
+					  </tr>
+						<tr>
+						  <td><code>sortOrder</code></td>
+						  <td>String</td>
+						  <td>-</td>
+						  <td>asc / desc</td>
+						  <td>是</td>
+						  <td>定义列排序的顺序方式</td>
+					  </tr>
+						<tr>
+						  <td><code>data</code></td>
+						  <td>Array</td>
+						  <td>-</td>
+						  <td>-</td>
+						  <td>是</td>
+						  <td>需要加载的数据。</td>
+					  </tr>
+						<tr>
+						  <td><code>method</code></td>
+						  <td>String</td>
+						  <td>get</td>
+						  <td>get / post </td>
+						  <td>是</td>
+						  <td>远程数据请求的方法。</td>
+					  </tr>
+						<tr>
+						  <td><code>url</code></td>
+						  <td>String</td>
+						  <td>-</td>
+						  <td>-</td>
+						  <td>否</td>
+						  <td>远程数据请求的URL地址。</td>
+					  </tr>
+						<tr>
+						  <td><code>cache</code></td>
+						  <td>Boolean</td>
+						  <td>true</td>
+						  <td>true / false </td>
+						  <td>是</td>
+						  <td>设置False禁用AJAX请求的缓存。</td>
+					  </tr>
+						<tr>
+						  <td><code>contentType</code></td>
+						  <td>String</td>
+						  <td>application/json</td>
+						  <td>contentType所有类型</td>
+						  <td>是</td>
+						  <td>远程数据请求的“contentType”类型。</td>
+					  </tr>
+						<tr>
+						  <td><code>dataType</code></td>
+						  <td>String</td>
+						  <td>json</td>
+						  <td>-</td>
+						  <td>是</td>
+						  <td>远程数据请求返回的数据类型。</td>
+					  </tr>
+						<tr>
+						  <td><code>queryParams</code></td>
+						  <td>Function</td>
+						  <td>-</td>
+						  <td>function(params) {<br />
+						    &nbsp;&nbsp;&nbsp;&nbsp;return params;<br />
+					      }</td>
+						  <td>是</td>
+						  <td>远程数据请求时，可以通过queryParams来格式化所需要的数据信息，参数（对象）包含了：<br />
+					      pageSize, pageNumber, searchText, sortName, sortOrder。返回 false 可以禁用请求。</td>
+					  </tr>
+						<tr>
+						  <td><code>queryParamsType</code></td>
+						  <td>String</td>
+						  <td>limit</td>
+						  <td>limit</td>
+						  <td>是</td>
+						  <td>设置为“limit”可以发送标准的RESTFul类型的参数请求。</td>
+					  </tr>
+						<tr>
+						  <td><code>responseHandler</code></td>
+						  <td>Function</td>
+						  <td>-</td>
+						  <td>function(res) {<br />
+						    return res;<br />
+					      }</td>
+						  <td>是</td>
+						  <td>在加载数据前，可以对返回的数据进行处理，参数包含：<br />
+					      res: 返回的数据。</td>
+					  </tr>
+						<tr>
+						  <td><code>pagination</code></td>
+						  <td>Boolean</td>
+						  <td>true</td>
+						  <td>true / false </td>
+						  <td>是</td>
+						  <td>设置True在表格底部显示分页工具栏。</td>
+					  </tr>
+						<tr>
+						  <td><code>sidePagination</code></td>
+						  <td>String</td>
+						  <td>server</td>
+						  <td>client / server</td>
+						  <td>是</td>
+						  <td>定义表格分页的位置，只能是“client”（客户端）和“server”（服务器端）。</td>
+					  </tr>
+						<tr>
+						  <td><code>pageNumber</code></td>
+						  <td>Number</td>
+						  <td>1</td>
+						  <td>-</td>
+						  <td>是</td>
+						  <td>分页的时候设置当前的页码。</td>
+					  </tr>
+						<tr>
+						  <td><code>pageSize</code></td>
+						  <td>Number</td>
+						  <td>10</td>
+						  <td>-</td>
+						  <td>是</td>
+						  <td>分页的时候设置每页的条数。</td>
+					  </tr>
+						<tr>
+						  <td><code>pageList</code></td>
+						  <td>Array</td>
+						  <td>[10, 25, 50, 100]</td>
+						  <td>-</td>
+						  <td>是</td>
+						  <td>分页的时候设置分页数的列表。</td>
+					  </tr>
+						<tr>
+						  <td><code>selectItemName</code></td>
+						  <td>String</td>
+						  <td>btSelectItem</td>
+						  <td>-</td>
+						  <td>是</td>
+						  <td>单选框或者复选框的name，用于多个表格使用radio的情况。</td>
+					  </tr>
+						<tr>
+						  <td><code>smartDisplay</code></td>
+						  <td>Boolean</td>
+						  <td>true</td>
+						  <td>true / false</td>
+						  <td>是</td>
+						  <td>设置为True智能显示分页或者Card View。</td>
+					  </tr>
+						<tr>
+						  <td><code>search</code></td>
+						  <td>Boolean</td>
+						  <td>true</td>
+						  <td>true / false</td>
+						  <td>是</td>
+						  <td>启用搜索输入框。</td>
+					  </tr>
+						<tr>
+						  <td><code>showHeader</code></td>
+						  <td>Boolean</td>
+						  <td>true</td>
+						  <td>true / false</td>
+						  <td>是</td>
+						  <td>设置为False可隐藏表头。</td>
+					  </tr>
+						<tr>
+						  <td><code>showColumns</code></td>
+						  <td>Boolean</td>
+						  <td>false</td>
+						  <td>true / false</td>
+						  <td>是</td>
+						  <td>设置为True可显示表格显示/隐藏列表。</td>
+					  </tr>
+						<tr>
+						  <td><code>showRefresh</code></td>
+						  <td>Boolean</td>
+						  <td>true</td>
+						  <td>true / false</td>
+						  <td>是</td>
+						  <td>设置为True可显示刷新按钮。</td>
+					  </tr>
+						<tr>
+						  <td><code>showToggle</code></td>
+						  <td>Boolean</td>
+						  <td>true</td>
+						  <td>true / false</td>
+						  <td>是</td>
+						  <td>设置为True可显示切换普通表格和名片（card）布局。</td>
+					  </tr>
+						<tr>
+						  <td><code>minimumCountColumns</code></td>
+						  <td>Number</td>
+						  <td>-</td>
+						  <td>-</td>
+						  <td>是</td>
+						  <td>表格显示/隐藏列表时可设置最小隐藏的列数。</td>
+					  </tr>
+						<tr>
+						  <td><code>idField</code></td>
+						  <td>String</td>
+						  <td>-</td>
+						  <td>-</td>
+						  <td>是</td>
+						  <td>标识哪个字段为id主键。</td>
+					  </tr>
+						<tr>
+						  <td><code>cardView</code></td>
+						  <td>Boolean</td>
+						  <td>false</td>
+						  <td>true / false</td>
+						  <td>是</td>
+						  <td>设置为True时显示名片（card）布局，例如用手机浏览的时候。</td>
+					  </tr>
+						<tr>
+						  <td><code>searchAlign</code></td>
+						  <td>String</td>
+						  <td>right</td>
+						  <td>left / right</td>
+						  <td>是</td>
+						  <td>定义搜索栏的对齐方式，只能为：&quot;left&quot;, &quot;right&quot;。</td>
+					  </tr>
+						<tr>
+						  <td><code>toolbarAlign</code></td>
+						  <td>String</td>
+						  <td>right</td>
+						  <td>left / right</td>
+						  <td>是</td>
+						  <td>定义工具栏按钮的对齐方式，只能为：&quot;left&quot;, &quot;right&quot;。</td>
+					  </tr>
+						<tr>
+						  <td><code>clickToSelect</code></td>
+						  <td>Boolean</td>
+						  <td>false</td>
+						  <td>true / false</td>
+						  <td>是</td>
+						  <td>设置为True时点击行即可选中单选/复选框。</td>
+					  </tr>
+						<tr>
+						  <td><code>singleSelect</code></td>
+						  <td>Boolean</td>
+						  <td>false</td>
+						  <td>true / false</td>
+						  <td>是</td>
+						  <td>设置为True时复选框只能选择一条记录。</td>
+					  </tr>
+						<tr>
+						  <td><code>toolbar</code></td>
+						  <td>String</td>
+						  <td>-</td>
+						  <td>-</td>
+						  <td>是</td>
+						  <td>设置jQuery元素为工具栏，例如：<br />
+					      #toolbar, .toolbar。</td>
+					  </tr>
+						<tr>
+						  <td><code>checkboxHeader</code></td>
+						  <td>Boolean</td>
+						  <td>true</td>
+						  <td>true / false</td>
+						  <td>是</td>
+						  <td>设置为False时隐藏表头中的全选复选框。</td>
+					  </tr>
+						<tr>
+						  <td><code>maintainSelected</code></td>
+						  <td>Boolean</td>
+						  <td>false</td>
+						  <td>true / false</td>
+						  <td>是</td>
+						  <td>设置为True当换页或者搜索时保持选中的行。</td>
+					  </tr>
+						<tr>
+						  <td><code>sortable</code></td>
+						  <td>Boolean</td>
+						  <td>true</td>
+						  <td>true / false</td>
+						  <td>是</td>
+						  <td>设置为False时禁用所有列的排序。</td>
+					  </tr>
+						<tr>
+						  <td><code>rowStyle</code></td>
+						  <td>Function</td>
+						  <td>-</td>
+						  <td>-</td>
+						  <td>是</td>
+						  <td>行样式格式化方法，有两个参数：<br />
+						    row: 行记录的数据。<br />
+						    index: 行数据的 index。<br />
+					      支持 classes 或者 css.</td>
+					  </tr>
+						<tr>
+						  <td><code>rowAttributes</code></td>
+						  <td>Function</td>
+						  <td>-</td>
+						  <td>-</td>
+						  <td>是</td>
+						  <td>该行的属性格式化功能，需要两个参数：<br />
+						    行：行记录数据。<br />
+						    指数：该行的索引。<br />
+					      支持所有的自定义属性。</td>
+					  </tr>
+						<tr>
+						  <td><code>showExport</code></td>
+						  <td>Boolean</td>
+						  <td>true</td>
+						  <td>true / false</td>
+						  <td>是</td>
+						  <td>是否显示导出按钮。</td>
+					  </tr>
+						<tr>
+						  <td><code>exportTypes</code></td>
+						  <td>Array</td>
+						  <td>['json', 'xml', 'csv', 'txt', 'sql', 'excel']</td>
+						  <td>-</td>
+						  <td>是</td>
+						  <td>指定导出文件类型。</td>
+					  </tr>
+						<tr>
+						  <td><code>showFilter</code></td>
+						  <td>Boolean</td>
+						  <td>true</td>
+						  <td>true / false</td>
+						  <td>是</td>
+						  <td>是否增加过滤功能。</td>
+					  </tr>
+					</tbody>
+				</table>
+			</div>
+		
+
+
+			<h2 id="tables-bordered">表格工具栏实例</h2>
+			<p>
+				在<code><@p.table></code>中添加
+				<code>toolbar="#elementId"</code>
+				参数，并传入你所要添加的元素id，即可为数据表格增加“工具栏”。
+			</p>
+			<div class="bs-example" data-example-id="bordered-table">
+				
+				<div style="margin:10px 0"id="button-bar">
+					<input type="button" value="新增" id="add" name="add" class="btn btn-default"/>	
+					<input type="button" value="编辑" id="edit" name="edit" class="btn btn-default"/>	
+					<input type="button" value="删除" id="delete" name="delete" class="btn btn-default"/>
+				</div>
+				<table class="easyui-datagrid" id="userTable" data-toggle="table" data-url="../data/user_list.txt" data-pagination="true" data-side-pagination="server" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="true" data-height="525" data-smart-display="true" data-show-columns="true" data-striped="true" data-method="get" data-content-type="application/json" data-data-type="json" data-toolbar="#button-bar" data-show-export="true" data-show-toggle="true" data-show-filter="true">
+					<thead>
+						<tr>
+							<th data-field="uid">ID</th>	
+							<th data-field="userName">用户名</th>	
+							<th data-field="loginName">登录名</th>	
+							<th data-field="password">密码</th>	
+							<th data-field="address">住址</th>	
+							<th data-field="phone">手机</th>			
+						</tr>
+					</thead>
+				</table>
+						
+			</div>
+
+			<div class="highlight">
+				<pre>
+					<code class="language-html" data-lang="html">
+	&lt;@m.buttonArea id="button-bar"&gt;
+		&lt;@p.button code="resource.add" id="add" name="add" /&gt;
+		&lt;@p.button code="resource.edit" id="edit" name="edit" /&gt;
+		&lt;@p.button code="resource.delete" id="delete" name="delete" /&gt;
+	&lt;/@m.buttonArea&gt;
+
+	&lt;@p.table id="userTable" url="${base}/user/list.json" toolbar="#button-bar"&gt;
+		&lt;@p.column field="uid" code="ID" /&gt;
+		&lt;@p.column field="userName" code="user.userName" /&gt;
+		&lt;@p.column field="loginName" code="user.loginName" /&gt;
+		&lt;@p.column field="password" code="user.password" /&gt;
+		&lt;@p.column field="address" code="user.address" /&gt;
+		&lt;@p.column field="phone" code="user.phone" /&gt;
+	&lt;/@p.table&gt;
+					</code>
+				</pre>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Footer ================================================== create by zhaohaitao -->
+	<footer class="bs-docs-footer" role="contentinfo">
+	<div class="container">
+		<p>天网软件统一资源管理平台 UI层封装参考手册 ver1.0</p>
+		<ul class="bs-docs-footer-links text-muted">
+			<li>Bootstarp当前版本： v3.3.4</li>
+			<li>&middot;</li>
+			<li>Bootstarp Table 当前版本： v1.7.0</li>
+		</ul>
+	</div>
+	</footer>
+
+</body>
+</html>
+	<script type="text/javascript">
+		window.parent.frames.showPin();
+	</script>

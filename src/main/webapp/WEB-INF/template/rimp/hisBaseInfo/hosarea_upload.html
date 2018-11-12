@@ -1,0 +1,14 @@
+<script type="text/javascript" src="${res}/js/previewImage.js"></script>
+<form id="hosarea_upload_form" method="post" enctype="multipart/form-data">
+	 <div style="display: block;width: 95%; height: 200px;">
+        <!-- <label><span class="tip">*</span>照片</label> -->
+        <div id="preview" style="float: left;">
+		    <img src='${res}/images/docmPhoto.jpg' style="width: 320px;height:200px; float:left;">
+		</div>
+		<div style="float:left">
+	        <input name="file" id="file" style="width:160px; border:0px;" type="file" onchange="previewImage(this, 320, 200);">
+		</div>
+		<input type="hidden" name="hosAreaPhoto" id="hosAreaPhoto"/>
+		<input type="hidden" name="areaId" id="areaId"/>
+     </div>
+</form>

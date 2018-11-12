@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.hisBaseInfo.dao.HisDeptInfoDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.hisBaseInfo.vo.HisDeptInfo" >
+    <id column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <id column="DEPT_HIS_CODE" property="deptHisCode" jdbcType="VARCHAR" />
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+    <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR" />
+    <result column="PARENT_NAME" property="parentName" jdbcType="VARCHAR" />
+    <result column="HOSPITAL_AREA_NAME" property="hospitalAreaName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    HOS_ID, DEPT_HIS_CODE, DEPT_NAME, PARENT_CODE, PARENT_NAME, HOSPITAL_AREA_NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.skynet.rimp.hisBaseInfo.vo.HisDeptInfoKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from his_dept_info
+    where HOS_ID = #{hosId,jdbcType=VARCHAR}
+      and DEPT_HIS_CODE = #{deptHisCode,jdbcType=VARCHAR}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from his_dept_info
+  </select>
+  <select id="findByCondition" resultMap="BaseResultMap"  parameterType="com.skynet.common.SearchParams">
+    select 
+    <include refid="Base_Column_List" />
+    from his_dept_info where 1=1
+    <if test="searchParams.deptName != null and searchParams.deptName != ''">
+			and DEPT_NAME like '%${searchParams.deptName}%'
+		</if>
+    <if test="searchParams.hosId != null and searchParams.hosId != ''">
+			and HOS_ID =#{searchParams.hosId} 
+		</if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.skynet.rimp.hisBaseInfo.vo.HisDeptInfoKey" >
+    delete from his_dept_info
+    where HOS_ID = #{hosId,jdbcType=VARCHAR}
+      and DEPT_HIS_CODE = #{deptHisCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.skynet.rimp.hisBaseInfo.vo.HisDeptInfo" >
+    insert into his_dept_info (HOS_ID, DEPT_HIS_CODE, DEPT_NAME, 
+      PARENT_CODE, PARENT_NAME, HOSPITAL_AREA_NAME
+      )
+    values (#{hosId,jdbcType=VARCHAR}, #{deptHisCode,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, 
+      #{parentCode,jdbcType=VARCHAR}, #{parentName,jdbcType=VARCHAR}, #{hospitalAreaName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.skynet.rimp.hisBaseInfo.vo.HisDeptInfo" >
+    insert into his_dept_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="hosId != null" >
+        HOS_ID,
+      </if>
+      <if test="deptHisCode != null" >
+        DEPT_HIS_CODE,
+      </if>
+      <if test="deptName != null" >
+        DEPT_NAME,
+      </if>
+      <if test="parentCode != null" >
+        PARENT_CODE,
+      </if>
+      <if test="parentName != null" >
+        PARENT_NAME,
+      </if>
+      <if test="hospitalAreaName != null" >
+        HOSPITAL_AREA_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="hosId != null" >
+        #{hosId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptHisCode != null" >
+        #{deptHisCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentName != null" >
+        #{parentName,jdbcType=VARCHAR},
+      </if>
+      <if test="hospitalAreaName != null" >
+        #{hospitalAreaName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.skynet.rimp.hisBaseInfo.vo.HisDeptInfo" >
+    update his_dept_info
+    <set >
+      <if test="deptName != null" >
+        DEPT_NAME = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        PARENT_CODE = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentName != null" >
+        PARENT_NAME = #{parentName,jdbcType=VARCHAR},
+      </if>
+      <if test="hospitalAreaName != null" >
+        HOSPITAL_AREA_NAME = #{hospitalAreaName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where HOS_ID = #{hosId,jdbcType=VARCHAR}
+      and DEPT_HIS_CODE = #{deptHisCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.skynet.rimp.hisBaseInfo.vo.HisDeptInfo" >
+    update his_dept_info
+    set DEPT_NAME = #{deptName,jdbcType=VARCHAR},
+      PARENT_CODE = #{parentCode,jdbcType=VARCHAR},
+      PARENT_NAME = #{parentName,jdbcType=VARCHAR},
+      HOSPITAL_AREA_NAME = #{hospitalAreaName,jdbcType=VARCHAR}
+    where HOS_ID = #{hosId,jdbcType=VARCHAR}
+      and DEPT_HIS_CODE = #{deptHisCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

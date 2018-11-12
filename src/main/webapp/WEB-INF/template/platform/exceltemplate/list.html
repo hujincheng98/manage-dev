@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>excel模板管理</title> 
+	[#include "../include/head.html" /]
+	<script type="text/javascript" src="${res}/js_custom/exceltemplate.js"></script>
+</head>
+<body>
+
+	<!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+		<table class="n_input" id="searchform">
+             <tr>
+                 <td height="20" align="right" nowrap>用户组名称：</td>
+                 <td><input type="text" class="easyui-textbox" id="searchParams_groupName" value="" /></td>
+                 <td height="32" colspan="18" align="center">
+                 	<a id="searchBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+                 	<a id="resetBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">重置</a>
+                 </td>
+             </tr>
+         </table>
+     </fieldset>
+
+	<!-- 按钮区域 -->
+	<div id="button-bar">
+		[@shiro.hasPermission name="/platform/exceltemplate/add.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="addBtn">新增</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/exceltemplate/delete.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true" id="deleteBtn">删除</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/exceltemplate/update.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="editBtn">编辑</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/exceltemplate/down.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" id="downBtn">下载</a>
+	    [/@shiro.hasPermission]
+	</div>
+	
+	[@p.table id="tableList" url="list.json" idField="groupId" toolbar="button-bar" singleSelect="true" checkOnSelect="true" selectOnCheck="true" showHeader="true" title="excel模板列表"]
+		[@p.column title="选择" field="etId" checkbox="true" /]
+		[@p.column title="模板名称" field="etName" width="15%" /]
+		[@p.column title="编码" field="etCode" width="15%" /]
+		[@p.column title="描述" field="etRemarks" width="65%" /]
+		[@p.column title="存放路径" field="etPath" hidden="true" /]
+	[/@p.table]
+	
+	<div id="addETWin" class="easyui-dialog" title="新增Excel模板"
+		collapsible="false" minimizable="false" maximizable="false"
+		icon="icon-large-clipart"
+		style="width: 720px; height: 350px; padding: 5px;" closed="true"
+		modal="true"
+		data-options="buttons:[{text:'保存',iconCls:'icon-ok',id:'saveAddETBtnEvent_btn',handler:saveAddETBtnEvent},{text:'取消',id:'cancelAddETBtnEvent_btn',iconCls:'icon-no',handler:cancelAddETBtnEvent}],onBeforeClose:addETWinBeforClose">
+		<div class="easyui-layout" data-options="fit:true">
+			<iframe id="add_frame" src="" width="100%" height="100%" frameborder="0" ></iframe>
+		</div>
+	</div>
+	
+	<div id="updateETWin" class="easyui-dialog" title="编辑Excel模板"
+		collapsible="false" minimizable="false" maximizable="false"
+		icon="icon-large-clipart"
+		style="width: 720px; height: 380px; padding: 5px;" closed="true"
+		modal="true"
+		data-options="buttons:[{text:'保存',iconCls:'icon-ok',id:'saveUpdateETBtnEvent_btn',handler:saveUpdateETBtnEvent},{text:'取消',id:'cancelUpdateETBtnEvent_btn',iconCls:'icon-no',handler:cancelUpdateETBtnEvent}],onBeforeClose:updateETWinBeforClose">
+		<div class="easyui-layout" data-options="fit:true">
+			<iframe id="update_frame" src="" width="100%" height="100%" frameborder="0" ></iframe>
+		</div>
+	</div>
+</body>
+</html>

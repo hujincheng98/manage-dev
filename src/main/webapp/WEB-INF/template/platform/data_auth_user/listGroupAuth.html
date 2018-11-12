@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>角色数据权限管理</title> 
+</head>
+<body>
+	<script type="text/javascript" src="${res}/js_custom/data_auth_group.js"></script>
+	<!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+		<table class="n_input" id="searchform_groupAuth">
+             <tr>
+                 <td height="20" align="right" nowrap>用户组名称：</td>
+                 <td><input type="text" class="easyui-textbox" id="searchParams_groupName" value="" name="searchParams['groupName']" /></td>
+                  <td height="20" align="right" nowrap>表格名称：</td>
+                 <td><input type="text" class="easyui-textbox" id="searchParams_tableName_groupAuth" value="" name="searchParams['tableName_group']" /></td>
+                 <td height="32" colspan="18" align="center">
+                 	<a id="searchBtn_groupAuth" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+                 	<a id="resetBtn_groupAuth" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">重置</a>
+                 </td>
+             </tr>
+         </table>
+     </fieldset>
+	<!-- 按钮区域 -->
+	<div id="button-bar_groupAuth">
+		[@shiro.hasPermission name="/platform/data_auth_user/add_groupAuth.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="addBtn_groupAuth">新增</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/data_auth_user/delete_groupAuth.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true" id="deleteBtn_groupAuth">删除</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/data_auth_user/update_groupAuth.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="editBtn_groupAuth">编辑</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/data_auth_user/update_groupAuth.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" id="saveBtn_groupAuth">保存</a>
+	    [/@shiro.hasPermission]
+	    <a href="#" class="easyui-linkbutton" style="display:none;" iconCls="icon-tabicons_03_04" plain="true" id="resetDataBtn_groupAuth">撤销</a>
+	</div>
+	<div id="tableList_groupAuth"></div>
+</body>
+</html>

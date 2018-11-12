@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <#include "../include/head.html" />
+    <title>基础排班(排班模板)</title>
+    <script type="text/javascript" src="${res}/js/common/comboxGridKeyHandler.js"></script>
+   	<script type="text/javascript" src="${res}/js/common/docmComboxGrid.js"></script>
+   	<script type="text/javascript" src="${res}/js/common/deptComboxGrid.js"></script>
+   	<script type="text/javascript" src="${res}/js/schmInfo/schmbase_index.js"></script>
+   <style type="text/css">
+		body,td,th {font-size: 12px;} 
+	</style>
+  </head>
+  <body >
+  <div class="easyui-layout" fit="true">
+   <div region="north" height="88" border="false"  class="easyui-panel">
+  	<!-- <div style="background-color: #F4F4F4; border:1px solid #dddddd;">  
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="schmbasemaininfo-saveBtn">保存</a>    
+	    <a href="#" class="easyui-linkbutton easyui-closetab" iconCls="icon-cut" eidtFlag="false" plain="true" id="schmbasemaininfo-cancelBtn">取消</a>    
+	</div> -->
+	<!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+		<form id="searchform">
+           <table class="n_input">
+               <tr>
+                   <td width="100" height="20" align="right" nowrap>排班科室：</td>
+                   <td nowrap>
+                       <input id="_common_dept_comboxgrid" class="_common_dept_comboxgrid" type="text" name="searchParams[schmDeptId]"/>
+                   </td>
+                   <td width="100" height="20" align="right" nowrap>医生：</td>
+                   <td nowrap>
+                      <input id="_common_docm_comboxgrid" class="_common_docm_comboxgrid"  type="text" name="searchParams[docmId]"/>
+                   </td>
+                   <td height="32" colspan="10" align="center" nowrap="nowrap">
+					   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="_search();">查询</a>
+					   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-undo'" onclick="$('#searchform').form('clear');$('#report').linkbutton('disable');_search();">重置</a>
+					   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-tabicons_15_14',disabled:false" id="report" onclick="report('exportExcel.do');">导出</a>
+                   </td>
+               </tr>
+           </table>
+		</form>
+       </fieldset>
+    </div>
+    <div region="center" class="easyui-panel" border="false" >
+	   <div id="button-bar"> 
+	   		<@shiro.hasPermission name="/rimp/schmbase/add.do"> 
+		    	<a href="#" class="easyui-linkbutton" iconCls="icon-add"     plain="true" id="dg-schmbasemaininfo-addBtn">新增</a>    
+		    </@shiro.hasPermission> 
+		    <@shiro.hasPermission name="/rimp/schmbase/delete.do">
+		    	<a href="#" class="easyui-linkbutton" iconCls="icon-remove"  plain="true" id="dg-schmbasemaininfo-delBtn">删除</a>
+		    </@shiro.hasPermission> 
+		    <@shiro.hasPermission name="/rimp/schmbase/update.do">
+		    	<a href="#" class="easyui-linkbutton" iconCls="icon-edit"  plain="true" id="dg-schmbasemaininfo-editBtn">修改</a>
+		    </@shiro.hasPermission> 
+		    <@shiro.hasPermission name="/rimp/schmbase/enabled.do"> 
+	    		<a href="#" class="easyui-linkbutton" iconCls="icon-ok" plain="true" id="enabledBtn">启用</a>
+		    </@shiro.hasPermission>    
+		    <@shiro.hasPermission name="/rimp/schmbase/disabled.do"> 
+		    	<a href="#" class="easyui-linkbutton" iconCls="icon-no" plain="true" id="disableBtn">停用</a>  
+		   	</@shiro.hasPermission>   
+		    <@shiro.hasPermission name="/rimp/schmbase/save.do">
+		   		<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" id="schmbasemaininfo-saveBtn">保存</a>    
+	    	</@shiro.hasPermission> 
+	    	<@shiro.hasPermission name="/rimp/schmbase/cancel.do">
+	    		<a href="#" class="easyui-linkbutton easyui-closetab" iconCls="icon-redo" eidtFlag="false" plain="true" id="schmbasemaininfo-cancelBtn">取消</a>    
+			</@shiro.hasPermission>
+			
+		</div>   
+	   <div id="dg-schmbasemaininfo" ></div>
+    </div>
+   </div>
+  </body>
+</html>

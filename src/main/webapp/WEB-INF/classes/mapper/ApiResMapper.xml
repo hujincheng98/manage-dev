@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skynet.rimp.channelInfo.dao.ApiResDao">
+     
+    <!-- 单表操作频繁 并无频繁增删改，可加二级缓存 --> 
+    <!-- <cache type="com.tiuweb.climb.framework.config.ehcache.RedisCache"/> --> 
+     
+    <resultMap id="BaseResultMap" type="com.skynet.rimp.channelInfo.vo.ApiRes">
+       <id column="ID" property="id" jdbcType="VARCHAR" />           
+       <result column="API_VERSION" property="apiVersion" jdbcType="VARCHAR" />             
+       <result column="MODEL" property="model" jdbcType="VARCHAR" />             
+       <result column="API_NAME" property="apiName" jdbcType="VARCHAR" />             
+       <result column="API_URL" property="apiUrl" jdbcType="VARCHAR" />             
+       <result column="DISCRIPTION" property="discription" jdbcType="VARCHAR" />             
+       <result column="IS_ENABLED" property="isEnabled" jdbcType="BIT" />             
+    </resultMap>
+      
+    <sql id="Base_Column_List" >
+        ID,
+        API_VERSION,
+        MODEL,
+        API_NAME,
+        API_URL,
+        DISCRIPTION,
+        IS_ENABLED
+    </sql>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from api_res
+        WHERE IS_ENABLED = 1
+    </select>
+    <select id="findByPrimaryKey" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from api_res	
+        where 1 = 1
+        AND ID = #{id}  		  
+    </select> 
+
+    <select id="findByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from api_res
+        where 1=1
+        <if test="id!=null">
+            AND ID = #{id}
+        </if>
+        <if test="apiVersion!=null">
+            AND API_VERSION = #{apiVersion}
+        </if>
+        <if test="model!=null">
+            AND MODEL = #{model}
+        </if>
+        <if test="apiName!=null">
+            AND API_NAME = #{apiName}
+        </if>
+        <if test="apiUrl!=null">
+            AND API_URL = #{apiUrl}
+        </if>
+        <if test="discription!=null">
+            AND DISCRIPTION = #{discription}
+        </if>
+        <if test="isEnabled!=null">
+            AND IS_ENABLED = #{isEnabled}
+        </if>
+    </select>
+
+    <select id="findByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from api_res
+        where 1=1
+        <if test="searchParams.id!=null">
+            AND ID = #{searchParams.id}
+        </if>
+        <if test="searchParams.apiVersion!=null">
+            AND API_VERSION = #{searchParams.apiVersion}
+        </if>
+        <if test="searchParams.model!=null">
+            AND MODEL = #{searchParams.model}
+        </if>
+        <if test="searchParams.apiName!=null">
+            AND API_NAME = #{searchParams.apiName}
+        </if>
+        <if test="searchParams.apiUrl!=null">
+            AND API_URL = #{searchParams.apiUrl}
+        </if>
+        <if test="searchParams.discription!=null">
+            AND DISCRIPTION = #{searchParams.discription}
+        </if>
+        <if test="searchParams.isEnabled!=null">
+            AND IS_ENABLED = #{searchParams.isEnabled}
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="com.skynet.rimp.channelInfo.vo.ApiRes">
+       insert into api_res 
+       <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id!=null">
+                ID, 
+            </if>
+            <if test="apiVersion!=null">
+                API_VERSION, 
+            </if>
+            <if test="model!=null">
+                MODEL, 
+            </if>
+            <if test="apiName!=null">
+                API_NAME, 
+            </if>
+            <if test="apiUrl!=null">
+                API_URL, 
+            </if>
+            <if test="discription!=null">
+                DISCRIPTION, 
+            </if>
+            <if test="isEnabled!=null">
+                IS_ENABLED, 
+            </if>
+        </trim>  
+        <trim prefix="values (" suffix=")" suffixOverrides="," > 
+            <if test="id!=null">      
+                #{id,jdbcType=VARCHAR}, 
+            </if>
+            <if test="apiVersion!=null">      
+                #{apiVersion,jdbcType=VARCHAR}, 
+            </if>
+            <if test="model!=null">      
+                #{model,jdbcType=VARCHAR}, 
+            </if>
+            <if test="apiName!=null">      
+                #{apiName,jdbcType=VARCHAR}, 
+            </if>
+            <if test="apiUrl!=null">      
+                #{apiUrl,jdbcType=VARCHAR}, 
+            </if>
+            <if test="discription!=null">      
+                #{discription,jdbcType=VARCHAR}, 
+            </if>
+            <if test="isEnabled!=null">      
+                #{isEnabled,jdbcType=BIT}, 
+            </if>
+        </trim> 
+    </insert>
+
+    <delete id="delete" parameterType="com.skynet.rimp.channelInfo.vo.ApiRes" >
+        delete from api_res  
+        where  1=1 
+        <if test="id!=null">    
+           and ID = #{id,jdbcType=VARCHAR}        
+        </if>
+        <if test="apiVersion!=null">    
+           and API_VERSION = #{apiVersion,jdbcType=VARCHAR}        
+        </if>
+        <if test="model!=null">    
+           and MODEL = #{model,jdbcType=VARCHAR}        
+        </if>
+        <if test="apiName!=null">    
+           and API_NAME = #{apiName,jdbcType=VARCHAR}        
+        </if>
+        <if test="apiUrl!=null">    
+           and API_URL = #{apiUrl,jdbcType=VARCHAR}        
+        </if>
+        <if test="discription!=null">    
+           and DISCRIPTION = #{discription,jdbcType=VARCHAR}        
+        </if>
+        <if test="isEnabled!=null">    
+           and IS_ENABLED = #{isEnabled,jdbcType=BIT}        
+        </if>
+    </delete>
+
+    <update id="update" parameterType="com.skynet.rimp.channelInfo.vo.ApiRes" >
+        update api_res   
+        <set>
+            <if test="apiVersion!=null"> 
+              API_VERSION = #{apiVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="model!=null"> 
+              MODEL = #{model,jdbcType=VARCHAR},
+            </if>
+            <if test="apiName!=null"> 
+              API_NAME = #{apiName,jdbcType=VARCHAR},
+            </if>
+            <if test="apiUrl!=null"> 
+              API_URL = #{apiUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="discription!=null"> 
+              DISCRIPTION = #{discription,jdbcType=VARCHAR},
+            </if>
+            <if test="isEnabled!=null"> 
+              IS_ENABLED = #{isEnabled,jdbcType=BIT},
+            </if>
+        </set>
+        <where> 
+            <if test="id!=null"> 
+               and ID = #{id,jdbcType=VARCHAR}        
+            </if>
+        </where> 
+    </update>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        insert into api_res
+        (
+            ID,
+        API_VERSION,
+        MODEL,
+        API_NAME,
+        API_URL,
+        DISCRIPTION,
+        IS_ENABLED 
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator="," > 
+        (
+            #{item.id,jdbcType=VARCHAR},   
+            #{item.apiVersion,jdbcType=VARCHAR},   
+            #{item.model,jdbcType=VARCHAR},   
+            #{item.apiName,jdbcType=VARCHAR},   
+            #{item.apiUrl,jdbcType=VARCHAR},   
+            #{item.discription,jdbcType=VARCHAR},   
+            #{item.isEnabled,jdbcType=BIT}  
+        )
+        </foreach>
+    </insert>
+</mapper>

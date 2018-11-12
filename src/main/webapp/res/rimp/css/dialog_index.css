@@ -1,0 +1,83 @@
+.easyui-dialog div,
+.channels-form-dialog div {
+	float: left;
+	display: inline;
+	width: 280px;
+	height: 26px;
+	margin: 10px 10px 0px 20px;
+}
+.easyui-dialog div div {
+	float: right;
+	display: inline;
+	width: 80px;
+	height: 26px;
+}
+.container .search{
+	width: 580px;
+	margin: 0 auto;
+	text-align: left;
+}
+.title{
+	width: 580px;
+	margin: 0 auto;
+	text-align: left;
+	padding-bottom: 20px;
+}
+.inpt{
+	margin-bottom: 5px;
+}
+.easyui-textbox{
+	background-color: transparent;
+	border: 1px solid #cacaca;
+	height: 20px;
+}
+.easyui-panel .button1{
+	margin-right: 12px;
+	width: 80px;
+	height: 30px;
+	background-color: transparent;
+	border: 1px solid #cacaca;
+}
+.search .easyui-linkbutton{
+	margin-right: 12px;
+	width: 80px;
+	height: 30px;
+	background-color: transparent;
+	border: 1px solid #cacaca;
+}
+.easyui-dialog div label {
+	float: left;
+	width: 80px;
+	display: inline-block;
+	overflow: hidden;
+	text-align: right;
+	padding-right: 5px;
+	margin-top: 0px;
+}
+.easyui-dialog div p {
+	width:auto;
+	height:30px;
+	margin-right:5px;
+	line-height:18px;
+	float:left;
+	margin-top:0px;
+}
+
+.tip {
+	color: red;
+	margin-right:5px;
+}
+
+.easyui-dialog div input {
+	width: 170px;
+	border: 1px solid #808080
+}
+
+.easyui-dialog div textarea {
+	width: 460px;
+	height: 80px;
+}
+
+.easyui-dialog div a {
+	width:60px;
+}

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.hisBaseInfo.dao.HosInfoDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.hisBaseInfo.vo.HosInfo" >
+    <id column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <result column="HOS_NAME" property="hosName" jdbcType="VARCHAR" />
+    <result column="HOS_PINY_CODE" property="hosPinyCode" jdbcType="VARCHAR" />
+    <result column="HOS_LEVEL" property="hosLevel" jdbcType="VARCHAR" />
+    <result column="HOS_ORG_CODE" property="hosOrgCode" jdbcType="VARCHAR" />
+    <result column="HOS_WEB_ADDR" property="hosWebAddr" jdbcType="VARCHAR" />
+    <result column="HOS_ADDR" property="hosAddr" jdbcType="VARCHAR" />
+    <result column="HOS_TELEP" property="hosTelep" jdbcType="VARCHAR" />
+    <result column="HOS_EMAIL" property="hosEmail" jdbcType="VARCHAR" />
+    <result column="AREA_PRO_CODE" property="areaProCode" jdbcType="VARCHAR" />
+    <result column="AREA_CITY_CODE" property="areaCityCode" jdbcType="VARCHAR" />
+    <result column="AREA_COUNTY_CODE" property="areaCountyCode" jdbcType="VARCHAR" />
+    <result column="HOS_PROP_ONE" property="hosPropOne" jdbcType="VARCHAR" />
+    <result column="HOS_PROP_TWO" property="hosPropTwo" jdbcType="VARCHAR" />
+    <result column="HOS_PROP_TREE" property="hosPropTree" jdbcType="VARCHAR" />
+    <result column="HOS_REGI_DATE" property="hosRegiDate" jdbcType="DATE" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="HOS_STATE" property="hosState" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+    <result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+    <result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="HOS_INTRO" property="hosIntro" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    HOS_ID, HOS_NAME, HOS_PINY_CODE, HOS_LEVEL, HOS_ORG_CODE, HOS_WEB_ADDR, HOS_ADDR, 
+    HOS_TELEP, HOS_EMAIL, AREA_PRO_CODE, AREA_CITY_CODE, AREA_COUNTY_CODE, HOS_PROP_ONE, 
+    HOS_PROP_TWO, HOS_PROP_TREE, HOS_REGI_DATE, ORG_ID, HOS_STATE, REMARKS, EXT1, EXT2, EXT3, 
+    CREATE_DATE, CREATE_USER, UPDATE_DATE, UPDATE_USER, HOS_INTRO
+  </sql>
+  
+  <!-- 插入 -->
+  <insert id="insert" parameterType="com.skynet.rimp.hisBaseInfo.vo.HosInfo" >
+    insert into hos_info (HOS_ID, HOS_NAME, HOS_PINY_CODE, 
+      HOS_LEVEL, HOS_ORG_CODE, HOS_WEB_ADDR, 
+      HOS_ADDR, HOS_TELEP, HOS_EMAIL, 
+      AREA_PRO_CODE, AREA_CITY_CODE, AREA_COUNTY_CODE,
+      HOS_PROP_ONE, HOS_PROP_TWO, HOS_PROP_TREE, 
+      HOS_REGI_DATE, ORG_ID, HOS_STATE, 
+      REMARKS, EXT1, EXT2, 
+      EXT3, CREATE_DATE, CREATE_USER, 
+      UPDATE_DATE, UPDATE_USER, HOS_INTRO
+      )
+    values (#{hosId,jdbcType=VARCHAR}, #{hosName,jdbcType=VARCHAR}, #{hosPinyCode,jdbcType=VARCHAR}, 
+      #{hosLevel,jdbcType=VARCHAR}, #{hosOrgCode,jdbcType=VARCHAR}, #{hosWebAddr,jdbcType=VARCHAR}, 
+      #{hosAddr,jdbcType=VARCHAR}, #{hosTelep,jdbcType=VARCHAR}, #{hosEmail,jdbcType=VARCHAR}, 
+      #{areaProCode,jdbcType=VARCHAR}, #{areaCityCode,jdbcType=VARCHAR}, #{areaCountyCode,jdbcType=VARCHAR}, 
+      #{hosPropOne,jdbcType=VARCHAR}, #{hosPropTwo,jdbcType=VARCHAR}, #{hosPropTree,jdbcType=VARCHAR}, 
+      #{hosRegiDate,jdbcType=DATE}, #{orgId,jdbcType=VARCHAR}, #{hosState,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, 
+      #{ext3,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{hosIntro,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from hos_info
+    where HOS_ID = #{hosId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 更新 -->
+  <update id="update" parameterType="com.skynet.rimp.hisBaseInfo.vo.HosInfo" >
+    update hos_info
+    <set >
+      <if test="hosName != null" >
+        HOS_NAME = #{hosName,jdbcType=VARCHAR},
+      </if>
+      <if test="hosPinyCode != null" >
+        HOS_PINY_CODE = #{hosPinyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hosLevel != null" >
+        HOS_LEVEL = #{hosLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="hosOrgCode != null" >
+        HOS_ORG_CODE = #{hosOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hosWebAddr != null" >
+        HOS_WEB_ADDR = #{hosWebAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="hosAddr != null" >
+        HOS_ADDR = #{hosAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="hosTelep != null" >
+        HOS_TELEP = #{hosTelep,jdbcType=VARCHAR},
+      </if>
+      <if test="hosEmail != null" >
+        HOS_EMAIL = #{hosEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="areaProCode != null" >
+        AREA_PRO_CODE = #{areaProCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCityCode != null" >
+        AREA_CITY_CODE = #{areaCityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCountyCode != null" >
+        AREA_COUNTY_CODE = #{areaCountyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hosPropOne != null" >
+        HOS_PROP_ONE = #{hosPropOne,jdbcType=VARCHAR},
+      </if>
+      <if test="hosPropTwo != null" >
+        HOS_PROP_TWO = #{hosPropTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="hosPropTree != null" >
+        HOS_PROP_TREE = #{hosPropTree,jdbcType=VARCHAR},
+      </if>
+      <if test="hosRegiDate != null" >
+        HOS_REGI_DATE = #{hosRegiDate,jdbcType=DATE},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="hosState != null" >
+        HOS_STATE = #{hosState,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        EXT2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        EXT3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="hosIntro != null" >
+        HOS_INTRO = #{hosIntro,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where HOS_ID = #{hosId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT HOS.* FROM HOS_INFO HOS
+  </select>
+  
+  <select id="findByHosName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT HOS.* FROM HOS_INFO HOS WHERE HOS.HOS_NAME = #{hosName,jdbcType=VARCHAR}
+  </select>
+  <select id="findByHosOrgId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT HOS.HOS_ID FROM HOS_INFO HOS WHERE HOS.ORG_ID = #{orgId,jdbcType=VARCHAR}
+  </select>
+   <!-- 根据id查询 -->
+  <select id="findByhosId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT HOS.* FROM HOS_INFO HOS WHERE HOS.HOS_ID = #{hosId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 查询 -->
+  <select id="findByCondition" parameterType="com.skynet.common.SearchParams" resultMap="BaseResultMap">
+    SELECT 
+    	HOS.*
+    FROM HOS_INFO HOS
+    where 1 = 1
+    <if test="searchParams.hosName!=null and searchParams.hosName!=''">
+		AND HOS.HOS_NAME like '%${searchParams.hosName}%'
+	</if>
+    <if test="searchParams.hosPinyCode!=null and searchParams.hosPinyCode!=''">
+		AND HOS.HOS_PINY_CODE like '%${searchParams.hosPinyCode}%'
+	</if>
+    <if test="searchParams.hosLevel!=null and searchParams.hosLevel!=''">
+		AND HOS.HOS_LEVEL = #{searchParams.hosLevel}
+	</if>
+    <if test="searchParams.hosState!=null and searchParams.hosState!=''">
+		AND HOS.HOS_STATE = #{searchParams.hosState}
+	</if>
+    <if test="searchParams.areaProCode!=null and searchParams.areaProCode!=''">
+		AND HOS.AREA_PRO_CODE = #{searchParams.areaProCode}
+	</if>
+    <if test="searchParams.areaProCode!=null and searchParams.areaProCode!=''">
+		AND HOS.AREA_CITY_CODE = #{searchParams.areaCityCode}
+	</if>
+    <if test="searchParams.areaProCode!=null and searchParams.areaProCode!=''">
+		AND HOS.AREA_COUNTY_CODE = #{searchParams.areaCountyCode}
+	</if>
+	<if test="searchParams.hosId != null and searchParams.hosId != ''">
+		AND HOS.HOS_ID = #{searchParams.hosId}
+	</if>
+	<if test="searchParams.orgId != null and searchParams.orgId != ''">
+		AND HOS.ORG_ID = #{searchParams.orgId}
+	</if>
+  </select>
+  
+</mapper>

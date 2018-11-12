@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="IE=11.0000" http-equiv="X-UA-Compatible" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>登录页面</title>
+<link type="text/css" rel="stylesheet" href="${res}/css/hyglindex.css" />
+<script type="text/javascript" src="${base}/plug-in/jquery.min.js"></script>
+<meta name="GENERATOR" content="MSHTML 11.00.9600.17496" />
+
+<script type="text/javascript">
+	if (window != top)
+	{
+		top.location.href = location.href;
+	}
+
+</script>
+</head>
+
+
+<body>
+<div class="top_div">
+</div>
+<div class="m-login">
+  <form action="" method="post">
+     <div class="uernameAndpassword">
+      <p style="background:url(${res}/images/username.png) no-repeat;"><input type="text" name="username" id="username" class="uername" autocomplete="off" placeholder="登录账号" data-validate="required:请填写账号,length#&gt;=5:账号长度不符合要求"></p>
+      <p style="background:url(${res}/images/password.png) no-repeat;"><input autocomplete="off" type="password" name="password" class="password"  placeholder="登录密码" data-validate="required:请填写密码,length#&gt;=5:密码长度不符合要求"></p>
+       <p style="margin-bottom:0px; background:url(${res}/images/yanzhengma.png) no-repeat;">
+       	<input type="text" name="imageCode" id="imageCode" class="yanzhengma" placeholder="验证码" placeholder="验证码" data-validate="required:请填写验证码,length==4:请输入正确的验证码" maxlength="4">
+       	<img src="${base}/common/code_image.do" style="margin-top:5px;height:30px;margin-left:10px; float:left" title="点击刷新验证码" onclick="this.src='${base}/common/code_image.do?d='+Math.random();"  />
+       </p>
+     </div>
+     <div class="errorinfor">
+       <p>${error!}</p>
+     </div>
+     <div class="m-dlsubmit">
+       <input type="image" src="${res}/images/submit.png" class="submit">
+     </div>
+  </form>
+</div>
+<div class="g-cinfro">
+</div>
+</body>
+</html>

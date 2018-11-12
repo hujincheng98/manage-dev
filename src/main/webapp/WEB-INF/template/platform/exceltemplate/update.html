@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<title>编辑Excel模板</title> [#include "../../platform/include/head.html" /]
+<script type="text/javascript">
+	var formSubmit = function() {
+		var isValid = $("#update_msgNews_form").form('validate');
+		if (!isValid) {
+			$.messager.alert("提示", "请输入相关信息.", "warning");
+			return false;
+		}
+		$("#update_msgNews_form").submit();
+	}
+
+	$(function() {
+		$("select[name='replaceEtFile']").change(function() {
+			var flag = $(this).val();
+			if (flag=='true') {
+				$('#etFileId').validatebox({    
+				    required: true,    
+				    validType: 'xlsFile'   
+				});  
+				
+				$("#etFileTr").show();
+			} else {
+				$('#etFileId').validatebox({    
+				    required: false,    
+				    validType: 'xlsFile'   
+				});
+				$("#etFileTr").hide();
+			}
+		});
+	});
+</script>
+</head>
+<body style="padding:5px 5px 5px 5px;">
+
+	<form id="update_msgNews_form" action="save.do" method="post"
+		enctype="multipart/form-data">
+		<input type="hidden" name="etId" value="${et.etId}" />
+		<table width="100%" border="0">
+			<tbody>
+				<tr>
+					<td width="15%" align="right"><label for="etName">模板名称
+							: &nbsp;</label>
+					</td>
+					<td><input class="easyui-validatebox" style="width:450px;"
+						type="text" name="etName" value="${et.etName!}"
+						data-options="required:true,validType:['chinese','length[2,20]']" />
+					</td>
+				</tr>
+				<tr>
+					<td width="20%" align="right"><label for="etCode">编码 :
+							&nbsp;</label>
+					</td>
+					<td>
+					<input type="hidden" name="etCode" value="${et.etCode!}">
+					${et.etCode!}  <label style="color:#9d9d9d;font-size:11px;">不可再编辑</label></td>
+				</tr>
+				<tr>
+					<td width="20%" align="right"><label for="replaceEtFile">替换模板文件
+							: &nbsp;</label>
+					</td>
+					<td><select class="easyui-validatebox" style="width:450px;"
+						name="replaceEtFile">
+							<option value="true">是</option>
+							<option value="false">否</option>
+					</select></td>
+				</tr>
+				<tr id="etFileTr">
+					<td width="20%" align="right"><label for="etFile">模板文件
+							: &nbsp;</label>
+					</td>
+					<td><input class="easyui-validatebox" style="width:450px;"
+						type="file" id="etFileId" name="etFile" data-options="required:true,validType:['xlsFile']" /></td>
+				</tr>
+				<tr>
+					<td width="20%" align="right"><label for="etRemarks">描述
+							: &nbsp;</label>
+					</td>
+					<td><input class="easyui-validatebox" style="width:450px;"
+						type="text" name="etRemarks" value="${et.etRemarks!}"
+						data-options="validType:['length[0,200]']" /></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</body>
+</html>

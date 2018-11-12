@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.hisBaseInfo.dao.HosDisAreaInfoDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.hisBaseInfo.vo.HosDisAreaInfo" >
+    <id column="DIS_ID" property="disId" jdbcType="VARCHAR" />
+    <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="disOrgCode" jdbcType="VARCHAR" />
+    <result column="DIS_NAME" property="disName" jdbcType="VARCHAR" />
+    <result column="DIS_SITE" property="disSite" jdbcType="VARCHAR" />
+    <result column="DIS_PHONE" property="disPhone" jdbcType="VARCHAR" />
+    <result column="DIS_STATE" property="disState" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+    <result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+    <result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <association property="hosInfo" javaType="com.skynet.rimp.hisBaseInfo.vo.HosInfo" column="HOS_ID" select="findByHosId">
+		</association>
+  </resultMap>
+  <resultMap id="RequestMapHos" type="com.skynet.rimp.hisBaseInfo.vo.HosInfo">
+		<id column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    	<result column="HOS_NAME" property="hosName" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="findByHosId" parameterType="java.lang.String"
+		resultMap="RequestMapHos">
+		select * from hos_info 
+		where hos_id =  #{hosId,jdbcType=VARCHAR}
+	</select>
+  <sql id="Base_Column_List" >
+    DIS_ID, HOS_ID, ORG_ID, DIS_NAME, DIS_SITE, DIS_PHONE, DIS_STATE, REMARKS, 
+    EXT1, EXT2, EXT3, CREATE_DATE, CREATE_USER, UPDATE_DATE, UPDATE_USER
+  </sql>
+  
+  <insert id="insert" parameterType="com.skynet.rimp.hisBaseInfo.vo.HosDisAreaInfo" >
+    insert into hos_disease_area_info (DIS_ID, HOS_ID, ORG_ID, 
+      DIS_NAME, DIS_SITE, DIS_PHONE, 
+      DIS_STATE, REMARKS, EXT1, 
+      EXT2, EXT3, CREATE_DATE, 
+      CREATE_USER, UPDATE_DATE, UPDATE_USER
+      )
+    values (#{disId,jdbcType=VARCHAR}, #{hosId,jdbcType=VARCHAR}, #{disOrgCode,jdbcType=VARCHAR}, 
+      #{disName,jdbcType=VARCHAR}, #{disSite,jdbcType=VARCHAR}, #{disPhone,jdbcType=VARCHAR}, 
+      #{disState,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR}, 
+      #{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <select id="getByDisName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select * from HOS_DISEASE_AREA_INFO where DIS_NAME=#{disName}  limit 1
+  </select>
+  <select id="findByDisName" resultMap="BaseResultMap" parameterType="java.lang.String">
+  select * from HOS_DISEASE_AREA_INFO where DIS_NAME=#{disName}  limit 1
+  </select>
+  <select id="findByDisId" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select * from hos_disease_area_info where DIS_ID=#{disId} limit 1
+	</select>
+	
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from hos_disease_area_info
+    where DIS_ID = #{disId,jdbcType=VARCHAR}
+  </delete>
+  
+  <update id="update" parameterType="com.skynet.rimp.hisBaseInfo.vo.HosDisAreaInfo" >
+    update hos_disease_area_info
+    <set >
+      <if test="disName != null" >
+        DIS_NAME = #{disName,jdbcType=VARCHAR},
+      </if>
+      <if test="disSite != null" >
+        DIS_SITE = #{disSite,jdbcType=VARCHAR},
+      </if>
+      <if test="hosId != null" >
+        HOS_ID = #{hosId,jdbcType=VARCHAR},
+      </if>
+      <if test="disOrgCode != null" >
+        ORG_ID = #{disOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="disState != null" >
+        DIS_STATE = #{disState,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        EXT2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        EXT3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DIS_ID = #{disId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT HOS_DIS.* FROM HOS_DISEASE_AREA_INFO HOS_DIS
+  </select>
+  
+  <select id="findByCondition" parameterType="com.skynet.common.SearchParams" resultMap="BaseResultMap">
+    SELECT  *  from HOS_DISEASE_AREA_INFO
+    WHERE 1 = 1
+    <if test="searchParams.disName!=null and searchParams.disName!=''">
+		AND DIS_NAME like '%${searchParams.disName}%'
+	</if>
+	<if test="searchParams.disId != null and searchParams.disId != ''">
+		AND DIS_ID = #{searchParams.disId}
+	</if>
+  </select>
+  
+</mapper>

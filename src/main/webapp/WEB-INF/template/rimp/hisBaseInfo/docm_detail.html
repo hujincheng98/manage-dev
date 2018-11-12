@@ -1,0 +1,218 @@
+   	<script type="text/javascript" src="${res}/js/common/deptComboxTree.js"></script>
+   	<script type="text/javascript" src="${res}/js/common/comboxGridKeyHandler.js"></script>
+<form id="docm_detail_form">
+	<div>
+		<label><span class="tip">*</span>医生姓名</label>
+		<input class="easyui-textbox" type="text" name="docmName" id="docmName" data-options="disabled:true,required:true" missingMessage="医生姓名不能为空！"/>
+	</div>
+	<div>
+		<label>拼音码</label>
+		<input class="easyui-textbox" type="text" name="docmPinyCode" id="docmPinyCode" data-options="disabled:true,required:true" missingMessage="拼音码不能为空！"/>
+	</div>
+	<div>
+        <label><span class="tip">*</span>证件类型</label>
+        <select class="easyui-combobox" data-options="
+        		valueField:'dictValue',
+        		textField:'dictName',
+        		editable:false,
+        		required:true,
+        		disabled:true,
+                missingMessage:'请选择证件类型',
+        		url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=CREDTYPE'" 
+        		style="width:170px;" name="docmCredType" id="docmCredType">
+        </select>
+     </div>
+     <div>
+		<label><span class="tip">*</span>证件号码</label>
+		<input class="easyui-textbox" type="text" name="docmCredNum" id="docmCredNum" data-options="disabled:true,required:true" missingMessage="证件号码不能为空！"/>
+	</div>
+	
+	<div>
+        <label><span class="tip">*</span>性别</label>
+        <select class="easyui-combobox" data-options="
+        		valueField:'dictValue',
+        		textField:'dictName',
+        		editable:false,
+        		required:true,
+        		disabled:true,
+                missingMessage:'请选择性别',
+        		url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=SEX'" 
+        		style="width:170px;" name="docmSex" id="docmSex">
+        </select>
+     </div>
+     
+     <div>
+        <label><span class="tip"></span>学历</label>
+        <select class="easyui-combobox" data-options="
+        		valueField:'dictValue',
+        		textField:'dictName',
+                missingMessage:'请选择学历',
+                editable:false,
+                disabled:true,
+        		url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=EDUC'" 
+        		style="width:170px;" name="docmEduc" id="docmEduc">
+        </select>
+     </div>
+     
+      <div>
+       	<label><span class="tip">*</span>出生日期</label>
+      	<input id="docmBirthDate" name="docmBirthDate" type="text" class="easyui-datebox" data-options="disabled:true,required:true" style="width: 170px"></input>
+      </div>
+      
+       <div>
+        <label><span class="tip"></span>民族</label>
+        <select class="easyui-combobox" data-options="
+        		valueField:'dictValue',
+        		textField:'dictName',
+                missingMessage:'请选择民族',
+                editable:false,
+                disabled:true,
+        		url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=NATION'" 
+        		style="width:170px;" name="docmNation" id="docmNation">
+        </select>
+     </div>
+     
+     <div>
+		<label><span class="tip"></span>手机号码</label>
+		<input class="easyui-textbox" type="text" name="docmWageNum" id="docmWageNum" data-options="disabled:true,required:true"/>
+	</div>
+	
+	 <div>
+		<label><span class="tip">*</span>职务</label>
+		<input class="easyui-textbox" type="text" name="docmPosition" id="docmPosition" data-options="disabled:true,required:true" missingMessage="职务不能为空！"/>
+	</div>
+	
+	 <div>
+        <label><span class="tip">*</span>职称</label>
+        <select class="easyui-combobox" data-options="
+        		valueField:'dictValue',
+        		textField:'dictName',
+        		required:true,
+                missingMessage:'请选择职称',
+                editable:false,
+                disabled:true,
+        		url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=TITLE'" 
+        		style="width:170px;" name="docmTitle" id="docmTitle">
+        </select>
+     </div>
+     
+      <div>
+        <label><span class="tip"></span>工作性质</label>
+        <select class="easyui-combobox" data-options="
+        		valueField:'dictValue',
+        		textField:'dictName',
+                missingMessage:'请选择工作性质',
+                editable:false,
+                disabled:true,
+        		url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=WORKNATURE'" 
+        		style="width:170px;" name="docmWorkNature" id="docmWorkNature">
+        </select>
+     </div>
+	
+	 <div>
+		<label><span class="tip"></span>所在诊室</label>
+		<input class="easyui-textbox" type="text" name="docmRoom" id="docmRoom" data-options="disabled:true,required:true"/>
+	 </div>
+	 
+	  <div>
+		<label><span class="tip">*</span>所属科室</label>
+		<input type="text" name="deptId" id="deptId" class="easyui-combotree" data-options="
+			required:true,
+			width : 171,
+		    panelWidth:200,
+		    url: platRoot+'/rimp/dept/list_deptTree.json',
+		    onSelect: function(rec){ 
+		    	var hosId = rec.hosId
+		    	$('#hosId').val(hosId);
+		    }"/>
+	 </div>
+	 <div>
+	 	<label><span class="tip">*</span>业务系统编码</label>
+			<input class="easyui-combogrid" data-options="
+				width : 180,
+			    panelWidth:480,
+	            idField:'docmHisCode',
+	            textField:'docmName',
+	    		pagination : true,// 是否分页
+	    		singleSelect : true,// 只允许选择一行记录
+	    		fitColumns:true,
+	            mode : 'remote',// 远程连接方式
+	            method : 'POST',// 请求方式
+	            dataType : 'json',
+	            url:platRoot+'/rimp/hosdocm/hisDocmList.json',
+	            delay : 200, // 输入到请求的时间间隔 （毫秒）
+	            required:false,
+	            disabled:true,
+	            columns:[[
+	                {field:'docmHisCode',title:'编号',width:120},
+	                {field:'docmName',title:'姓名',width:120},
+	                {field:'docmRole',title:'职称',width:120},
+	                {field:'docmDeptName',title:'所属科室',width:120},
+	            ]],
+	            keyHandler : {
+            	up : function() {
+            		c_comboxgrid_keyUp(this);
+				},
+				down : function() {
+					c_comboxgrid_keyDown(this);
+				},
+    			enter : function() {
+    				c_comboxgrid_enterKey(this);
+    			},
+    			query : function(searchKey)
+    			{
+    				if (searchKey != null)
+    				{
+						var grid = $(this).combogrid('grid');
+						var searchParam = {
+    							'searchParams[docmName]' : searchKey
+    					};
+    					var url = platRoot+'/rimp/hosdocm/hisDocmList.json';
+    					$(grid).datagrid('options').queryParams = searchParam;
+    					$(grid).datagrid('options').url = url;
+        				$(grid).datagrid('reload');
+        				$(this).combogrid('setValue', searchKey);
+    				}
+    			}
+    		}" name="docmHisCode" style="width:170px"/>
+	 </div>
+	  <div>
+        <label><span class="tip">*</span>状态</label>
+        <select class="easyui-combobox" data-options="
+        		valueField:'dictValue',
+        		textField:'dictName',
+        		required:true,
+                missingMessage:'请选择状态',
+                editable:false,
+                disabled:true,
+        		url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=DOCM_STATE'" 
+        		style="width:170px;" name="docmState" id="docmState">
+        </select>
+     </div>
+     <div>
+     	<label>接诊间隔(秒)</label>
+     	<input class="easyui-numberbox" data-options="min:1,disabled:true" type="text" name="diagnosisInte" missingMessage="请输入大于0的整数！"/>
+     </div>
+     <div style="display: block;width: 95%; height: 110px;">
+        <label><span class="tip">*</span>照片</label>
+        <div id="preview" style="float: left;">
+		    <img src='${res}/images/docmPhoto.jpg' style="width: 100px;height: 100px; float:left;">
+		</div>
+     </div>
+     
+    <div style="display: block;width: 95%; height: 20%">
+        	<label>医生擅长</label>
+        	<textarea rows="" cols="" id="docmSpec" name="docmSpec" disabled="disabled"></textarea>
+      </div>
+      
+      <br/>
+        <div style="display: block;width: 95%; height: 20%">
+        	<label>医生简介</label>
+        	<textarea rows="" cols="" id="docmIntro" name="docmIntro" disabled="disabled"></textarea>
+      </div>
+      
+       <div>
+        	<input type="hidden" name="docmId"/>
+        </div>
+     
+</form>

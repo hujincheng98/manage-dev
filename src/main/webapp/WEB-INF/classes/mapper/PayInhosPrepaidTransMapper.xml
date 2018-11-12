@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skynet.rimp.registerInfo.dao.PayInhosPrepaidTransDao">
+    <!-- 单表操作频繁 并无频繁增删改，可加二级缓存 -->
+    <!-- <cache type="com.tiuweb.climb.framework.config.ehcache.RedisCache"/> --> 
+     
+    <resultMap id="BaseResultMap" type="com.skynet.rimp.registerInfo.vo.PayInhosPrepaidTrans">
+       <id column="TRANS_ID" property="transId" jdbcType="VARCHAR" />           
+       <result column="inHosId" property="inHosId" jdbcType="VARCHAR" />             
+       <result column="payType" property="payType" jdbcType="VARCHAR" />             
+       <result column="MONEY" property="money" jdbcType="DECIMAL" />             
+       <result column="serialNumber" property="serialNumber" jdbcType="VARCHAR" />             
+       <result column="hosAccount" property="hosAccount" jdbcType="VARCHAR" />             
+       <result column="payVoucher" property="payVoucher" jdbcType="VARCHAR" />             
+       <result column="payDate" property="payDate" jdbcType="TIMESTAMP" />             
+       <result column="operatorId" property="operatorId" jdbcType="VARCHAR" />             
+       <result column="hisserialNumber" property="hisserialNumber" jdbcType="VARCHAR" />             
+       <result column="hispayDate" property="hispayDate" jdbcType="VARCHAR" />             
+       <result column="BALANCE" property="balance" jdbcType="VARCHAR" />             
+       <result column="TRANS_STATE" property="transState" jdbcType="VARCHAR" />             
+       <result column="CH_NAME" property="chName" jdbcType="VARCHAR" />             
+       <result column="CH_TOKEN" property="chtoken" jdbcType="VARCHAR" />             
+       <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />             
+       <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />             
+       <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />             
+       <result column="EXT1" property="ext1" jdbcType="VARCHAR" />             
+       <result column="EXT2" property="ext2" jdbcType="VARCHAR" />             
+       <result column="EXT3" property="ext3" jdbcType="VARCHAR" />             
+       <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />             
+       <result column="PATIENT_NAME" property="patientName" jdbcType="VARCHAR" />             
+       <result column="IDENTITY_CARD" property="identityCard" jdbcType="VARCHAR" />             
+       <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />             
+    </resultMap>
+      
+    <sql id="Base_Column_List" >
+        TRANS_ID,
+        inHosId,
+        payType,
+        MONEY,
+        serialNumber,
+        hosAccount,
+        payVoucher,
+        payDate,
+        operatorId,
+        hisserialNumber,
+        hispayDate,
+        BALANCE,
+        TRANS_STATE,
+        CH_NAME,
+        CH_TOKEN,
+        HOS_ID,
+        ORG_ID,
+        REMARKS,
+        EXT1,
+        EXT2,
+        EXT3,
+        CREATE_DATE,
+        PATIENT_NAME,
+        IDENTITY_CARD,
+        TELEPHONE
+    </sql>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from pay_inhos_prepaid_trans
+        ORDER BY payDate DESC
+    </select> 
+
+    <select id="findByPrimaryKey" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from pay_inhos_prepaid_trans	
+        where 1 = 1
+        AND TRANS_ID = #{transId}  		  
+    </select> 
+
+    <!-- <select id="findByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from pay_inhos_prepaid_trans
+        where 1=1
+        <if test="transId!=null">
+            AND TRANS_ID = #{transId}
+        </if>
+        <if test="inHosId!=null">
+            AND inHosId = #{inHosId}
+        </if>
+        <if test="payType!=null">
+            AND payType = #{payType}
+        </if>
+        <if test="money!=null">
+            AND MONEY = #{money}
+        </if>
+        <if test="serialNumber!=null">
+            AND serialNumber = #{serialNumber}
+        </if>
+        <if test="hosAccount!=null">
+            AND hosAccount = #{hosAccount}
+        </if>
+        <if test="payVoucher!=null">
+            AND payVoucher = #{payVoucher}
+        </if>
+        <if test="payDate!=null">
+            AND payDate = #{payDate}
+        </if>
+        <if test="operatorId!=null">
+            AND operatorId = #{operatorId}
+        </if>
+        <if test="hisserialNumber!=null">
+            AND hisserialNumber = #{hisserialNumber}
+        </if>
+        <if test="hispayDate!=null">
+            AND hispayDate = #{hispayDate}
+        </if>
+        <if test="balance!=null">
+            AND BALANCE = #{balance}
+        </if>
+        <if test="transState!=null">
+            AND TRANS_STATE = #{transState}
+        </if>
+        <if test="chName!=null">
+            AND CH_NAME = #{chName}
+        </if>
+        <if test="chtoken!=null">
+            AND CH_TOKEN = #{chtoken}
+        </if>
+        <if test="hosId!=null">
+            AND HOS_ID = #{hosId}
+        </if>
+        <if test="orgId!=null">
+            AND ORG_ID = #{orgId}
+        </if>
+        <if test="remarks!=null">
+            AND REMARKS = #{remarks}
+        </if>
+        <if test="ext1!=null">
+            AND EXT1 = #{ext1}
+        </if>
+        <if test="ext2!=null">
+            AND EXT2 = #{ext2}
+        </if>
+        <if test="ext3!=null">
+            AND EXT3 = #{ext3}
+        </if>
+        <if test="createDate!=null">
+            AND CREATE_DATE = #{createDate}
+        </if>
+        <if test="patientName!=null">
+            AND PATIENT_NAME = #{patientName}
+        </if>
+        <if test="identityCard!=null">
+            AND IDENTITY_CARD = #{identityCard}
+        </if>
+        <if test="telephone!=null">
+            AND TELEPHONE = #{telephone}
+        </if>
+    </select> -->
+
+    <select id="findByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from pay_inhos_prepaid_trans
+        where 1=1
+        <if test="searchParams.transId!=null">
+            AND TRANS_ID = #{searchParams.transId}
+        </if>
+        <if test="searchParams.inHosId!=null">
+            AND inHosId = #{searchParams.inHosId}
+        </if>
+        <if test="searchParams.payType!=null">
+            AND payType = #{searchParams.payType}
+        </if>
+        <if test="searchParams.money!=null">
+            AND MONEY = #{searchParams.money}
+        </if>
+        <if test="searchParams.serialNumber!=null and searchParams.serialNumber!=''">
+            <!-- AND serialNumber = #{searchParams.serialNumber} -->
+            AND serialNumber like '%${searchParams.serialNumber}%'
+        </if>
+        <if test="searchParams.hosAccount!=null">
+            AND hosAccount = #{searchParams.hosAccount}
+        </if>
+        <if test="searchParams.payVoucher!=null">
+            AND payVoucher = #{searchParams.payVoucher}
+        </if>
+        <if test="searchParams.payDateStart!=null and searchParams.payDateStart!=''">
+            AND date_format(payDate,'%Y-%m-%d') &gt;= #{searchParams.payDateStart}
+        </if>
+        <if test="searchParams.payDateEnd!=null and searchParams.payDateEnd!=''">
+            AND date_format(payDate,'%Y-%m-%d') &lt;= #{searchParams.payDateEnd}
+        </if>
+        <!-- <if test="searchParams.payDate!=null">
+            AND payDate = #{searchParams.payDate}
+        </if> -->
+        <if test="searchParams.operatorId!=null">
+            AND operatorId = #{searchParams.operatorId}
+        </if>
+        <if test="searchParams.hisserialNumber!=null and searchParams.hisserialNumber!=''">
+            <!-- AND hisserialNumber = #{searchParams.hisserialNumber} -->
+             AND hisserialNumber like '%${searchParams.hisserialNumber}%'
+        </if>
+        <if test="searchParams.hispayDate!=null">
+            AND hispayDate = #{searchParams.hispayDate}
+        </if>
+        <if test="searchParams.balance!=null">
+            AND BALANCE = #{searchParams.balance}
+        </if>
+        <if test="searchParams.transState!=null and searchParams.transState!=''">
+            AND TRANS_STATE = #{searchParams.transState}
+        </if>
+        <if test="searchParams.chName!=null and searchParams.chName!=''">
+            AND CH_NAME = #{searchParams.chName}
+        </if>
+        <if test="searchParams.chtoken!=null and searchParams.chtoken!=''">
+            AND CH_TOKEN = #{searchParams.chtoken}
+        </if>
+        <if test="searchParams.hosId!=null">
+            AND HOS_ID = #{searchParams.hosId}
+        </if>
+        <if test="searchParams.orgId!=null and searchParams.orgId!=''">
+            AND ORG_ID = #{searchParams.orgId}
+        </if>
+        <if test="searchParams.remarks!=null">
+            AND REMARKS = #{searchParams.remarks}
+        </if>
+        <if test="searchParams.ext1!=null">
+            AND EXT1 = #{searchParams.ext1}
+        </if>
+        <if test="searchParams.ext2!=null">
+            AND EXT2 = #{searchParams.ext2}
+        </if>
+        <if test="searchParams.ext3!=null">
+            AND EXT3 = #{searchParams.ext3}
+        </if>
+        <if test="searchParams.createDate!=null">
+            AND CREATE_DATE = #{searchParams.createDate}
+        </if>
+        <if test="searchParams.patientName!=null and searchParams.patientName!=''">
+            AND PATIENT_NAME like '%${searchParams.patientName}%'
+        </if>
+        <if test="searchParams.identityCard!=null and searchParams.identityCard!=''">
+            <!-- AND IDENTITY_CARD = #{searchParams.identityCard} -->
+            AND IDENTITY_CARD like '%${searchParams.identityCard}%'
+        </if>
+        <if test="searchParams.telephone!=null">
+            <!-- AND TELEPHONE = #{searchParams.telephone} -->
+            AND TELEPHONE like '%${searchParams.telephone}%'
+        </if>
+        ORDER BY payDate DESC
+    </select>
+
+    <insert id="insert" parameterType="com.skynet.rimp.registerInfo.vo.PayInhosPrepaidTrans">
+       insert into pay_inhos_prepaid_trans 
+       <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="transId!=null">
+                TRANS_ID, 
+            </if>
+            <if test="inHosId!=null">
+                inHosId, 
+            </if>
+            <if test="payType!=null">
+                payType, 
+            </if>
+            <if test="money!=null">
+                MONEY, 
+            </if>
+            <if test="serialNumber!=null">
+                serialNumber, 
+            </if>
+            <if test="hosAccount!=null">
+                hosAccount, 
+            </if>
+            <if test="payVoucher!=null">
+                payVoucher, 
+            </if>
+            <if test="payDate!=null">
+                payDate, 
+            </if>
+            <if test="operatorId!=null">
+                operatorId, 
+            </if>
+            <if test="hisserialNumber!=null">
+                hisserialNumber, 
+            </if>
+            <if test="hispayDate!=null">
+                hispayDate, 
+            </if>
+            <if test="balance!=null">
+                BALANCE, 
+            </if>
+            <if test="transState!=null">
+                TRANS_STATE, 
+            </if>
+            <if test="chName!=null">
+                CH_NAME, 
+            </if>
+            <if test="chtoken!=null">
+                CH_TOKEN, 
+            </if>
+            <if test="hosId!=null">
+                HOS_ID, 
+            </if>
+            <if test="orgId!=null">
+                ORG_ID, 
+            </if>
+            <if test="remarks!=null">
+                REMARKS, 
+            </if>
+            <if test="ext1!=null">
+                EXT1, 
+            </if>
+            <if test="ext2!=null">
+                EXT2, 
+            </if>
+            <if test="ext3!=null">
+                EXT3, 
+            </if>
+            <if test="createDate!=null">
+                CREATE_DATE, 
+            </if>
+            <if test="patientName!=null">
+                PATIENT_NAME, 
+            </if>
+            <if test="identityCard!=null">
+                IDENTITY_CARD, 
+            </if>
+            <if test="telephone!=null">
+                TELEPHONE, 
+            </if>
+        </trim>  
+        <trim prefix="values (" suffix=")" suffixOverrides="," > 
+            <if test="transId!=null">      
+                #{transId,jdbcType=VARCHAR}, 
+            </if>
+            <if test="inHosId!=null">      
+                #{inHosId,jdbcType=VARCHAR}, 
+            </if>
+            <if test="payType!=null">      
+                #{payType,jdbcType=VARCHAR}, 
+            </if>
+            <if test="money!=null">      
+                #{money,jdbcType=DECIMAL}, 
+            </if>
+            <if test="serialNumber!=null">      
+                #{serialNumber,jdbcType=VARCHAR}, 
+            </if>
+            <if test="hosAccount!=null">      
+                #{hosAccount,jdbcType=VARCHAR}, 
+            </if>
+            <if test="payVoucher!=null">      
+                #{payVoucher,jdbcType=VARCHAR}, 
+            </if>
+            <if test="payDate!=null">      
+                #{payDate,jdbcType=TIMESTAMP}, 
+            </if>
+            <if test="operatorId!=null">      
+                #{operatorId,jdbcType=VARCHAR}, 
+            </if>
+            <if test="hisserialNumber!=null">      
+                #{hisserialNumber,jdbcType=VARCHAR}, 
+            </if>
+            <if test="hispayDate!=null">      
+                #{hispayDate,jdbcType=VARCHAR}, 
+            </if>
+            <if test="balance!=null">      
+                #{balance,jdbcType=VARCHAR}, 
+            </if>
+            <if test="transState!=null">      
+                #{transState,jdbcType=VARCHAR}, 
+            </if>
+            <if test="chName!=null">      
+                #{chName,jdbcType=VARCHAR}, 
+            </if>
+            <if test="chtoken!=null">      
+                #{chtoken,jdbcType=VARCHAR}, 
+            </if>
+            <if test="hosId!=null">      
+                #{hosId,jdbcType=VARCHAR}, 
+            </if>
+            <if test="orgId!=null">      
+                #{orgId,jdbcType=VARCHAR}, 
+            </if>
+            <if test="remarks!=null">      
+                #{remarks,jdbcType=VARCHAR}, 
+            </if>
+            <if test="ext1!=null">      
+                #{ext1,jdbcType=VARCHAR}, 
+            </if>
+            <if test="ext2!=null">      
+                #{ext2,jdbcType=VARCHAR}, 
+            </if>
+            <if test="ext3!=null">      
+                #{ext3,jdbcType=VARCHAR}, 
+            </if>
+            <if test="createDate!=null">      
+                #{createDate,jdbcType=TIMESTAMP}, 
+            </if>
+            <if test="patientName!=null">      
+                #{patientName,jdbcType=VARCHAR}, 
+            </if>
+            <if test="identityCard!=null">      
+                #{identityCard,jdbcType=VARCHAR}, 
+            </if>
+            <if test="telephone!=null">      
+                #{telephone,jdbcType=VARCHAR}, 
+            </if>
+        </trim> 
+    </insert>
+
+    <delete id="delete" parameterType="com.skynet.rimp.registerInfo.vo.PayInhosPrepaidTrans" >
+        delete from pay_inhos_prepaid_trans  
+        where  1=1 
+        <if test="transId!=null">    
+           and TRANS_ID = #{transId,jdbcType=VARCHAR}        
+        </if>
+        <if test="inHosId!=null">    
+           and inHosId = #{inHosId,jdbcType=VARCHAR}        
+        </if>
+        <if test="payType!=null">    
+           and payType = #{payType,jdbcType=VARCHAR}        
+        </if>
+        <if test="money!=null">    
+           and MONEY = #{money,jdbcType=DECIMAL}        
+        </if>
+        <if test="serialNumber!=null">    
+           and serialNumber = #{serialNumber,jdbcType=VARCHAR}        
+        </if>
+        <if test="hosAccount!=null">    
+           and hosAccount = #{hosAccount,jdbcType=VARCHAR}        
+        </if>
+        <if test="payVoucher!=null">    
+           and payVoucher = #{payVoucher,jdbcType=VARCHAR}        
+        </if>
+        <if test="payDate!=null">    
+           and payDate = #{payDate,jdbcType=TIMESTAMP}        
+        </if>
+        <if test="operatorId!=null">    
+           and operatorId = #{operatorId,jdbcType=VARCHAR}        
+        </if>
+        <if test="hisserialNumber!=null">    
+           and hisserialNumber = #{hisserialNumber,jdbcType=VARCHAR}        
+        </if>
+        <if test="hispayDate!=null">    
+           and hispayDate = #{hispayDate,jdbcType=VARCHAR}        
+        </if>
+        <if test="balance!=null">    
+           and BALANCE = #{balance,jdbcType=VARCHAR}        
+        </if>
+        <if test="transState!=null">    
+           and TRANS_STATE = #{transState,jdbcType=VARCHAR}        
+        </if>
+        <if test="chName!=null">    
+           and CH_NAME = #{chName,jdbcType=VARCHAR}        
+        </if>
+        <if test="chtoken!=null">    
+           and CH_TOKEN = #{chtoken,jdbcType=VARCHAR}        
+        </if>
+        <if test="hosId!=null">    
+           and HOS_ID = #{hosId,jdbcType=VARCHAR}        
+        </if>
+        <if test="orgId!=null">    
+           and ORG_ID = #{orgId,jdbcType=VARCHAR}        
+        </if>
+        <if test="remarks!=null">    
+           and REMARKS = #{remarks,jdbcType=VARCHAR}        
+        </if>
+        <if test="ext1!=null">    
+           and EXT1 = #{ext1,jdbcType=VARCHAR}        
+        </if>
+        <if test="ext2!=null">    
+           and EXT2 = #{ext2,jdbcType=VARCHAR}        
+        </if>
+        <if test="ext3!=null">    
+           and EXT3 = #{ext3,jdbcType=VARCHAR}        
+        </if>
+        <if test="createDate!=null">    
+           and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}        
+        </if>
+        <if test="patientName!=null">    
+           and PATIENT_NAME = #{patientName,jdbcType=VARCHAR}        
+        </if>
+        <if test="identityCard!=null">    
+           and IDENTITY_CARD = #{identityCard,jdbcType=VARCHAR}        
+        </if>
+        <if test="telephone!=null">    
+           and TELEPHONE = #{telephone,jdbcType=VARCHAR}        
+        </if>
+    </delete>
+
+    <update id="update" parameterType="com.skynet.rimp.registerInfo.vo.PayInhosPrepaidTrans" >
+        update pay_inhos_prepaid_trans   
+        <set>
+            <if test="inHosId!=null"> 
+              inHosId = #{inHosId,jdbcType=VARCHAR},
+            </if>
+            <if test="payType!=null"> 
+              payType = #{payType,jdbcType=VARCHAR},
+            </if>
+            <if test="money!=null"> 
+              MONEY = #{money,jdbcType=DECIMAL},
+            </if>
+            <if test="serialNumber!=null"> 
+              serialNumber = #{serialNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="hosAccount!=null"> 
+              hosAccount = #{hosAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="payVoucher!=null"> 
+              payVoucher = #{payVoucher,jdbcType=VARCHAR},
+            </if>
+            <if test="payDate!=null"> 
+              payDate = #{payDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operatorId!=null"> 
+              operatorId = #{operatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="hisserialNumber!=null"> 
+              hisserialNumber = #{hisserialNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="hispayDate!=null"> 
+              hispayDate = #{hispayDate,jdbcType=VARCHAR},
+            </if>
+            <if test="balance!=null"> 
+              BALANCE = #{balance,jdbcType=VARCHAR},
+            </if>
+            <if test="transState!=null"> 
+              TRANS_STATE = #{transState,jdbcType=VARCHAR},
+            </if>
+            <if test="chName!=null"> 
+              CH_NAME = #{chName,jdbcType=VARCHAR},
+            </if>
+            <if test="chtoken!=null"> 
+              CH_TOKEN = #{chtoken,jdbcType=VARCHAR},
+            </if>
+            <if test="hosId!=null"> 
+              HOS_ID = #{hosId,jdbcType=VARCHAR},
+            </if>
+            <if test="orgId!=null"> 
+              ORG_ID = #{orgId,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks!=null"> 
+              REMARKS = #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="ext1!=null"> 
+              EXT1 = #{ext1,jdbcType=VARCHAR},
+            </if>
+            <if test="ext2!=null"> 
+              EXT2 = #{ext2,jdbcType=VARCHAR},
+            </if>
+            <if test="ext3!=null"> 
+              EXT3 = #{ext3,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate!=null"> 
+              CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="patientName!=null"> 
+              PATIENT_NAME = #{patientName,jdbcType=VARCHAR},
+            </if>
+            <if test="identityCard!=null"> 
+              IDENTITY_CARD = #{identityCard,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone!=null"> 
+              TELEPHONE = #{telephone,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where> 
+            <if test="transId!=null"> 
+               and TRANS_ID = #{transId,jdbcType=VARCHAR}        
+            </if>
+        </where> 
+    </update>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        insert into pay_inhos_prepaid_trans
+        (
+            TRANS_ID,
+        inHosId,
+        payType,
+        MONEY,
+        serialNumber,
+        hosAccount,
+        payVoucher,
+        payDate,
+        operatorId,
+        hisserialNumber,
+        hispayDate,
+        BALANCE,
+        TRANS_STATE,
+        CH_NAME,
+        CH_TOKEN,
+        HOS_ID,
+        ORG_ID,
+        REMARKS,
+        EXT1,
+        EXT2,
+        EXT3,
+        CREATE_DATE,
+        PATIENT_NAME,
+        IDENTITY_CARD,
+        TELEPHONE 
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator="," > 
+        (
+            #{item.transId,jdbcType=VARCHAR},   
+            #{item.inHosId,jdbcType=VARCHAR},   
+            #{item.payType,jdbcType=VARCHAR},   
+            #{item.money,jdbcType=DECIMAL},   
+            #{item.serialNumber,jdbcType=VARCHAR},   
+            #{item.hosAccount,jdbcType=VARCHAR},   
+            #{item.payVoucher,jdbcType=VARCHAR},   
+            #{item.payDate,jdbcType=TIMESTAMP},   
+            #{item.operatorId,jdbcType=VARCHAR},   
+            #{item.hisserialNumber,jdbcType=VARCHAR},   
+            #{item.hispayDate,jdbcType=VARCHAR},   
+            #{item.balance,jdbcType=VARCHAR},   
+            #{item.transState,jdbcType=VARCHAR},   
+            #{item.chName,jdbcType=VARCHAR},   
+            #{item.chtoken,jdbcType=VARCHAR},   
+            #{item.hosId,jdbcType=VARCHAR},   
+            #{item.orgId,jdbcType=VARCHAR},   
+            #{item.remarks,jdbcType=VARCHAR},   
+            #{item.ext1,jdbcType=VARCHAR},   
+            #{item.ext2,jdbcType=VARCHAR},   
+            #{item.ext3,jdbcType=VARCHAR},   
+            #{item.createDate,jdbcType=TIMESTAMP},   
+            #{item.patientName,jdbcType=VARCHAR},   
+            #{item.identityCard,jdbcType=VARCHAR},   
+            #{item.telephone,jdbcType=VARCHAR}  
+        )
+        </foreach>
+    </insert>
+</mapper>

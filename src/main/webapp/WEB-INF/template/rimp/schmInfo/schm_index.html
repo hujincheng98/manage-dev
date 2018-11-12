@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<#include "../include/head.html" />
+	<title>医生排班设置</title>
+	<script type="text/javascript" src="${res}/js/tab.js"></script>
+	<script type="text/javascript" src="${res}/js/schmInfo/schm_index.js"></script>
+	<script type="text/javascript" src="${res}/js/schmInfo/schm_auto.js"></script>
+	<script type="text/javascript" src="${res}/js/common/docmComboxGrid.js"></script>
+	<script type="text/javascript" src="${res}/js/common/deptComboxGrid.js"></script>
+	<script type="text/javascript" src="${res}/js/common/comboxGridKeyHandler.js"></script>
+	<script type="text/javascript" src="${res}/js/common/shiftComboxGrid.js"></script>
+	<script type="text/javascript" src="${res}/js/common/deptComboxGrid1.js"></script>
+	<script type="text/javascript" src="${res}/js/schmInfo/schm_edit.js"></script>
+	<style type="text/css">
+		body,
+		td,
+		th {
+			font-size: 12px;
+		}
+		.combo{
+			width: 144px!important;
+		}
+	</style>
+</head>
+
+<body>
+
+	<!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+		<form id="searchform">
+			<table class="n_input">
+				<tr>
+					<td width="100" height="20" align="right" nowrap>排班科室：</td>
+					<td>
+						<input type="text" name="searchParams[deptName]" id="_common_dept_comboxgrid" class="_common_dept_comboxgrid" />
+					</td>
+					<td width="100" height="20" align="right" nowrap>医生名称：</td>
+					<td>
+						<input type="text" name="searchParams[docmName]" id="_common_docm_comboxgrid" class="_common_docm_comboxgrid" />
+					</td>
+					<td height="32" colspan="10" align="center">
+
+					</td>
+				</tr>
+
+				<tr>
+					<td width="100" height="20" align="right" nowrap>排班起始日期：</td>
+					<td>
+						<input id="schmStartDate" name="searchParams[schmStartDate]" type="text" class="easyui-datebox"  data-options="editable:false" style="width: 180px"></input>
+					</td>
+
+					<td width="100" height="20" align="right" nowrap>排班终止日期：</td>
+					<td>
+						<input id="schmEndDate" name="searchParams[schmEndDate]" type="text" class="easyui-datebox"  data-options="editable:false" style="width: 180px"></input>
+					</td>
+					<td height="32" colspan="10" align="center" nowrap="nowrap">
+						&nbsp;&nbsp;
+						<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="_search();">查询</a>
+						<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-undo'" onclick="$('#searchform').form('clear');$('#report').linkbutton('disable');_search();">重置</a>
+						<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-tabicons_15_14',disabled:false" id="report"
+						 onclick="report('exportExcel.do');">导出</a>
+					</td>
+				</tr>
+			</table>
+		</form>
+		</fieldset>
+
+
+	<!-- 按钮区域 -->
+	<div id="button-bar">
+		<@shiro.hasPermission name="/rimp/schm/add.do">
+			<a href="#" class="easyui-linkbutton easyui-opentab" iconCls="icon-add" url="${base}/rimp/schm/add.do" plain="true" title="排班 - 新增">新增</a>
+		</@shiro.hasPermission>
+			<@shiro.hasPermission name="/rimp/otherChannels/edit.do">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="schmEdit">修改</a>
+			</@shiro.hasPermission>
+		<@shiro.hasPermission name="/rimp/schm/delete.json">
+			<a href="#" id="deleteBtn" class="easyui-linkbutton" iconCls="icon-cut" plain="true">删除</a>
+		</@shiro.hasPermission>
+		<@shiro.hasPermission name="/rimp/schm/update.json">
+			<a href="#" id="OnEnable" class="easyui-linkbutton" iconCls="icon-ok" plain="true">启用</a>
+			<a href="#" id="OffEnable" class="easyui-linkbutton" iconCls="icon-no" plain="true">停用</a>
+		</@shiro.hasPermission>
+
+		<@shiro.hasPermission name="/rimp/schm/auto_schm.json">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-large-shapes" plain="true"   onclick="javascript:$('#autoSchmWindow').window('open');$('#autoSchmWindow').window('center');">自动排班</a>
+		</@shiro.hasPermission>
+		<@shiro.hasPermission name="/rimp/schm/showTimesEdit.do">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" id="showTimesBtn">时段查看</a>
+		</@shiro.hasPermission>
+
+		<@shiro.hasPermission name="/rimp/schm/deleteBatch.json">
+		<a href="#" id="deleteBatchBtn" class="easyui-linkbutton" iconCls="icon-cut" plain="true">批量删除</a>
+		</@shiro.hasPermission>
+	</div>
+
+
+	<form id="auto_add_form">
+		<div id="autoSchmWindow" class="easyui-window" title="排班 - 自动排班" style="width:600px;height:400px" data-options="iconCls:'icon-save',collapsible:false,minimizable:false,maximizable:false,modal:true,closed:true">
+			<div>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="saveAutoSchmBtn">保存</a>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" id="canselAutoSchmBtn">重置</a>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true" onclick="javascript:$('#autoSchmWindow').window('close');">取消</a>
+			</div>
+
+			<table width="96%" border="0" align="center" cellpadding="0" cellspacing="0" id="autoSchmForm">
+				<tr>
+					<td height="30" colspan="2" align="right">排班科室：</td>
+					<td width="11%">&nbsp;
+						<input id="deptId" class="_common_dept_comboxgrid _common_dept_comboxgrid1" type="text" name="deptId" width="200px" />
+					</td>
+					<td>
+						<input type="checkbox" name="allDeptCheckBox" id="allDeptCheckBox" /> 全部科室
+					</td>
+				</tr>
+				<tr>
+					<td height="30" colspan="2" align="right">排班医生：</td>
+					<td width="11%">&nbsp;
+						<input id="docmId" class="_common_docm_comboxgrid " type="text" name="docmId" width="200px" />
+					</td>
+					<td>
+						<input type="checkbox" name="allDocmCheckBox" id="allDocmCheckBox" /> 全部医生
+					</td>
+				</tr>
+				<tr>
+					<td height="30" colspan="2" align="right">班次名称：</td>
+					<td width="11%">&nbsp;
+						<input id="shiftId" class="_common_shift_comboxgrid" type="text" name="shiftId" width="200px" />
+					</td>
+					<td>
+						<input type="checkbox" name="" id="allShiftCheckBox" /> 全部班次
+					</td>
+				</tr>
+				<tr style="height: 55px;">
+					<td height="30" colspan="2" align="right">星期：</td>
+					<td width="11%">
+						<select class="easyui-combobox" style="width: 180px;margin-top:20px;" id="schmWeek" name="schmWeek">
+							<option value=""></option>
+							<option value="星期一">星期一</option>
+							<option value="星期二">星期二</option>
+							<option value="星期三">星期三</option>
+							<option value="星期四">星期四</option>
+							<option value="星期五">星期五</option>
+							<option value="星期六">星期六</option>
+							<option value="星期日">星期日</option>
+						</select>
+					</td>
+					<td>
+						<input type="checkbox" name="allSchmWeekCheckBox" id="allSchmWeekCheckBox" /> 全部星期
+					</td>
+				</tr>
+				<tr>
+					<td width="20%" height="30" align="right">&nbsp;</td>
+					<td width="20%" align="left">
+						<input type="radio" id="nextWeek" name="schmdate" /> 安排下周
+					</td>
+					<td width="11%" align="right">起始日期：</td>
+					<td>
+						<input id="startDate" type="text" name="startDate" class="easyui-my97" data-options="required:false,dateFmt:'yyyy-MM-dd',minDate:'%y-%M-{%d+1}',maxDate:'#F{$dp.$D(\'endDate\')}'"
+						/>
+					</td>
+				</tr>
+				<tr>
+					<td height="30" align="right">&nbsp;</td>
+					<td height="30" align="left">
+						<input type="radio" id="userdefine" name="schmdate" /> 自定义
+					</td>
+					<td width="11%" align="right">终止日期：</td>
+					<td>
+						<input id="endDate" type="text" name="endDate" class="easyui-my97" data-options="required:false,dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startDate\')||\'%y-%M-%d\'}',maxDate:'#F{$dp.$D(\'startDate\',{M:6});}'"
+						/>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</form>
+	<form  name="addFormName" method="get" >
+			<div id="editSchmWindow" class="easyui-window" title="医生排班 - 修改" style="width:580px;height:300px" data-options="collapsible:false,minimizable:false,maximizable:false,modal:true,closed:true">
+				<div>
+					<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" id="saveSchmBtn">保存</a>
+					<a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true" onclick="javascript:$('#editSchmWindow').window('close');">取消</a>
+				</div>
+	<table class="n_input" id="editForm">
+		<tr>
+			<td width="100" height="20" align="right" nowrap>排班日期：</td>
+			<td nowrap>
+				<input id="schmDate" name="schmDate" type="text" class="easyui-datebox" required="required"  disabled="disabled"></input>
+			</td>
+			<td width="100" height="20" align="right" nowrap>星期：</td>
+			<td nowrap>
+				<input type="text" id="schmWeek" name="schmWeek" data-options="required:true" disabled="disabled" />
+			</td>
+		</tr>
+		<tr>
+			<td width="100" height="20" align="right" nowrap>医生：</td>
+			<td nowrap>
+				<input  class="_common_docm_comboxgrid" id="docmId1" name="docmId" type="text" data-options="required:true" style="display:block;width:144px;" />
+			</td>
+			<td width="100" height="20" align="right" nowrap>职称：</td>
+			<td nowrap>
+				<input type="text" id="docmTitle" name="docmTitle" disabled="disabled" />
+			</td>
+		</tr>
+
+		<tr>
+			<td width="100" height="20" align="right" nowrap>所属科室：</td>
+			<td nowrap>
+				<input type="text" id="deptName" name="deptName" disabled="disabled" />
+			</td>
+			<td width="100" height="20" align="right" nowrap>排班科室：</td>
+			<td nowrap>
+				<input type="text"  class="_common_docm_comboxgrid" id="schmDeptName" name="schmDeptName" data-options="required:true" style="display:block;" />
+			</td>
+		</tr>
+
+		<tr>
+			<td width="100" height="20" align="right" nowrap>班次：</td>
+			<td nowrap>
+				<input  class="_common_docm_comboxgrid" disabled="disabled" id="shiftId1" name="shiftId" type="text" data-options="required:true"  style="display:block;"/>
+			</td>
+			<td width="100" height="20" align="right" nowrap>挂号类别：</td>
+			<td nowrap>
+				<input type="text"  class="_common_docm_comboxgrid" id="regcategoryName" name="regcategoryId" data-options="required:true"  style="display:block;"/>
+			</td>
+		</tr>
+
+		<tr>
+			<td width="100" height="20" align="right" nowrap>起始时间：</td>
+			<td nowrap>
+				<input type="text" id="shiftStartDate" name="shiftStartDate" data-options="required:true" disabled="disabled" />
+			</td>
+			<td width="100" height="20" align="right" nowrap>截止时间：</td>
+			<td nowrap>
+				<input type="text" id="shiftEndDate" name="shiftEndDate" data-options="required:true" disabled="disabled" />
+			</td>
+		</tr>
+
+		<tr>
+			<td width="100" height="20" align="right" nowrap>线上挂号限数：</td>
+			<td nowrap>
+				<input type="text" id="schmOnRegiSum" name="schmOnRegiSum" disabled="disabled" data-options="required:true" class="easyui-numberbox" precision=0
+				 min="0" />
+			</td>
+			<td width="100" height="20" align="right" nowrap>线下挂号限数：</td>
+			<td nowrap>
+				<input type="text" id="schmDownRegiSum" name="schmDownRegiSum"   data-options="required:true" class="easyui-numberbox" precision=0
+				 min="0" />
+			</td>
+		</tr>
+
+		<tr>
+			<td width="100" height="20" align="right" nowrap>线上预约限数：</td>
+			<td nowrap>
+				<input type="text" id="schmOnSum" name="schmOnSum"   data-options="required:true"  class="easyui-numberbox" precision=0 min="0"
+				/>
+			</td>
+			<td width="100" height="20" align="right" nowrap>线下预约限数：</td>
+			<td nowrap>
+				<input type="text" id="schmDownSum" name="schmDownSum"  data-options="required:true" class="easyui-numberbox" precision=0
+				 min="0" />
+			</td>
+		</tr>
+
+		<tr>
+			<td></td>
+			<td>
+				<input type="hidden" id="docmIdtocontext" name="docmIdtocontext" />
+				<input type="hidden" id="deptIdtocontext" name="deptIdtocontext" />
+				<input type="hidden" id="schmDeptIDtocontext" name="schmDeptIDtocontext" />
+				<input type="hidden" id="schmShiftIDtocontext" name="schmShiftIDtocontext" />
+				<input type="hidden" id="regcategoryIDtocontext" name="regcategoryIDtocontext">
+				<input type="hidden" id="hosId" name="hosId" />
+				<input type="hidden" id="regcategory" name="regcategory" />
+				<input type="hidden" id="servcoding" name="servcoding" />
+			</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<p>  <strong style="color: red">注意：</strong>修改挂号数时[线下挂号限数][线下预约限数]可修改任意值 ，[线上预约限数]只能修改等于[线上已预约数]</p>
+	</table>
+</div>
+	</form>
+
+	<div id="dg"></div>
+</body>
+
+</html>

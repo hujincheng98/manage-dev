@@ -1,0 +1,23 @@
+build_package_test:
+    stage: build
+    only:
+        - test
+    script:
+        - rm src/main/resources/{jdbc,config,redis}.properties
+        - mv src/main/resources/jdbc-test.properties src/main/resources/jdbc.properties
+        - mv src/main/resources/config-test.properties src/main/resources/config.properties
+        - mv src/main/resources/redis-test.properties src/main/resources/redis.properties
+        - mvn clean package
+    artifacts:
+        paths:
+            - target/*.war
+
+deploy_package_test:
+    stage: deploy
+    only:
+        - test
+    script:
+        - ssh -p 2435 tiuweb@101.200.134.163 "sudo systemctl stop rimp"
+        - ssh -p 2435 tiuweb@101.200.134.163 "rm -rf /data/rimp/webapps/ROOT*"
+        - scp -P 2435 target/rimp-v1.0.war tiuweb@101.200.134.163:/data/rimp/webapps/ROOT.war
+        - ssh -p 2435 tiuweb@101.200.134.163 "sudo systemctl restart rimp"

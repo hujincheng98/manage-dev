@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.registerInfo.dao.PayMedicalCardTransInfoDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.registerInfo.vo.PayMedicalCardTransInfo" >
+    <id column="TRANS_ID" property="transId" jdbcType="INTEGER" />
+    <result column="TRANS_MEDICARD_ID" property="transMedicardId" jdbcType="VARCHAR" />
+    <result column="TRANS_MEDICARD_NAME" property="transMedicardName" jdbcType="VARCHAR" />
+    <result column="TRANS_MEDICARD_IDENCARD" property="transMedicardIdencard" jdbcType="VARCHAR" />
+    <result column="TRANS_MEDICARD_PHONE" property="transMedicardPhone" jdbcType="VARCHAR" />
+    <result column="TRANS_TYPE" property="transType" jdbcType="VARCHAR" />
+    <result column="TRANS_AMOUNT" property="transAmount" jdbcType="DECIMAL" />
+    <result column="MEDICARD_BALANCE" property="medicardBalance" jdbcType="DECIMAL" />
+    <result column="CH_NAME" property="chName" jdbcType="VARCHAR" />
+    <result column="CH_TOKEN" property="chToken" jdbcType="VARCHAR" />
+    <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="TRANS_TIME" property="transTime" jdbcType="TIMESTAMP" />
+    <result column="CH_TRANS_NUM" property="chTransNum" jdbcType="VARCHAR" />
+    <result column="HIS_TRANS_NUM" property="hisTransNum" jdbcType="VARCHAR" />
+    <result column="TRANS_STATE" property="transState" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    TRANS_ID, TRANS_MEDICARD_ID, TRANS_MEDICARD_NAME, TRANS_MEDICARD_IDENCARD, TRANS_MEDICARD_PHONE, 
+    TRANS_TYPE, TRANS_AMOUNT, MEDICARD_BALANCE, CH_NAME, CH_TOKEN, HOS_ID, ORG_ID, TRANS_TIME, 
+    CH_TRANS_NUM, HIS_TRANS_NUM, TRANS_STATE, REMARK
+  </sql>
+  
+  <!-- 插入 -->
+  <insert id="insert" parameterType="com.skynet.rimp.registerInfo.vo.PayMedicalCardTransInfo" >
+    insert into pay_medical_card_trans (TRANS_ID, TRANS_MEDICARD_ID, TRANS_MEDICARD_NAME, 
+      TRANS_MEDICARD_IDENCARD, TRANS_MEDICARD_PHONE, 
+      TRANS_TYPE, TRANS_AMOUNT, MEDICARD_BALANCE, 
+      CH_NAME, CH_TOKEN, HOS_ID, 
+      ORG_ID, TRANS_TIME, CH_TRANS_NUM, 
+      HIS_TRANS_NUM, TRANS_STATE, REMARK
+      )
+    values (#{transId,jdbcType=INTEGER}, #{transMedicardId,jdbcType=VARCHAR}, #{transMedicardName,jdbcType=VARCHAR}, 
+      #{transMedicardIdencard,jdbcType=VARCHAR}, #{transMedicardPhone,jdbcType=VARCHAR}, 
+      #{transType,jdbcType=VARCHAR}, #{transAmount,jdbcType=DECIMAL}, #{medicardBalance,jdbcType=DECIMAL}, 
+      #{chName,jdbcType=VARCHAR}, #{chToken,jdbcType=VARCHAR}, #{hosId,jdbcType=VARCHAR}, 
+      #{orgId,jdbcType=VARCHAR}, #{transTime,jdbcType=TIMESTAMP}, #{chTransNum,jdbcType=VARCHAR}, 
+      #{hisTransNum,jdbcType=VARCHAR}, #{transState,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from pay_medical_card_trans
+    where TRANS_ID = #{transId,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 更新 -->
+  <update id="update" parameterType="com.skynet.rimp.registerInfo.vo.PayMedicalCardTransInfo" >
+    update pay_medical_card_trans
+    <set >
+      <if test="transMedicardId != null" >
+        TRANS_MEDICARD_ID = #{transMedicardId,jdbcType=VARCHAR},
+      </if>
+      <if test="transMedicardName != null" >
+        TRANS_MEDICARD_NAME = #{transMedicardName,jdbcType=VARCHAR},
+      </if>
+      <if test="transMedicardIdencard != null" >
+        TRANS_MEDICARD_IDENCARD = #{transMedicardIdencard,jdbcType=VARCHAR},
+      </if>
+      <if test="transMedicardPhone != null" >
+        TRANS_MEDICARD_PHONE = #{transMedicardPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="transType != null" >
+        TRANS_TYPE = #{transType,jdbcType=VARCHAR},
+      </if>
+      <if test="transAmount != null" >
+        TRANS_AMOUNT = #{transAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="medicardBalance != null" >
+        MEDICARD_BALANCE = #{medicardBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="chName != null" >
+        CH_NAME = #{chName,jdbcType=VARCHAR},
+      </if>
+      <if test="chToken != null" >
+        CH_TOKEN = #{chToken,jdbcType=VARCHAR},
+      </if>
+      <if test="hosId != null" >
+        HOS_ID = #{hosId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="transTime != null" >
+        TRANS_TIME = #{transTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chTransNum != null" >
+        CH_TRANS_NUM = #{chTransNum,jdbcType=VARCHAR},
+      </if>
+      <if test="hisTransNum != null" >
+        HIS_TRANS_NUM = #{hisTransNum,jdbcType=VARCHAR},
+      </if>
+      <if test="transState != null" >
+        TRANS_STATE = #{transState,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TRANS_ID = #{transId,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 查询 -->
+  <select id="findAll" resultMap="BaseResultMap">
+  	 SELECT * FROM pay_medical_card_trans ORDER BY TRANS_TIME DESC
+  </select>
+  
+  <select id="findByCondition" parameterType="com.skynet.common.SearchParams" resultMap="BaseResultMap">
+ 	SELECT * FROM pay_medical_card_trans where 1=1
+ 	<if test="searchParams!=null">
+	 	<if test="searchParams.transMedicardName!=null and searchParams.transMedicardName!=''"> <!-- 患者姓名 -->
+			AND TRANS_MEDICARD_NAME LIKE '%${searchParams.transMedicardName}%'
+		</if>
+	 	<if test="searchParams.transMedicardIdencard!=null and searchParams.transMedicardIdencard!=''"> <!-- 患者身份证号 -->
+			AND TRANS_MEDICARD_IDENCARD = #{searchParams.transMedicardIdencard}
+		</if>
+	 	<if test="searchParams.chTransNum!=null and searchParams.chTransNum!=''"> <!-- 支付流水号 -->
+			AND CH_TRANS_NUM = #{searchParams.chTransNum}
+		</if>
+	 	<if test="searchParams.hisTransNum!=null and searchParams.hisTransNum!=''"> <!-- HIS充值流水号 -->
+			AND HIS_TRANS_NUM = #{searchParams.hisTransNum}
+		</if>
+		<if test="searchParams.transState!=null and searchParams.transState!=''"> <!-- 充值状态 -->
+			AND TRANS_STATE = #{searchParams.transState}
+		</if>
+		<if test="searchParams.chToken!=null and searchParams.chToken!=''"> <!-- 渠道 -->
+			AND CH_TOKEN = #{searchParams.chToken}
+		</if>
+		<if test="searchParams.startDate!=null and searchParams.startDate!=''">
+			<![CDATA[
+			    AND TRANS_TIME >= #{searchParams.startDate}
+			]]>
+		</if>
+		<if test="searchParams.endDate!=null and searchParams.endDate!=''">
+			<![CDATA[
+			    AND TRANS_TIME <= #{searchParams.endDate}
+			]]>
+		</if>
+	</if>
+	ORDER BY TRANS_TIME DESC
+  </select>
+  
+</mapper>

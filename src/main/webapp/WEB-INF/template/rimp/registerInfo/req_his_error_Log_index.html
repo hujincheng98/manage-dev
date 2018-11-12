@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <#include "../include/head.html" />
+    <title><@s.m code="shift.management" /></title>
+   	<script type="text/javascript" src="${res}/js/registerInfo/req_his_error_Log_index.js"></script>
+   	<link type="text/css" rel="stylesheet" href="${res}/css/dialog_index.css" />
+    <style type="text/css">
+		body,td,th {font-size: 12px;} 
+	</style>
+  </head>
+  <body>
+    <!-- 搜索区域  -->
+    <fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+           <form id="searchform">
+	           <table class="n_input">
+	               <tr>
+	                   <td width="100" height="20" align="right" nowrap>请求时间：</td>
+	                   <td nowrap>
+	                      <input type="text" class="easyui-datebox" name="searchParams[reqDateStart]"/>
+	                   </td>
+	                   <td width="100" height="20" align="right" nowrap>至：</td>
+	                   <td nowrap>
+	                      <input type="text" class="easyui-datebox" name="searchParams[reqDateEnd]"/>
+	                   </td>
+	                   <td width="100" height="20" align="right" nowrap>渠道名称：</td>
+	                   <td nowrap>	                                       
+	                   <select class="easyui-combobox" 
+			              data-options="
+      		              valueField:'token',
+      		              textField:'chName',
+      		              editable:false,
+      		              required:false,
+                          missingMessage:'渠道名称',
+                          url:'${base}/rimp/mobilePayment/listBychName.json'"
+			              style="width:144px;height: 24px;" name="searchParams[chName]" id="token">
+		               </select>
+		               </td>
+		               <td height="20" colspan="10" align="center" nowrap="nowrap" style="padding-left: 20px;">
+		                   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="_search();">查询</a>
+		                   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-undo'" onclick="$('#searchform').form('clear');$('#report').linkbutton('disable');_search();">重置</a>    
+		                   <!-- <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-tabicons_15_14',disabled:false" id="report" onclick="report('exportExcel.json');">导出</a> -->
+	                   </td>
+	               </tr>	         
+	           </table>  
+           </form>
+       </fieldset>
+       
+	   <!-- 数据表格区域 -->
+	   <table id="dg"></table>
+	   
+	   
+	   
+	   <!-- 查看Dialog -->
+	<!-- <div id="viewDialog" class="easyui-dialog" title="解决方案"
+		data-options="closed:true,modal:true,
+    		href:'viewHisErrorLog.do',
+    		onLoad : function () {
+				var row = $('#dg').datagrid('getSelected');
+				$('#qbank_edit_form').form('load', row);
+       		},
+       		onOpen : function () {
+				var row = $('#dg').datagrid('getSelected');
+				$('#qbank_edit_form').form('load', row);	
+       		}
+    		"
+		style="width:710px;height:300px;padding:5px"></div> -->
+	   
+	   <!-- 按钮区域 -->
+	<div id="layout" class="easyui-layout" style="width:100%;height:100%;"
+		data-options="fit:true">
+		<div id="button-bar">
+		     <a href="#"
+				class="easyui-linkbutton" iconCls="icon-search" plain="true"
+				onclick="javascript:view();">查看解决方案</a>  
+		</div>
+		<div data-options="region:'center'"
+			style="padding:2px;background:#fff;overflow: auto;width: 100%;">
+			<div id="dg"></div>
+		</div>
+
+	</div>
+	   
+	<div id="dd"></div> 
+	   
+  </body>
+</html>

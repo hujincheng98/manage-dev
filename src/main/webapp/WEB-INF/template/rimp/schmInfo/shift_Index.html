@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <#include "../include/head.html" />
+    <title><@s.m code="shift.management" /></title>
+   	<script type="text/javascript" src="${res}/js/schmInfo/shiftIndex.js"></script>
+   	<script type="text/javascript" src="${res}/js/tab.js"></script>
+    <style type="text/css">
+		body,td,th {font-size: 12px;} 
+	</style>
+  </head>
+  <body>
+<!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+		<table class="n_input" id="searchform">
+              <tr>
+                  <td height="20" align="right" nowrap>班次名称：</td>
+                  <td><input class="easyui-textbox" type="text" name="searchParams[shiftName]" id="searchParams[shiftName]"/></td>
+                  <td height="20" align="right" nowrap>起始时间：</td>
+                  <td><input type="text" name="searchParams[shiftStartDate]" id="shiftStartDate" class="easyui-my97" data-options="required:false,dateFmt:'H:mm',minDate:'00:00',maxDate:'23:59'" /></td>
+                  <td height="20" align="right" nowrap>结束时间：</td>
+                  <td><input type="text" name="searchParams[shiftEndDate]" id="shiftEndDate" class="easyui-my97" data-options="required:false,dateFmt:'H:mm',minDate:'00:00',maxDate:'23:59'" /></td>
+                  <td height="32" colspan="18" align="center">
+                  	<button id="searchBtn" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</button>
+                  	<button type="reset" class="easyui-linkbutton" id="clearBtn" data-options="iconCls:'icon-undo'">重置</button>
+                  </td>
+              </tr>
+          </table>
+      </fieldset>
+
+	<!-- 按钮区域 -->
+	<div id="button-bar"> 
+		<@shiro.hasPermission name="/rimp/shift/add.do">
+	    <a href="#" class="easyui-linkbutton easyui-opentab" iconCls="icon-add" plain="true" url="${base}/rimp/shift/add.do" title="班次维护 - 新增">新增</a>
+	    </@shiro.hasPermission>  
+	    <@shiro.hasPermission name="/rimp/shift/delete.json">
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true" id="deleteBtn">删除</a>
+	    </@shiro.hasPermission>  
+	    <@shiro.hasPermission name="/rimp/shift/edit.do">
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="editBtn" title="班次维护 - 编辑">编辑</a>
+	    </@shiro.hasPermission>  
+	</div>
+	
+	<@p.table id="tableList" url="list.json" idField="shiftId" toolbar="button-bar" singleSelect="true" showHeader="true" title="班次列表" remoteSort="false">
+		<@p.column code="编号" field="shiftId" checkbox="true" />
+		<@p.column code="班次名称" field="shiftName" width="25%" sortable="true"/>
+		<@p.column code="开始时间" field="shiftStartDate" width="25%" sortable="true"/>
+		<@p.column code="结束时间" field="shiftEndDate" width="25%" sortable="true"/>
+		<@p.column code="备注" field="remarks" width="23%" />
+	</@p.table>
+	
+  </body>
+</html>

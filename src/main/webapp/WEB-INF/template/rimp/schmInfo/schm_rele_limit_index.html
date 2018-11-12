@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <#include "../include/head.html" />
+    <title><@s.m code="shift.management" /></title>
+    <script type="text/javascript" src="${base}/plug-in/easyui/jquery.checkbox.js"></script>
+    <script type="text/javascript" src="${res}/js/schmInfo/schm_rele_limit_index.js"></script>
+   <style type="text/css">
+		body,td,th {font-size: 12px;} 
+		div.checkbox{
+			cursor: default
+		}
+	</style>
+  </head>
+  <body>
+  
+       <div>  
+       <@shiro.hasPermission name="/rimp/releLimit/select.json">
+		    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="saveNumberBtn">保存</a> 
+	   </@shiro.hasPermission>     
+		    <a href="#" id="cancelBtn" class="easyui-linkbutton easyui-closetab" iconCls="icon-cut" plain="true">取消</a>    
+		</div>
+	
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>放号管理</legend>
+		<form action="update.json" id="dataTable">
+           <table class="n_input">
+           		 <tr>
+                   <td width="100" height="20" align="right" nowrap>所属医院：</td>
+                   <td nowrap>
+				        <select class="easyui-combobox" 
+							data-options="
+				      		valueField:'hosId',
+				      		textField:'hosName',
+				      		required:true,
+				            missingMessage:'请选择所属医院',
+				            url:'${base}/rimp/hos/listAll.json',
+				            onLoadSuccess:function(){
+				            	var data = $('#hosId').combobox('getData');
+				            	$('#hosId').combobox('select',data[0].hosId);
+							}"
+							style="width:170px;" name="hosId" id="hosId">
+						</select>
+                   </td>
+                   <td>
+                   	<font color="#FF3366"></font>
+                   </td>
+               </tr>
+           		
+               <tr>
+                   <td width="100" height="20" align="right" nowrap>放号天数：</td>
+                   <td nowrap>
+                      <input type="text" id="releDayNum" name="releDayNum" numbers="true" class="easyui-numberspinner" data-options="required:true,precision:0,
+						validType:{
+							rateCheck : [1,100]
+						} " style="width:170px;"/>
+                      <input type="hidden" name="releId" id="releId">
+                   </td>
+                   <td>
+                   	<font color="#FF3366">注：从次日起能够预约的天数。</font>
+                   </td>
+                   
+               </tr>
+               <tr>
+                   <td width="100" height="20" align="right" nowrap>放号时间：</td>
+                   <td nowrap>
+                      <input type="text" id="releDate" name="releDate" class="easyui-my97" data-options="width:149,required:true,dateFmt:'HH:mm'" />
+                   </td>
+                   <td>
+                   	<font color="#FF3366">注：每天从该时间起，放预约天数最后一天的次日的号。</font>
+                   </td>
+               </tr>
+           </table>  
+           <table class="n_input" style="margin-top: 10px">
+           <tr>
+                   <td width="100" height="20" align="right" nowrap>放号限制：</td>
+                   <td>
+                   <input type="hidden" name="ruleFlag">
+                   		<span class="easyui-checkbox" id="checkbox">
+							<input type="checkbox" id="checkBtn"  label="限制可预约时间点">
+						</span>
+                   </td>
+                   <td>
+                   </td>
+               </tr>
+               <tr>
+               <td width="100" height="20" align="right" nowrap></td>
+               <td><input type="text" id="releNextDate" name="ruleDate" class="easyui-my97"  data-options="width:149,required:true,dateFmt:'HH:mm'" /></td>
+               <td>
+                   	<font color="#FF3366">注：每天从该时间起，不能预约当日的号。</font>
+                   </td>
+               </tr>
+           </table>
+           </form>
+       </fieldset>
+
+  </body>
+</html>

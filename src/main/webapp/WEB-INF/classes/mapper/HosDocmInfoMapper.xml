@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.hisBaseInfo.dao.HosDocmInfoDao">
+
+<resultMap id="BaseResultMap" type="com.skynet.rimp.hisBaseInfo.vo.HosDocmInfo" >
+    <id column="DOCM_ID" property="docmId" jdbcType="VARCHAR" />
+    <result column="DOCM_NAME" property="docmName" jdbcType="VARCHAR" />
+    <result column="DOCM_PINY_CODE" property="docmPinyCode" jdbcType="VARCHAR" />
+    <result column="DOCM_HIS_CODE" property="docmHisCode" jdbcType="VARCHAR" />
+    <result column="DOCM_CRED_TYPE" property="docmCredType" jdbcType="VARCHAR" />
+    <result column="DOCM_CRED_NUM" property="docmCredNum" jdbcType="VARCHAR" />
+    <result column="DOCM_SEX" property="docmSex" jdbcType="VARCHAR" />
+    <result column="DOCM_EDUC" property="docmEduc" jdbcType="VARCHAR" />
+    <result column="DOCM_BIRTH_DATE" property="docmBirthDate" jdbcType="DATE" />
+    <result column="DOCM_NATION" property="docmNation" jdbcType="VARCHAR" />
+    <result column="DOCM_WAGE_NUM" property="docmWageNum" jdbcType="VARCHAR" />
+    <result column="DOCM_POSITION" property="docmPosition" jdbcType="VARCHAR" />
+    <result column="DOCM_TITLE" property="docmTitle" jdbcType="VARCHAR" />
+    <result column="DOCM_WORK_NATURE" property="docmWorkNature" jdbcType="VARCHAR" />
+    <result column="DOCM_ROOM" property="docmRoom" jdbcType="VARCHAR" />
+    <result column="DOCM_SORT" property="docmSort" jdbcType="INTEGER" />
+    <result column="DOCM_PHOTO" property="docmPhoto" jdbcType="VARCHAR" />
+    <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="DIAGNOSIS_INTE" property="diagnosisInte" jdbcType="INTEGER" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="DOCM_STATE" property="docmState" jdbcType="VARCHAR" />
+    <result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+    <result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+    <result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR"/>
+    <result column="DOCM_INTRO" property="docmIntro" jdbcType="VARCHAR"/>
+    <result column="DOCM_SPEC" property="docmSpec" jdbcType="VARCHAR"/>
+    <result column="dept_hos_id" property="deptHosId" jdbcType="VARCHAR"/>
+  </resultMap>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		SELECT 
+			DOC.*,
+			DEP.DEPT_NAME,
+			DEP.HOS_ID AS dept_hos_id  
+		FROM HOS_DOCM_INFO DOC LEFT JOIN HOS_DEPT_INFO DEP ON DOC.DEPT_ID = DEP.DEPT_ID ORDER BY DOC.DOCM_PINY_CODE ASC
+	</select>
+	
+	<select id="findByCondition" parameterType="com.skynet.common.SearchParams" resultMap="BaseResultMap">
+		SELECT 
+			DOC.*,
+			DEP.DEPT_NAME, 
+			DEP.HOS_ID AS dept_hos_id 
+		FROM HOS_DOCM_INFO DOC LEFT JOIN HOS_DEPT_INFO DEP ON DOC.DEPT_ID = DEP.DEPT_ID 
+		WHERE 1=1 
+		<if test="searchParams.docmId != null and searchParams.docmId != ''">
+			and DOC.DOCM_ID = #{searchParams.docmId,jdbcType=VARCHAR}
+		</if>
+		<if test="searchParams.docmName != null and searchParams.docmName != ''">
+			and DOC.DOCM_NAME like '%${searchParams.docmName}%'
+		</if>
+		<if test="searchParams.docmNameNoLike != null and searchParams.docmNameNoLike != ''">
+			and DOC.DOCM_NAME = #{searchParams.docmNameNoLike,jdbcType=VARCHAR}
+		</if>
+		<if test="searchParams.docmState != null and searchParams.docmState != ''">
+			and DOC.DOCM_STATE = '${searchParams.docmState}'
+		</if>
+		<if test="searchParams.deptId != null and searchParams.deptId != ''">
+			and DOC.DEPT_ID = '${searchParams.deptId}'
+		</if>
+		<if test="searchParams.docmPinyCode != null  and searchParams.docmPinyCode != ''"> 
+			and DOCM_PINY_CODE like '%${searchParams.docmPinyCode}%'
+		</if>
+		ORDER BY DOC.DOCM_PINY_CODE ASC
+	</select>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select a.* from HOS_DOCM_INFO a 
+    	where a.DOCM_ID = #{docmId,jdbcType=VARCHAR} 
+  	</select>
+  	
+  	 <update id="updateByPrimaryKey" parameterType="com.skynet.rimp.hisBaseInfo.vo.HosDocmInfo" >
+	     update hos_docm_info
+    <set >
+      <if test="docmName != null" >
+        DOCM_NAME = #{docmName,jdbcType=VARCHAR},
+      </if>
+      <if test="docmPinyCode != null" >
+        DOCM_PINY_CODE = #{docmPinyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="docmHisCode != null" >
+        DOCM_HIS_CODE = #{docmHisCode,jdbcType=VARCHAR},
+      </if>
+      <if test="docmCredType != null" >
+        DOCM_CRED_TYPE = #{docmCredType,jdbcType=VARCHAR},
+      </if>
+      <if test="docmCredNum != null" >
+        DOCM_CRED_NUM = #{docmCredNum,jdbcType=VARCHAR},
+      </if>
+      <if test="docmSex != null" >
+        DOCM_SEX = #{docmSex,jdbcType=VARCHAR},
+      </if>
+      <if test="docmEduc != null" >
+        DOCM_EDUC = #{docmEduc,jdbcType=VARCHAR},
+      </if>
+      <if test="docmBirthDate != null" >
+        DOCM_BIRTH_DATE = #{docmBirthDate,jdbcType=DATE},
+      </if>
+      <if test="docmNation != null" >
+        DOCM_NATION = #{docmNation,jdbcType=VARCHAR},
+      </if>
+      <if test="docmWageNum != null" >
+        DOCM_WAGE_NUM = #{docmWageNum,jdbcType=VARCHAR},
+      </if>
+      <if test="docmPosition != null" >
+        DOCM_POSITION = #{docmPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="docmTitle != null" >
+        DOCM_TITLE = #{docmTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="docmWorkNature != null" >
+        DOCM_WORK_NATURE = #{docmWorkNature,jdbcType=VARCHAR},
+      </if>
+      <if test="docmRoom != null" >
+        DOCM_ROOM = #{docmRoom,jdbcType=VARCHAR},
+      </if>
+      <if test="docmSort != null" >
+        DOCM_SORT = #{docmSort,jdbcType=INTEGER},
+      </if>
+      <if test="docmPhoto != null" >
+        DOCM_PHOTO = #{docmPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisInte != null" >
+        DIAGNOSIS_INTE = #{diagnosisInte,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="docmState != null" >
+        DOCM_STATE = #{docmState,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        EXT2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        EXT3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="docmIntro != null" >
+        DOCM_INTRO = #{docmIntro,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="docmSpec != null" >
+        DOCM_SPEC = #{docmSpec,jdbcType=LONGVARCHAR},
+      </if>
+       <if test="hosId != null" >
+        HOS_ID = #{hosId,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where DOCM_ID = #{docmId,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<update id="updateByPrimaryKeytoState" parameterType="com.skynet.rimp.hisBaseInfo.vo.HosDocmInfo" >
+	    update hos_docm_info
+	    set 
+	      DOCM_STATE = #{docmState,jdbcType=VARCHAR},
+	      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+	      UPDATE_USER = #{updateUser,jdbcType=VARCHAR}
+	    where DOCM_ID = #{docmId,jdbcType=VARCHAR}
+  	</update>
+	
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    	delete from hos_docm_info
+    	where DOCM_ID = #{docmId,jdbcType=VARCHAR}
+  	</delete>
+  	
+  	<delete id="deleteByKeyArr" parameterType="java.util.List">
+		DELETE FROM hos_docm_info WHERE DOCM_ID IN
+		<foreach collection="array" index="index" item="item" open="(" separator="," close=")">  
+            #{item}   
+    	</foreach>  
+	</delete>
+  	
+  	<insert id="insert" parameterType="com.skynet.rimp.hisBaseInfo.vo.HosDocmInfo" >
+    insert into hos_docm_info (DOCM_ID, DOCM_NAME, DOCM_PINY_CODE, 
+      DOCM_HIS_CODE, DOCM_CRED_TYPE, DOCM_CRED_NUM, 
+      DOCM_SEX, DOCM_EDUC, DOCM_BIRTH_DATE, 
+      DOCM_NATION, DOCM_WAGE_NUM, DOCM_POSITION, 
+      DOCM_TITLE, DOCM_WORK_NATURE, DOCM_ROOM, 
+      DOCM_SORT, DOCM_PHOTO, ORG_ID, 
+      DEPT_ID, DIAGNOSIS_INTE, REMARKS, DOCM_STATE, 
+      EXT1, EXT2, EXT3, CREATE_DATE, 
+      CREATE_USER, UPDATE_DATE, UPDATE_USER, 
+      DOCM_INTRO, DOCM_SPEC,HOS_ID)
+    values (#{docmId,jdbcType=VARCHAR}, #{docmName,jdbcType=VARCHAR}, #{docmPinyCode,jdbcType=VARCHAR}, 
+      #{docmHisCode,jdbcType=VARCHAR}, #{docmCredType,jdbcType=VARCHAR}, #{docmCredNum,jdbcType=VARCHAR}, 
+      #{docmSex,jdbcType=VARCHAR}, #{docmEduc,jdbcType=VARCHAR}, #{docmBirthDate,jdbcType=DATE}, 
+      #{docmNation,jdbcType=VARCHAR}, #{docmWageNum,jdbcType=VARCHAR}, #{docmPosition,jdbcType=VARCHAR}, 
+      #{docmTitle,jdbcType=VARCHAR}, #{docmWorkNature,jdbcType=VARCHAR}, #{docmRoom,jdbcType=VARCHAR}, 
+      #{docmSort,jdbcType=INTEGER}, #{docmPhoto,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, 
+      #{deptId,jdbcType=VARCHAR}, #{diagnosisInte,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR}, #{docmState,jdbcType=VARCHAR}, 
+      #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, 
+      #{docmIntro,jdbcType=LONGVARCHAR}, #{docmSpec,jdbcType=LONGVARCHAR},#{hosId,jdbcType=LONGVARCHAR})
+  </insert>
+	
+	
+</mapper>

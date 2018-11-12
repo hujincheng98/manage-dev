@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>系统管理</title> 
+	[#include "../include/head.html" /]
+	<script type="text/javascript" src="${res}/js_custom/role.js"></script>
+	<script type="text/javascript" src="${res}/js_custom/role_res_setting.js"></script>
+</head>
+<body>
+
+	<!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+		<table class="n_input" id="searchform">
+             <tr>
+                 <td height="20" align="right" nowrap>角色名称：</td>
+                 <td><input type="text" class="easyui-textbox" id="searchParams_roleName" value="" name="searchParams['roleName']" /></td>
+                 <td height="32" colspan="18" align="center">
+                 	<a id="searchBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+                 	<a id="resetBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">重置</a>
+                 </td>
+             </tr>
+         </table>
+     </fieldset>
+
+	<!-- 按钮区域 -->
+	<div id="button-bar">
+		[@shiro.hasPermission name="/platform/role/add.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="addBtn">新增</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/role/delete.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true" id="deleteBtn">删除</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/role/update.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="editBtn">编辑</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/role/update.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" id="saveBtn">保存</a>
+	    [/@shiro.hasPermission]
+	    [@shiro.hasPermission name="/platform/role/res_setting.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-large-clipart" plain="true" id="resSetBtn">资源分配</a>
+	    [/@shiro.hasPermission]
+	    
+	    <a href="#" class="easyui-linkbutton" style="display:none;" iconCls="icon-tabicons_03_04" plain="true" id="resetDataBtn">撤销</a>
+	</div>
+	
+	[@p.table id="tableList" url="list.json" idField="roleId" toolbar="button-bar" singleSelect="true" checkOnSelect="true" selectOnCheck="true" showHeader="true" title="角色列表"]
+		[@p.column title="选择" field="roleId" checkbox="true" /]
+		[@p.column title="角色名称" field="roleName" width="15%" /]
+		[@p.column title="备注" field="remarks" width="80%" /]
+	[/@p.table]
+	
+	<div id="resSetWin" class="easyui-dialog" title="资源分配" collapsible="false"
+		minimizable="false" maximizable="false" icon="icon-large-clipart"
+		style="width: 600px; height: 400px; padding: 5px;" closed ="true" modal="true" data-options="buttons:[{text:'保存',iconCls:'icon-ok',handler:saveRoleResBtnEvent},{text:'重置',iconCls:'icon-reload',handler:resetRoleResBtnEvent},{text:'取消',iconCls:'icon-no',handler:cancelRoleResBtnEvent}]"> 
+		<div class="easyui-layout" data-options="fit:true">   
+	        <div id="res_tree" data-options="region:'center'" >   
+	        </div>
+    	</div>   
+		
+	</div>
+</body>
+</html>

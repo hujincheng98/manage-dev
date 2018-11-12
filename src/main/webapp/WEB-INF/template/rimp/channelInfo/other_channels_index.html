@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<#include "../include/head.html" />
+    <title>第三方渠道管理</title>
+    <script type="text/javascript">
+    	var isSetting=false
+	    <@shiro.hasPermission name="/rimp/otherChannels/resAuthView.do"> 
+		    	isSetting = true
+		</@shiro.hasPermission> 
+    </script>
+   	<script type="text/javascript" src="${res}/js/channelInfo/other_channels_index.js"></script>
+   	<link type="text/css" rel="stylesheet" href="${res}/css/dialog_index.css" />
+    <style type="text/css">
+		body,td,th {font-size: 12px;} 
+	</style>
+  </head>
+  <body>
+    <!-- 搜索区域  -->
+    <fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+           <form id="searchform">
+	           <table class="n_input">
+	               <tr>
+	                   <td width="100" height="20" align="right" nowrap>渠道名称：</td>
+	                   <td nowrap>
+	                      <input type="text" class="easyui-textbox" name="searchParams[chName]"/>
+	                   </td>
+	                   <td height="20" colspan="10" align="center" nowrap="nowrap">
+		                   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="_search();">查询</a>
+		                   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-undo'" onclick="$('#searchform').form('clear');_search();">重置</a>    
+	                   </td>
+	               </tr>
+	           </table>  
+           </form>
+       </fieldset>
+       
+        <!-- 新增Dialog -->
+    	<div id="addDialog" class="easyui-dialog" title="第三方渠道管理 -- 新增" data-options="closed:true,modal:true,
+    		href:'add.do',
+    		toolbar:[{
+				text:'保存',
+				iconCls:'icon-save',
+				handler:save
+			},{
+				text:'取消',
+				iconCls:'icon-cancel',
+				handler:function(){
+					$.messager.confirm('提示:','您确认要取消吗?',function(r){ 
+						if(r){ 
+							$('#addDialog').dialog('close');
+						}
+					}); 
+				}
+			}],
+			onOpen : function (){
+				$('#hos_other_channels_add_form').form('clear');
+				$('#validDate').datebox('setValue', '2099-12-31');
+			}" style="width:700px;height:400px;padding:5px">
+   	 	</div>
+       
+       <!-- 修改Dialog -->
+    	<div id="editDialog" class="easyui-dialog" title="第三方渠道管理 -- 修改" data-options="closed:true,modal:true,
+    		href:'edit.do',
+    		toolbar:[{
+				text:'保存',
+				iconCls:'icon-save',
+				handler:update
+			},{
+				text:'取消',
+				iconCls:'icon-cancel',
+				handler:function(){
+					$.messager.confirm('提示:','您确认要取消吗?',function(r){ 
+						if(r){ 
+							$('#editDialog').dialog('close');
+						}
+					}); 
+				}
+			}],
+			onLoad : function () {
+				var row = $(dataTable).datagrid('getSelected');
+				if (row) {
+					$('#hos_other_channels_edit_form').form('load', row);
+					if (row.ext1 == 'HIS') {
+						$('#regiPushMark').show();
+						$('#schmPushMark').show();
+					} else {
+						$('#regiPushMark').hide();
+						$('#schmPushMark').hide();
+					}
+				}
+       		},
+       		onOpen : function () {
+				var row = $(dataTable).datagrid('getSelected');
+				if (row) {
+					$('#hos_other_channels_edit_form').form('load', row);
+					if (row.ext1 == 'HIS') {
+						$('#regiPushMark').show();
+						$('#schmPushMark').show();
+					} else {
+						$('#regiPushMark').hide();
+						$('#schmPushMark').hide();
+					}
+				}
+       		}
+       		" style="width:700px;height:400px;padding:5px">
+    	</div>
+    
+    <!-- 消息管理 -->
+    <div id="messManageDialog" class="easyui-dialog" title="第三方渠道管理 -- 消息管理" data-options="closed:true,modal:true,
+    		toolbar:[{
+				text:'保存',
+				iconCls:'icon-save',
+				handler:messSave
+			},{
+				text:'取消',
+				iconCls:'icon-cancel',
+				handler:function(){
+					$('#messManageDialog').dialog('close');
+					$('#messList').combogrid('clear');
+				}
+			}],onOpen : function () {
+       			if (messCodeArr && messCodeArr.length > 0) {
+       				$('#messList').combogrid('clear');
+					$('#messList').combogrid('setValues', messCodeArr);
+				} else {
+					$('#messList').combogrid('clear');
+				}  
+       		}" style="width:500px;height:220px;padding:5px">
+       		
+       		<select id="messList" class="easyui-combogrid" style="width:470px;height: 30px;" data-options="
+					panelWidth: 470,
+					multiple: true,
+					idField: 'messCode',
+					textField: 'messName',
+					url: 'messList.json',
+					method: 'get',
+					fitColumns: true,
+					columns: [[
+						{field:'messCode',checkbox:true},
+						{field:'messName',title:'消息名称',width:100}
+					]]
+				">
+			</select>
+			
+    	</div>
+       
+    <!-- 按钮区域 -->
+	<div id="button-bar">  
+		<@shiro.hasPermission name="/rimp/otherChannels/add.do"> 
+	    	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:add();">新增</a>
+	    </@shiro.hasPermission>    
+	    <@shiro.hasPermission name="/rimp/otherChannels/delete.do"> 
+	    	<a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true" onclick="javascript:_remove();">删除</a> 
+    	</@shiro.hasPermission>   
+	    <@shiro.hasPermission name="/rimp/otherChannels/edit.do"> 
+	    	<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="javascript:edit();">修改</a>
+	    </@shiro.hasPermission>
+	    <@shiro.hasPermission name="/rimp/otherChannels/enabled.do"> 
+	    	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" plain="true" onclick="javascript:enabled();">启用</a>
+	    </@shiro.hasPermission>    
+	    <@shiro.hasPermission name="/rimp/otherChannels/disabled.do"> 
+	    	<a href="#" class="easyui-linkbutton" iconCls="icon-no" plain="true" onclick="javascript:disable();">停用</a>  
+	   	</@shiro.hasPermission>  
+	    <@shiro.hasPermission name="/rimp/otherChannels/messManage.do"> 
+	    	<a href="#" class="easyui-linkbutton" iconCls="icon-large-smartart" plain="true" onclick="javascript:messManage();">消息管理</a>  
+	   	</@shiro.hasPermission>  
+	</div>
+	
+	<div id="dg"></div>
+	
+	<div id="dd"></div>
+	
+  </body>
+</html>

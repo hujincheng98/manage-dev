@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<title><@s.m code="shift.management" /></title>
+    <#include "../include/head.html" />
+    <script type="text/javascript" src="${res}/js/tab.js"></script>
+      <script type="text/javascript" src="${res}/js/common/comboxGridKeyHandler.js"></script>
+   	<script type="text/javascript" src="${res}/js/schmInfo/schm_add.js"></script>
+   <style type="text/css">
+		body,td,th {font-size: 12px;} 
+	</style>
+  </head>
+  <body>
+<!-- 搜索区域 -->
+
+<div style="padding:5px;width:500px;border:0px solid #ccc">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="saveSchmBtn">保存</a>
+	<a href="#" class="easyui-linkbutton easyui-closetab" iconCls="icon-cancel" plain="true" onclick="javascript:closeTab()">取消</a>
+
+</div>
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>班次基本信息</legend>
+           <table class="n_input" id="addForm">
+               <tr>
+                   <td width="100" height="20" align="right" nowrap>排班日期：</td>
+                   <td nowrap>
+                     <input id="schmDate" name="schmDate" type="text" class="easyui-datebox" required="required" ></input>
+                   </td>
+                   <td width="100"  height="20" align="right" nowrap>星期：</td>
+                   <td nowrap>
+                      <input type="text" id="schmWeek" name="schmWeek" data-options="required:true" disabled="disabled"/>
+                   </td>
+               </tr>
+               <tr>
+                   <td width="100" height="20" align="right" nowrap>医生：</td>
+                   <td nowrap>
+                   		<input id="docmId"  name="docmId" type="text"  data-options="required:true"/>
+                   </td>
+                   <td width="100" height="20" align="right" nowrap>职称：</td>
+                   <td nowrap>
+                      <input type="text" id="docmTitle" name="docmTitle" disabled="disabled"/>
+                   </td>
+               </tr>
+               
+                <tr>
+                   <td width="100" height="20" align="right" nowrap>所属科室：</td>
+                   <td nowrap>
+                      <input type="text" id="deptName" name="deptName"  disabled="disabled"/>
+                   </td>
+                   <td width="100" height="20" align="right" nowrap>排班科室：</td>
+                   <td nowrap>
+                      <input type="text" id="schmDeptName" name="schmDeptName" data-options="required:true"/>
+                   </td>
+               </tr>
+               
+                <tr>
+                   <td width="100" height="20" align="right" nowrap>班次：</td>
+                   <td nowrap >
+                      <input id="shiftId" name = "shiftId" type="text" data-options="required:true"/>
+                   </td>
+                    <td width="100" height="20" align="right" nowrap>挂号类别：</td>
+                    <td nowrap>
+                        <input type="text" id="regcategoryName"  name="regcategoryId" data-options="required:true"/>
+                    </td>
+               </tr>
+               
+                <tr>
+                   <td width="100" height="20" align="right" nowrap>起始时间：</td>
+                   <td nowrap>
+                      <input type="text" id="shiftStartDate" name="shiftStartDate" data-options="required:true" disabled="disabled"/>
+                   </td>
+                   <td width="100" height="20" align="right" nowrap>截止时间：</td>
+                   <td nowrap>
+                      <input type="text" id="shiftEndDate" name="shiftEndDate" data-options="required:true" disabled="disabled"/>
+                   </td>
+               </tr>
+               
+               <tr>
+                   <td width="100" height="20" align="right" nowrap>线上挂号限数：</td>
+                   <td nowrap>
+                      <input type="text" id="schmOnRegiSum" name="schmOnRegiSum" data-options="required:true" class="easyui-numberbox" precision=0 min="0"/>
+                   </td>
+                   <td width="100" height="20" align="right" nowrap>线下挂号限数：</td>
+                   <td nowrap>
+                      <input type="text" id="schmDownRegiSum" name="schmDownRegiSum" data-options="required:true" class="easyui-numberbox" precision=0 min="0"/>
+                   </td>
+               </tr>
+               
+                <tr>
+                   <td width="100" height="20" align="right" nowrap>线上预约限数：</td>
+                   <td nowrap>
+                      <input type="text" id="schmOnSum" name="schmOnSum" data-options="required:true" class="easyui-numberbox" precision=0 min="0"/>
+                   </td>
+                   <td width="100" height="20" align="right" nowrap>线下预约限数：</td>
+                   <td nowrap>
+                      <input type="text" id="schmDownSum" name="schmDownSum" data-options="required:true" class="easyui-numberbox" precision=0 min="0"/>
+                   </td>
+               </tr>
+
+				<tr>
+					<td></td>
+					<td>
+						<input type="hidden" id="docmIdtocontext" name="docmIdtocontext"/> 
+						<input type="hidden" id="deptIdtocontext" name="deptIdtocontext"/> 
+						<input type="hidden" id="schmDeptIDtocontext" name="schmDeptIDtocontext"/>
+						<input type="hidden" id="schmShiftIDtocontext" name="schmShiftIDtocontext"/>
+                        <input type="hidden" id="regcategoryIDtocontext" name="regcategoryIDtocontext">
+						<input type="hidden" id="hosId" name="hosId"/>
+                        <input type="hidden" id="regcategory" name="regcategory"/>
+                        <input type="hidden" id="servcoding" name="servcoding"/>
+					</td>
+					<td></td>
+					<td></td>
+				</tr>
+
+			</table>  
+       </fieldset>
+       
+       
+       	<!-- 按钮区域 -->
+       	<!-- 
+	<div id="button-bar">  
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="addBtn">新增</a>    
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true" onclick="javascript:alert('Cut')">删除</a>    
+	</div>
+	 -->
+	
+	<div id="addTableTile"></div>
+
+  </body>
+</html>

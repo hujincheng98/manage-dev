@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<#include "../include/head.html" />
+    <title><@s.m code="shift.management" /></title>
+   	<script type="text/javascript" src="${res}/js/registerRuleInfo/rule_channels_index.js"></script>
+ 	<script type="text/javascript" src="${res}/js/tab.js"></script>
+    <style type="text/css">
+		body,td,th {font-size: 12px;} 
+	</style>
+  </head>
+  <body>
+    <!-- 搜索区域  -->
+    <fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+           <form id="searchform">
+	           <table class="n_input">
+	               <tr>
+	                   <td width="100" height="20" align="right" nowrap>渠道名称：</td>
+	                   <td nowrap>
+	                      <input type="text" class="easyui-textbox" name="searchParams[chName]"/>
+	                   </td>
+	                   <td height="20" colspan="10" align="center" nowrap="nowrap">
+	                    <@shiro.hasPermission name="/rimp/ruleInfo/save.json">
+		                   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="queryBtn">查询</a>
+		                </@shiro.hasPermission>   
+		                   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-undo'" id="resetBtn">重置</a>    
+	                   </td>
+	               </tr>
+	           </table>  
+           </form>
+       </fieldset>
+       
+   <div style="height:400px">
+   		<div id="button-bar">  
+			    <@shiro.hasPermission name="/rimp/ruleInfo/save.json">    
+			    <a href="#" id="editBtn" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
+			    </@shiro.hasPermission>
+			    <@shiro.hasPermission name="/rimp/ruleInfo/save.json">  
+			    <a href="#" id="saveBtn"  class="easyui-linkbutton" iconCls="icon-save" plain="true">保存</a>
+			    </@shiro.hasPermission>
+			    <@shiro.hasPermission name="/rimp/ruleInfo/save.json">  
+			    <a href="#" id="cancelBtn" class="easyui-linkbutton" iconCls="icon-redo" plain="true">取消</a>
+			    </@shiro.hasPermission>    
+		</div>	
+		<table id="rulechannelsinfo"></table>
+	</div>
+<!-- 	<script type="text/javascript">
+	console.log($(window.parent.document).height())
+	var h = $(window.parent.document.body).find("iframe").height();
+	console.log(h)
+	$(window.document.body).height(h)
+	</script> -->
+  </body>
+</html>

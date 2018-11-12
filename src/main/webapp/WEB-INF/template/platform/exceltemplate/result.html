@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<title>操作提示</title> 
+[#include "../../platform/include/head.html" /]
+<script type="text/javascript">
+	$(function(){
+		var result = ${result?string};
+		if(result){
+			$.messager.alert("提示", "操作成功.","info",function(){
+				parent.$("#tableList").datagrid("reload");
+				try{
+					parent.cancelUpdateETBtnEvent();
+				}catch(e){}
+				try{
+					parent.cancelAddETBtnEvent();
+				}catch(e){}
+			});
+		}else{
+			$.messager.alert("提示", "操作失败.","error",function(){
+				location.go(-1);
+			});
+		}
+	});
+</script>
+</head>
+<body>
+	
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<#include "../include/head.html" />
+    <title><@s.m code="shift.management" /></title>
+   	<script type="text/javascript" src="${res}/js/mobilePayment/mobile_payment_index.js"></script>
+   	<link type="text/css" rel="stylesheet" href="${res}/css/dialog_index.css" />
+    <style type="text/css"> 
+		body,td,th {font-size: 12px;} 
+	</style>
+  </head>
+  <body>
+    <!-- 搜索区域  -->
+    <fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+           <form id="searchform">
+          
+	           <table class="n_input">
+	               <tr>
+	                   <td width="110" height="20" align="right" nowrap>订单生成起始日期：</td>
+	                   <td nowrap>
+	                      <input type="text" class="easyui-datebox" name="searchParams[tradeTimeStart]" data-options="editable:false" style="width: 180px;"/>
+	                   </td>
+	                   <td width="100" height="20" align="right" nowrap>订单生成结束日期：</td>
+	                   <td nowrap>
+	                      <input type="text" class="easyui-datebox" name="searchParams[tradeTimeEnd]" data-options="editable:false" style="width: 180px;"/>
+	                   </td>
+	                   <td width="100" height="20" align="right" nowrap>交易订单流水号：</td>
+                       <td><input type="text" class="easyui-textbox" name="searchParams[tradeID]" id="tradeID" class="" style="width: 180px;"/></td>  
+	               </tr>
+	               <tr>
+	                   <td width="100" height="20" align="right" nowrap>HIS交易流水号：</td>
+                       <td><input type="text" class="easyui-textbox" name="searchParams[hisTradeID]" id="hisTradeID" class="" style="width: 180px;"/></td>
+	                  <!-- 业务类型：也即商品描述，字典项business_type，1-预约取号；2.当日挂号；3-诊间支付；4-门诊预交金充值；5-住院预交金充值 -->
+	                   <td width="120" height="20" align="right" nowrap>业务类型：</td>
+	                   <td nowrap>				        	
+				        	<select class="easyui-combobox" name=searchParams[businesstype]
+								id="businessType" style="width: 180px;height: 24px" data-options="editable:false">
+									<option value="1">预约取号</option>
+									<option value="2">当日挂号</option>
+									<option value="3">诊间支付</option>
+									<option value="4">门诊预交金充值</option>
+									<option value="5">住院预交金充值</option>
+									<option value="" selected="selected">全部</option>									
+							</select>				        				        	
+	                   </td>	
+	                    <!-- 充值方式：1-微信支付；2-支付宝支付；3-银联支付 -->
+	                   <td width="120" height="20" align="right" nowrap>支付方式：</td>
+	                   <td nowrap>				        	
+				        	<select class="easyui-combobox" name=searchParams[tradetype]
+								id="tradeType" style="width: 180px;height: 24px;" data-options="editable:false">
+									<option value="1">微信支付</option>
+									<option value="2">支付宝支付</option>
+									<option value="3">银联支付</option>									
+									<option value="" selected="selected">全部</option>									
+							</select>				        				        	
+	                   </td>                   
+	                     <!-- 支付类型：1-扫码支付，2-刷卡支付，3-公众号小程序支付，4-app支付，5-h5支付 -->
+	                  <!--  <td width="120" height="20" align="right" nowrap>支付类型：</td>
+	                   <td nowrap>				        	
+				        	<select class="easyui-combobox" name=searchParams[payType]
+								id="payType" style="width: 142px;height: 24px" data-options="editable:false">
+									<option value="1">扫码支付</option>
+									<option value="2">刷卡支付</option>
+									<option value="3">公众号小程序支付</option>
+									<option value="4">app支付</option>
+									<option value="5">h5支付</option>
+									<option value="" selected="selected">全部</option>									
+							</select>				        				        	
+	                   </td>	         -->      	               	                  
+	               </tr>
+	               <tr>
+	                   <td width="120" height="20" align="right" nowrap>渠道名称：</td>
+	                   <!-- <td nowrap>
+	                      <input type="text" class="easyui-textbox" name="searchParams[chName]"/>
+	                   </td> -->
+	                  <td nowrap>	                                       
+	                   <select class="easyui-combobox" 
+			              data-options="
+      		              valueField:'token',
+      		              textField:'chName',
+      		              editable:false,
+      		              required:false,
+                          missingMessage:'渠道名称',
+                          url:'${base}/rimp/mobilePayment/listBychName.json'"
+			              style="width:180px;height: 24px;" name="searchParams[chtoken]" id="chtoken">
+		               </select>
+	                  </td>
+	                  <!-- 交易状态：0-初始状态，1-交易成功，2-支付成功，-1-支付失败，-2-云平台撤销发起，-3-云平台撤销成功，-4-his撤销发起，-5-his撤销成功，-9-"云平台关闭订单成功,-10-云平台关闭订单失败 -->
+	                   <td width="120" height="20" align="right" nowrap>交易状态：</td>
+	                   <td nowrap>				        	
+				        	<select class="easyui-combobox" name=searchParams[tradestate]
+								id="tradeState" style="width: 180px;height: 24px;" data-options="editable:false">
+									<option value="0">初始状态</option>
+									<option value="1">交易成功</option>
+									<option value="2">支付成功</option>									
+									<option value="-1">支付失败</option>									
+									<option value="-2">云平台撤销发起</option>									
+									<option value="-3">云平台撤销成功</option>									
+									<option value="-4">his撤销发起</option>									
+									<option value="-5">his撤销成功</option>									
+									<option value="-9">云平台关闭订单成功</option>									
+									<option value="-10">云平台关闭订单失败</option>									
+									<option value="" selected="selected">全部</option>									
+							</select>				        				        	
+	                   </td> 
+	                    <!-- 支付结果：威富通返回，0—成功；其它—失败 -->
+	                   <!-- <td width="120" height="20" align="right" nowrap>支付结果：</td>
+	                   <td nowrap>				        	
+				        	<select class="easyui-combobox" name=searchParams[payresult]
+								id="payType" style="width: 142px;height: 24px" data-options="editable:false">
+									<option value="0">成功</option>
+									<option value="-1">失败</option>						
+									<option value="" selected="selected">全部</option>									
+							</select>				        				        	
+	                   </td>  -->
+	                   <td height="20" colspan="10" align="center" nowrap="nowrap" style="padding-left: 130px">
+		                   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="_search();">查询</a>
+		                   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-undo'" onclick="$('#searchform').form('clear');$('#report').linkbutton('disable');$('#businessType,#tradeType,#tradeState').combobox('setValue','');_search();">重置</a>    
+		                   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-tabicons_15_14',disabled:false" id="report" onclick="report('exportExcel.json');">导出</a>
+	                   </td>
+	               </tr>
+	              <!--  <tr>
+	          	       	                   
+	                   <td width="100" height="20" align="right" nowrap>医院名称：</td>
+                       <td><input type="text" class="easyui-textbox" name="searchParams[hosName]" id="hosNameSearch" class=""/></td>  
+                   
+	                
+	               </tr> -->
+	           </table>  
+           </form>
+       </fieldset>
+       
+	   <!-- 数据表格区域 -->
+	   <table id="dg"></table>
+  </body>
+</html>

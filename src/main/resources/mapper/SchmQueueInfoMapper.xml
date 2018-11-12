@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.schmInfo.dao.SchmQueueInfoDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.schmInfo.vo.SchmQueueInfo" >
+    <id column="SCHM_ID" property="schmId" jdbcType="VARCHAR" />
+    <id column="QUEUE_NUM" property="queueNum" jdbcType="INTEGER" />
+    <result column="QUEUE_DATE" property="queueDate" jdbcType="VARCHAR" />
+    <result column="QUEUE_STATE" property="queueState" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+    <result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+    <result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SCHM_ID, QUEUE_NUM, QUEUE_DATE, QUEUE_STATE, ORG_ID, REMARKS, EXT1, EXT2, EXT3, CREATE_DATE, 
+    CREATE_USER, UPDATE_DATE, UPDATE_USER
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.skynet.rimp.schmInfo.vo.SchmQueueInfoKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from schm_queue_info
+    where SCHM_ID = #{schmId,jdbcType=VARCHAR}
+      and QUEUE_NUM = #{queueNum,jdbcType=INTEGER}
+  </select>
+  <select id="findByCondition" resultMap="BaseResultMap" parameterType="com.skynet.common.SearchParams" >
+    select 
+    <include refid="Base_Column_List" />
+    from schm_queue_info
+    where 1=1 
+    <if test="searchParams.schmId != null and searchParams.schmId != ''">
+			and SCHM_ID = #{searchParams.schmId }
+		</if>
+		<if test="searchParams.queueNum != null and searchParams.queueNum != ''">
+			and QUEUE_NUM = #{searchParams.queueNum }
+		</if>
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from schm_queue_info
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.skynet.rimp.schmInfo.vo.SchmQueueInfoKey" >
+    delete from schm_queue_info
+    where SCHM_ID = #{schmId,jdbcType=VARCHAR}
+      and QUEUE_NUM = #{queueNum,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteBySchmId" parameterType="java.lang.String" >
+    delete from schm_queue_info
+    where SCHM_ID = #{schmId,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteBySchmIds" parameterType="java.util.List" >
+    delete from schm_queue_info where SCHM_ID IN
+    <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+
+  <insert id="insert" parameterType="com.skynet.rimp.schmInfo.vo.SchmQueueInfo" >
+    insert into schm_queue_info (SCHM_ID, QUEUE_NUM, QUEUE_DATE, 
+      QUEUE_STATE, ORG_ID, REMARKS, 
+      EXT1, EXT2, EXT3, CREATE_DATE, 
+      CREATE_USER, UPDATE_DATE, UPDATE_USER
+      )
+    values (#{schmId,jdbcType=VARCHAR}, #{queueNum,jdbcType=INTEGER}, #{queueDate,jdbcType=VARCHAR}, 
+      #{queueState,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <insert id="insertBatch" parameterType="java.util.List" >
+    insert into schm_queue_info (SCHM_ID, QUEUE_NUM, QUEUE_DATE, 
+      QUEUE_STATE, ORG_ID, REMARKS, 
+      EXT1, EXT2, EXT3, CREATE_DATE, 
+      CREATE_USER, UPDATE_DATE, UPDATE_USER
+      )
+    values
+    <foreach collection="list" item="item" index="index" separator="," > 
+    (#{item.schmId,jdbcType=VARCHAR}, #{item.queueNum,jdbcType=INTEGER}, #{item.queueDate,jdbcType=VARCHAR}, 
+      #{item.queueState,jdbcType=VARCHAR}, #{item.orgId,jdbcType=VARCHAR}, #{item.remarks,jdbcType=VARCHAR}, 
+      #{item.ext1,jdbcType=VARCHAR}, #{item.ext2,jdbcType=VARCHAR}, #{item.ext3,jdbcType=VARCHAR}, #{item.createDate,jdbcType=TIMESTAMP}, 
+      #{item.createUser,jdbcType=VARCHAR}, #{item.updateDate,jdbcType=TIMESTAMP}, #{item.updateUser,jdbcType=VARCHAR}
+      )
+      </foreach>
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.skynet.rimp.schmInfo.vo.SchmQueueInfo" >
+    insert into schm_queue_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="schmId != null" >
+        SCHM_ID,
+      </if>
+      <if test="queueNum != null" >
+        QUEUE_NUM,
+      </if>
+      <if test="queueDate != null" >
+        QUEUE_DATE,
+      </if>
+      <if test="queueState != null" >
+        QUEUE_STATE,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="ext1 != null" >
+        EXT1,
+      </if>
+      <if test="ext2 != null" >
+        EXT2,
+      </if>
+      <if test="ext3 != null" >
+        EXT3,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="schmId != null" >
+        #{schmId,jdbcType=VARCHAR},
+      </if>
+      <if test="queueNum != null" >
+        #{queueNum,jdbcType=INTEGER},
+      </if>
+      <if test="queueDate != null" >
+        #{queueDate,jdbcType=VARCHAR},
+      </if>
+      <if test="queueState != null" >
+        #{queueState,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.skynet.rimp.schmInfo.vo.SchmQueueInfo" >
+    update schm_queue_info
+    <set >
+      <if test="queueDate != null" >
+        QUEUE_DATE = #{queueDate,jdbcType=VARCHAR},
+      </if>
+      <if test="queueState != null" >
+        QUEUE_STATE = #{queueState,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        EXT2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        EXT3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SCHM_ID = #{schmId,jdbcType=VARCHAR}
+      and QUEUE_NUM = #{queueNum,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.skynet.rimp.schmInfo.vo.SchmQueueInfo" >
+    update schm_queue_info
+    set QUEUE_DATE = #{queueDate,jdbcType=VARCHAR},
+      QUEUE_STATE = #{queueState,jdbcType=VARCHAR},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      EXT1 = #{ext1,jdbcType=VARCHAR},
+      EXT2 = #{ext2,jdbcType=VARCHAR},
+      EXT3 = #{ext3,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR}
+    where SCHM_ID = #{schmId,jdbcType=VARCHAR}
+      and QUEUE_NUM = #{queueNum,jdbcType=INTEGER}
+  </update>
+</mapper>

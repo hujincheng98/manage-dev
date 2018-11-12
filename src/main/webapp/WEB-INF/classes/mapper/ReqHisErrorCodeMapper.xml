@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skynet.rimp.registerInfo.dao.ReqHisErrorCodeDao">
+     
+    <!-- 单表操作频繁 并无频繁增删改，可加二级缓存 -->
+    <!-- <cache type="com.tiuweb.climb.framework.config.ehcache.RedisCache"/> --> 
+     
+    <resultMap id="BaseResultMap" type="com.skynet.rimp.registerInfo.vo.ReqHisErrorCode">
+       <id column="CODE" property="code" jdbcType="VARCHAR" />           
+       <result column="ERROR_MSG" property="errorMsg" jdbcType="VARCHAR" />             
+       <result column="transactionCode" property="transactionCode" jdbcType="VARCHAR" />             
+       <result column="RESOLVE" property="resolve" jdbcType="VARCHAR" />             
+    </resultMap>
+      
+    <sql id="Base_Column_List" >
+        CODE,
+        ERROR_MSG,
+        transactionCode,
+        RESOLVE
+    </sql>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from req_his_error_code
+    </select> 
+
+    <select id="findByPrimaryKey" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from req_his_error_code	
+        where 1 = 1
+        AND CODE = #{code}  		  
+    </select> 
+
+    <select id="findByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from req_his_error_code
+        where 1=1
+        <if test="code!=null">
+            AND CODE = #{code}
+        </if>
+        <if test="errorMsg!=null">
+            AND ERROR_MSG = #{errorMsg}
+        </if>
+        <if test="transactionCode!=null">
+            AND transactionCode = #{transactionCode}
+        </if>
+        <if test="resolve!=null">
+            AND RESOLVE = #{resolve}
+        </if>
+    </select>
+
+    <select id="findByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from req_his_error_code
+        where 1=1
+        <if test="searchParams.code!=null">
+            AND CODE = #{searchParams.code}
+        </if>
+        <if test="searchParams.errorMsg!=null">
+            AND ERROR_MSG = #{searchParams.errorMsg}
+        </if>
+        <if test="searchParams.transactionCode!=null">
+            AND transactionCode = #{searchParams.transactionCode}
+        </if>
+        <if test="searchParams.resolve!=null">
+            AND RESOLVE = #{searchParams.resolve}
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="com.skynet.rimp.registerInfo.vo.ReqHisErrorCode">
+       insert into req_his_error_code 
+       <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="code!=null">
+                CODE, 
+            </if>
+            <if test="errorMsg!=null">
+                ERROR_MSG, 
+            </if>
+            <if test="transactionCode!=null">
+                transactionCode, 
+            </if>
+            <if test="resolve!=null">
+                RESOLVE, 
+            </if>
+        </trim>  
+        <trim prefix="values (" suffix=")" suffixOverrides="," > 
+            <if test="code!=null">      
+                #{code,jdbcType=VARCHAR}, 
+            </if>
+            <if test="errorMsg!=null">      
+                #{errorMsg,jdbcType=VARCHAR}, 
+            </if>
+            <if test="transactionCode!=null">      
+                #{transactionCode,jdbcType=VARCHAR}, 
+            </if>
+            <if test="resolve!=null">      
+                #{resolve,jdbcType=BINARY}, 
+            </if>
+        </trim> 
+    </insert>
+
+    <delete id="delete" parameterType="com.skynet.rimp.registerInfo.vo.ReqHisErrorCode" >
+        delete from req_his_error_code  
+        where  1=1 
+        <if test="code!=null">    
+           and CODE = #{code,jdbcType=VARCHAR}        
+        </if>
+        <if test="errorMsg!=null">    
+           and ERROR_MSG = #{errorMsg,jdbcType=VARCHAR}        
+        </if>
+        <if test="transactionCode!=null">    
+           and transactionCode = #{transactionCode,jdbcType=VARCHAR}        
+        </if>
+        <if test="resolve!=null">    
+           and RESOLVE = #{resolve,jdbcType=BINARY}        
+        </if>
+    </delete>
+
+    <update id="update" parameterType="com.skynet.rimp.registerInfo.vo.ReqHisErrorCode" >
+        update req_his_error_code   
+        <set>
+            <if test="errorMsg!=null"> 
+              ERROR_MSG = #{errorMsg,jdbcType=VARCHAR},
+            </if>
+            <if test="transactionCode!=null"> 
+              transactionCode = #{transactionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="resolve!=null"> 
+              RESOLVE = #{resolve,jdbcType=BINARY},
+            </if>
+        </set>
+        <where> 
+            <if test="code!=null"> 
+               and CODE = #{code,jdbcType=VARCHAR}        
+            </if>
+        </where> 
+    </update>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        insert into req_his_error_code
+        (
+            CODE,
+        ERROR_MSG,
+        transactionCode,
+        RESOLVE 
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator="," > 
+        (
+            #{item.code,jdbcType=VARCHAR},   
+            #{item.errorMsg,jdbcType=VARCHAR},   
+            #{item.transactionCode,jdbcType=VARCHAR},   
+            #{item.resolve,jdbcType=BINARY}  
+        )
+        </foreach>
+    </insert>
+    
+    <select id="getReqHisErrorCodesByErrorMsg" resultMap="BaseResultMap">
+     select *,
+        count(distinct c.resolve) 
+     from req_his_error_code c
+     group by c.resolve
+     HAVING 
+     c.error_msg LIKE '%${errorMsg}%'
+     AND c.transactionCode = #{transactionCode}
+     AND c.resolve IS NOT NULL
+     AND c.resolve !=''	  
+    </select> 
+    
+</mapper>

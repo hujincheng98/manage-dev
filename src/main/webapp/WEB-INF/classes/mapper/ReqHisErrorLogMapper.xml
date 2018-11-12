@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skynet.rimp.registerInfo.dao.ReqHisErrorLogDao">
+     
+    <!-- 单表操作频繁 并无频繁增删改，可加二级缓存 -->
+    <!-- <cache type="com.tiuweb.climb.framework.config.ehcache.RedisCache"/> --> 
+     
+    <resultMap id="BaseResultMap" type="com.skynet.rimp.registerInfo.vo.ReqHisErrorLog">
+       <id column="ID" property="id" jdbcType="VARCHAR" />           
+       <result column="CH_NAME" property="chName" jdbcType="VARCHAR" />             
+       <result column="CHNNELS_NAME" property="chnnelsName" jdbcType="VARCHAR" />             
+       <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+       <result column="HOS_NAME" property="hosName" jdbcType="VARCHAR" />                
+       <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />             
+       <result column="O_ID" property="oId" jdbcType="VARCHAR" />             
+       <result column="REQ_URL" property="reqUrl" jdbcType="VARCHAR" />             
+       <result column="REQ_DATE" property="reqDate" jdbcType="TIMESTAMP" />             
+       <result column="transactionCode" property="transactionCode" jdbcType="VARCHAR" />             
+       <result column="operationType" property="operationType" jdbcType="VARCHAR" />             
+       <result column="requestData" property="requestData" jdbcType="VARCHAR" />             
+       <result column="RESP_CODE" property="respCode" jdbcType="VARCHAR" />             
+       <result column="RESP_DATA" property="respData" jdbcType="VARCHAR" />             
+       <result column="error_msg" property="errorMsg" jdbcType="VARCHAR" />          
+       <result column="consuming" property="consuming" jdbcType="VARCHAR" />          
+       <result column="resolve" property="resolve" jdbcType="VARCHAR" />          
+    </resultMap>
+      
+    <sql id="Base_Column_List" >
+        ID,
+        CH_NAME,
+        HOS_ID,
+        ORG_ID,
+        REQ_URL,
+        REQ_DATE,
+        transactionCode,
+        operationType,
+        requestData,
+        RESP_CODE,
+        RESP_DATA
+    </sql>
+
+    <select id="findAll" resultMap="BaseResultMap">
+       select                               
+           r.*,
+           h.HOS_NAME,
+           h.ORG_ID  O_ID,
+           o.CH_NAME CHNNELS_NAME,
+           c.error_msg,
+           c.resolve
+        from req_his_error_log r
+        LEFT JOIN other_channels_info o ON r.CH_NAME = o.TOKEN
+        LEFT JOIN hos_info h ON h.HOS_ID = r.HOS_ID
+        LEFT JOIN req_his_error_code c ON c.CODE = r.CODE
+        ORDER BY r.REQ_DATE DESC
+    </select> 
+
+    <select id="findByPrimaryKey" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from req_his_error_log	
+        where 1 = 1
+        AND ID = #{id}  		  
+    </select> 
+
+   <!--  <select id="findByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from req_his_error_log
+        where 1=1
+        <if test="id!=null">
+            AND ID = #{id}
+        </if>
+        <if test="chName!=null">
+            AND CH_NAME = #{chName}
+        </if>
+        <if test="hosId!=null">
+            AND HOS_ID = #{hosId}
+        </if>
+        <if test="orgId!=null">
+            AND ORG_ID = #{orgId}
+        </if>
+        <if test="reqUrl!=null">
+            AND REQ_URL = #{reqUrl}
+        </if>
+        <if test="reqDate!=null">
+            AND REQ_DATE = #{reqDate}
+        </if>
+        <if test="transactionCode!=null">
+            AND transactionCode = #{transactionCode}
+        </if>
+        <if test="operationType!=null">
+            AND operationType = #{operationType}
+        </if>
+        <if test="requestData!=null">
+            AND requestData = #{requestData}
+        </if>
+        <if test="respCode!=null">
+            AND RESP_CODE = #{respCode}
+        </if>
+        <if test="respData!=null">
+            AND RESP_DATA = #{respData}
+        </if>
+    </select> -->
+
+    <select id="findByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+       select                               
+           r.*,
+           h.HOS_NAME,
+           h.ORG_ID  O_ID,
+           o.CH_NAME CHNNELS_NAME,
+           c.error_msg,
+           c.resolve
+        from req_his_error_log r
+        LEFT JOIN other_channels_info o ON r.CH_NAME = o.TOKEN
+        LEFT JOIN hos_info h ON h.HOS_ID = r.HOS_ID
+        LEFT JOIN req_his_error_code c ON c.CODE = r.CODE
+        where 1=1
+        <if test="searchParams.id!=null">
+            AND ID = #{searchParams.id}
+        </if>
+        <if test="searchParams.chName!=null and searchParams.chName!=''">
+            AND r.CH_NAME = #{searchParams.chName}
+        </if>
+        <if test="searchParams.hosId!=null and searchParams.hosId!=''">
+            AND r.HOS_ID = #{searchParams.hosId}
+        </if>
+        <if test="searchParams.orgId!=null">
+            AND ORG_ID = #{searchParams.orgId}
+        </if>
+        <if test="searchParams.reqUrl!=null">
+            AND REQ_URL = #{searchParams.reqUrl}
+        </if>
+        <!-- <if test="searchParams.reqDate!=null">
+            AND REQ_DATE = #{searchParams.reqDate}
+        </if> -->
+        <if test="searchParams.reqDateStart!=null and searchParams.reqDateStart!=''">
+             <![CDATA[
+		         AND r.REQ_DATE >= #{searchParams.reqDateStart}
+		     ]]>
+            <!--  AND DATE_FORMAT(r.REQ_DATE,'%Y-%m-%d') &gt;= #{searchParams.reqDateStart} -->
+        </if>
+        <if test="searchParams.reqDateEnd!=null and searchParams.reqDateEnd!=''">
+              <![CDATA[
+		         AND r.REQ_DATE <= #{searchParams.reqDateEnd}
+		      ]]>
+           <!--  AND DATE_FORMAT(r.REQ_DATE,'%Y-%m-%d') &lt;= #{searchParams.reqDateEnd} -->
+        </if>
+        <if test="searchParams.transactionCode!=null">
+            AND transactionCode = #{searchParams.transactionCode}
+        </if>
+        <if test="searchParams.operationType!=null">
+            AND operationType = #{searchParams.operationType}
+        </if>
+        <if test="searchParams.requestData!=null">
+            AND requestData = #{searchParams.requestData}
+        </if>
+        <if test="searchParams.respCode!=null">
+            AND RESP_CODE = #{searchParams.respCode}
+        </if>
+        <if test="searchParams.respData!=null">
+            AND RESP_DATA = #{searchParams.respData}
+        </if>
+        ORDER BY r.REQ_DATE DESC
+    </select>
+
+    <insert id="insert" parameterType="com.skynet.rimp.registerInfo.vo.ReqHisErrorLog">
+       insert into req_his_error_log 
+       <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id!=null">
+                ID, 
+            </if>
+            <if test="chName!=null">
+                CH_NAME, 
+            </if>
+            <if test="hosId!=null">
+                HOS_ID, 
+            </if>
+            <if test="orgId!=null">
+                ORG_ID, 
+            </if>
+            <if test="reqUrl!=null">
+                REQ_URL, 
+            </if>
+            <if test="reqDate!=null">
+                REQ_DATE, 
+            </if>
+            <if test="transactionCode!=null">
+                transactionCode, 
+            </if>
+            <if test="operationType!=null">
+                operationType, 
+            </if>
+            <if test="requestData!=null">
+                requestData, 
+            </if>
+            <if test="respCode!=null">
+                RESP_CODE, 
+            </if>
+            <if test="respData!=null">
+                RESP_DATA, 
+            </if>
+        </trim>  
+        <trim prefix="values (" suffix=")" suffixOverrides="," > 
+            <if test="id!=null">      
+                #{id,jdbcType=VARCHAR}, 
+            </if>
+            <if test="chName!=null">      
+                #{chName,jdbcType=VARCHAR}, 
+            </if>
+            <if test="hosId!=null">      
+                #{hosId,jdbcType=VARCHAR}, 
+            </if>
+            <if test="orgId!=null">      
+                #{orgId,jdbcType=VARCHAR}, 
+            </if>
+            <if test="reqUrl!=null">      
+                #{reqUrl,jdbcType=VARCHAR}, 
+            </if>
+            <if test="reqDate!=null">      
+                #{reqDate,jdbcType=TIMESTAMP}, 
+            </if>
+            <if test="transactionCode!=null">      
+                #{transactionCode,jdbcType=VARCHAR}, 
+            </if>
+            <if test="operationType!=null">      
+                #{operationType,jdbcType=VARCHAR}, 
+            </if>
+            <if test="requestData!=null">      
+                #{requestData,jdbcType=VARCHAR}, 
+            </if>
+            <if test="respCode!=null">      
+                #{respCode,jdbcType=VARCHAR}, 
+            </if>
+            <if test="respData!=null">      
+                #{respData,jdbcType=VARCHAR}, 
+            </if>
+        </trim> 
+    </insert>
+
+    <delete id="delete" parameterType="com.skynet.rimp.registerInfo.vo.ReqHisErrorLog" >
+        delete from req_his_error_log  
+        where  1=1 
+        <if test="id!=null">    
+           and ID = #{id,jdbcType=VARCHAR}        
+        </if>
+        <if test="chName!=null">    
+           and CH_NAME = #{chName,jdbcType=VARCHAR}        
+        </if>
+        <if test="hosId!=null">    
+           and HOS_ID = #{hosId,jdbcType=VARCHAR}        
+        </if>
+        <if test="orgId!=null">    
+           and ORG_ID = #{orgId,jdbcType=VARCHAR}        
+        </if>
+        <if test="reqUrl!=null">    
+           and REQ_URL = #{reqUrl,jdbcType=VARCHAR}        
+        </if>
+        <if test="reqDate!=null">    
+           and REQ_DATE = #{reqDate,jdbcType=TIMESTAMP}        
+        </if>
+        <if test="transactionCode!=null">    
+           and transactionCode = #{transactionCode,jdbcType=VARCHAR}        
+        </if>
+        <if test="operationType!=null">    
+           and operationType = #{operationType,jdbcType=VARCHAR}        
+        </if>
+        <if test="requestData!=null">    
+           and requestData = #{requestData,jdbcType=VARCHAR}        
+        </if>
+        <if test="respCode!=null">    
+           and RESP_CODE = #{respCode,jdbcType=VARCHAR}        
+        </if>
+        <if test="respData!=null">    
+           and RESP_DATA = #{respData,jdbcType=VARCHAR}        
+        </if>
+    </delete>
+
+    <update id="update" parameterType="com.skynet.rimp.registerInfo.vo.ReqHisErrorLog" >
+        update req_his_error_log   
+        <set>
+            <if test="chName!=null"> 
+              CH_NAME = #{chName,jdbcType=VARCHAR},
+            </if>
+            <if test="hosId!=null"> 
+              HOS_ID = #{hosId,jdbcType=VARCHAR},
+            </if>
+            <if test="orgId!=null"> 
+              ORG_ID = #{orgId,jdbcType=VARCHAR},
+            </if>
+            <if test="reqUrl!=null"> 
+              REQ_URL = #{reqUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="reqDate!=null"> 
+              REQ_DATE = #{reqDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="transactionCode!=null"> 
+              transactionCode = #{transactionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="operationType!=null"> 
+              operationType = #{operationType,jdbcType=VARCHAR},
+            </if>
+            <if test="requestData!=null"> 
+              requestData = #{requestData,jdbcType=VARCHAR},
+            </if>
+            <if test="respCode!=null"> 
+              RESP_CODE = #{respCode,jdbcType=VARCHAR},
+            </if>
+            <if test="respData!=null"> 
+              RESP_DATA = #{respData,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where> 
+            <if test="id!=null"> 
+               and ID = #{id,jdbcType=VARCHAR}        
+            </if>
+        </where> 
+    </update>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        insert into req_his_error_log
+        (
+            ID,
+        CH_NAME,
+        HOS_ID,
+        ORG_ID,
+        REQ_URL,
+        REQ_DATE,
+        transactionCode,
+        operationType,
+        requestData,
+        RESP_CODE,
+        RESP_DATA 
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator="," > 
+        (
+            #{item.id,jdbcType=VARCHAR},   
+            #{item.chName,jdbcType=VARCHAR},   
+            #{item.hosId,jdbcType=VARCHAR},   
+            #{item.orgId,jdbcType=VARCHAR},   
+            #{item.reqUrl,jdbcType=VARCHAR},   
+            #{item.reqDate,jdbcType=TIMESTAMP},   
+            #{item.transactionCode,jdbcType=VARCHAR},   
+            #{item.operationType,jdbcType=VARCHAR},   
+            #{item.requestData,jdbcType=VARCHAR},   
+            #{item.respCode,jdbcType=VARCHAR},   
+            #{item.respData,jdbcType=VARCHAR}  
+        )
+        </foreach>
+    </insert>
+</mapper>

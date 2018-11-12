@@ -1,0 +1,54 @@
+<script type="text/javascript" src="${res}/js/previewImage.js"></script>
+<form id="qbank_edit_form_admin" enctype="multipart/form-data" method="post">
+	<div> 
+		<label>题目内容</label> <input value="" class="easyui-textbox" type="text"
+			name=question id="question" data-options="required:true"
+			missingMessage="题目不能为空！" />
+	</div>
+	<!-- 满意：1,基本满意：2, 一般：3, 不满意：4-->
+	<div>
+		<label>选项一</label> <input value="" class="easyui-textbox" type="text"
+			name=option1 id="option1" data-options="required:true"
+			missingMessage="问题不能为空！" />
+	</div>
+	<div>
+		<label>选项二</label> <input value="" class="easyui-textbox" type="text"
+			name=option2 id="option2" data-options="required:true"
+			missingMessage="问题不能为空！" />
+	</div>
+	<div>
+		<label>选项三</label><input value="" class="easyui-textbox" type="text"
+			name=option3 id="option3" data-options="required:true"
+			missingMessage="问题不能为空！" />
+	</div>
+
+	<div>
+		<label>选项四</label><input value="" class="easyui-textbox" type="text"
+			name=option4 id="option4" data-options="required:true"
+			missingMessage="问题不能为空！" />
+	</div>
+	<div>
+		<label>选项五</label><input value="" class="easyui-textbox" type="text"
+			name=option5 id="option5" data-options="required:false"
+			missingMessage="问题不能为空！" />
+	</div>
+	<div>
+		<label>状态</label> <select class="easyui-combobox" name=hfstate id="hfstate"
+			style="width: 175px;height: 24px" data-options="required:true, editable:false">
+			<option value="1" selected="selected">启用</option>
+			<option value="0">停用</option>
+		</select>
+	</div>
+	<div>
+		<label>所属系统</label> <select class="easyui-combobox" name=orgid id="orgid"
+			style="width: 175px;height: 24px" data-options="required:true, editable:false">
+			<option value="8F3F6D49021511E7858B60A44CE84A90">数字健康</option>
+		</select>
+		<!-- <select class="" name=orgId id="orgId">
+			<option value="8F3F6D49021511E7858B60A44CE84A90" selected="selected">数字健康</option>
+		</select> -->
+	</div>
+	<div><input type="hidden" name="hfid" id="hfid"></div>
+	<div><input type="hidden" name="orgid" id="orgid"></div>
+	<div><input type="hidden" name="flag" id="flag" value="1"></div>
+</form>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<#include "../include/head.html" />
+<title><@s.m code="shift.management" /></title>
+<script type="text/javascript"
+	src="${res}/js/doctorBeedback/qbank_index.js"></script>
+<script type="text/javascript"
+	src="template/rimp/doctorBeedback/qbank_add.html"></script>
+<link type="text/css" rel="stylesheet"
+	href="${res}/css/dialog_index.css" />
+<style type="text/css">
+body,td,th {
+	font-size: 12px;
+}
+</style>
+</head>
+<body style="overflow-y:auto;">
+	<!-- 搜索区域 -->
+	<fieldset
+		style="border: 1px solid #99BBE8; margin:10px 10px; padding:5px;">
+		<legend>查询条件</legend>
+		<table class="n_input" id="searchform">
+			<tr>
+				<td width="100" height="20" align="right" nowrap>题目内容：</td>
+				<td><input type="text" class="easyui-textbox"
+					name="searchParams[question]" id="questionSearch" class="" /></td>
+
+				<td width="100" height="20" align="right" nowrap>状态：</td>
+				<td><select class="easyui-combobox" name=searchParams[hfstate]
+					id="hfstate" style="width: 66px;height: 24px">
+						<option value="1">启用</option>
+						<option value="0">停用</option>
+				</select></td>
+
+				<td height="32" colspan="10" align="center" nowrap="nowrap"
+					style="padding-left: 30px">&nbsp;&nbsp;
+					<button class="easyui-linkbutton" id="searchBtn"
+						data-options="iconCls:'icon-search'">查询</button>
+					<button class="easyui-linkbutton" id="clearBtn"
+						data-options="iconCls:'icon-undo'">重置</button>
+				</td>
+
+			</tr>
+		</table>
+	</fieldset>
+
+	<!-- 按钮区域 -->
+	<div id="addDialog" class="easyui-dialog" title="题库维护 -- 新增"
+		data-options="closed:true,modal:true,
+    		href:'hosFeedback_add.do',
+    		toolbar:[{
+				text:'保存',
+				iconCls:'icon-save',
+				handler:save
+			},{
+				text:'取消',
+				iconCls:'icon-cancel',
+				handler:function(){
+					$.messager.confirm('提示:','您确认要取消吗?',function(r){ 
+						if(r){ 
+							$('#addDialog').dialog('close');
+						}
+					}); 
+				}
+			}],
+			onLoad : function () {
+       		},
+			onOpen : function () {
+			    $('#question').textbox('setValue', '');  
+       		}
+       		"
+		style="width:710px;height:300px;padding:5px"></div>
+
+	<!-- 修改Dialog -->
+	<div id="editDialog" class="easyui-dialog" title="题库维护 -- 修改"
+		data-options="closed:true,modal:true,
+    		href:'qbank_edit.do',
+    		toolbar:[{
+				text:'保存',
+				iconCls:'icon-save',
+				handler:update
+			},{
+				text:'取消',
+				iconCls:'icon-cancel',
+				handler:function(){
+					$.messager.confirm('提示:','您确认要取消吗?',function(r){ 
+						if(r){ 
+							$('#editDialog').dialog('close');
+						}
+					}); 
+				}
+			}],
+			onLoad : function () {
+				var row = $('#dg').datagrid('getSelected');
+				$('#qbank_edit_form').form('load', row);
+       		},
+       		onOpen : function () {
+				var row = $('#dg').datagrid('getSelected');
+				$('#qbank_edit_form').form('load', row);	
+       		}
+       		"
+		style="width:710px;height:300px;padding:5px"></div>
+		
+		
+    <!-- 修改Dialog -->
+	<div id="editDialogForAppId" class="easyui-dialog" title="题库维护 -- 修改"
+		data-options="closed:true,modal:true,
+    		href:'qbank_edit_for_appId.do',
+    		toolbar:[{
+				text:'保存',
+				iconCls:'icon-save',
+				handler:update
+			},{
+				text:'取消',
+				iconCls:'icon-cancel',
+				handler:function(){
+					$.messager.confirm('提示:','您确认要取消吗?',function(r){ 
+						if(r){ 
+							$('#editDialogForAppId').dialog('close');
+						}
+					}); 
+				}
+			}],
+			onLoad : function () {
+				var row = $('#dg').datagrid('getSelected');
+				$('#qbank_edit_form_admin').form('load', row);
+       		},
+       		onOpen : function () {
+				var row = $('#dg').datagrid('getSelected');
+				$('#qbank_edit_form_admin').form('load', row);	
+       		}
+       		"
+		style="width:710px;height:300px;padding:5px"></div>
+
+	<!-- 按钮区域 -->
+	<div id="layout" class="easyui-layout" style="width:100%;height:100%;"
+		data-options="fit:true">
+		<div id="button-bar">
+			 <a href="#"
+				class="easyui-linkbutton" iconCls="icon-add" plain="true"
+				onclick="javascript:add();">新增</a> 
+		     <a href="#"
+				class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+				onclick="javascript:edit();">修改</a> 
+			 <a href="#"
+				class="easyui-linkbutton" iconCls="icon-cut" plain="true"
+				id="deleteBtn">删除</a> 
+		</div>
+		<div data-options="region:'center'"
+			style="padding:2px;background:#fff;overflow: auto;width: 100%;">
+			<div id="dg"></div>
+		</div>
+
+	</div>
+</body>
+</html>

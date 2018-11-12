@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.messPush.dao.MessChInfoMappingDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.messPush.vo.MessChInfoMapping" >
+    <id column="MESS_CODE" property="messCode" jdbcType="VARCHAR" />
+    <id column="CH_ID" property="chId" jdbcType="VARCHAR" />
+    <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+    <result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+    <result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="RedisResultMap" type="com.skynet.rimp.messPush.dto.MessChInfoMappingDTO" >
+    <result column="CH_ID" property="chId" jdbcType="VARCHAR" />
+    <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+   	<result column="MESS_CODE" property="messCode" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MESS_CODE, CH_ID, HOS_ID, ORG_ID, EXT1, EXT2, EXT3, CREATE_DATE, CREATE_USER, UPDATE_DATE, 
+    UPDATE_USER
+  </sql>
+  
+  <!-- 新增 -->
+  <insert id="insert" parameterType="com.skynet.rimp.messPush.vo.MessChInfoMapping" >
+    insert into mess_ch_info_mapping (MESS_CODE, CH_ID, HOS_ID, 
+      ORG_ID, EXT1, EXT2, 
+      EXT3, CREATE_DATE, CREATE_USER, 
+      UPDATE_DATE, UPDATE_USER)
+    values (#{messCode,jdbcType=VARCHAR}, #{chId,jdbcType=VARCHAR}, #{hosId,jdbcType=VARCHAR}, 
+      #{orgId,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, 
+      #{ext3,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR})
+  </insert>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="com.skynet.rimp.messPush.vo.MessChInfoMappingKey" >
+    delete from mess_ch_info_mapping
+    where MESS_CODE = #{messCode,jdbcType=VARCHAR}
+      and CH_ID = #{chId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 删除 -->
+  <delete id="deleteByChId" parameterType="String" >
+    delete from mess_ch_info_mapping
+    where CH_ID = #{chId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 批量删除 -->
+  <delete id="deleteByKeyArr" parameterType="java.util.List">
+		DELETE FROM mess_ch_info_mapping WHERE CH_ID IN
+		<foreach collection="array" index="index" item="item" open="(" separator="," close=")">  
+            #{item}   
+    	</foreach>  
+  </delete>
+  <!-- 更新 -->
+  <update id="update" parameterType="com.skynet.rimp.messPush.vo.MessChInfoMapping" >
+    update mess_ch_info_mapping
+    <set >
+      <if test="hosId != null" >
+        HOS_ID = #{hosId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        EXT2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        EXT3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MESS_CODE = #{messCode,jdbcType=VARCHAR}
+      and CH_ID = #{chId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getMessChInfo" parameterType="com.skynet.rimp.messPush.vo.MessChInfoMappingKey" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from mess_ch_info_mapping
+    where MESS_CODE = #{messCode,jdbcType=VARCHAR}
+      and CH_ID = #{chId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findMessChInfoByChId" parameterType="String" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from mess_ch_info_mapping where CH_ID = #{chId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findMessChInfoRedisByChId" parameterType="String" resultMap="RedisResultMap">
+  	select 
+    CH_ID, HOS_ID, MESS_CODE, ORG_ID
+    from mess_ch_info_mapping where CH_ID = #{chId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findAll" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from mess_ch_info_mapping
+  </select>
+  
+  <select id="findByCondition" parameterType="com.skynet.common.SearchParams" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from mess_ch_info_mapping where 1=1
+    <if test="searchParams.chId!=null and searchParams.chId!=''">
+		and CH_ID = #{chId,jdbcType=VARCHAR}
+	</if>
+  </select>
+  
+</mapper>

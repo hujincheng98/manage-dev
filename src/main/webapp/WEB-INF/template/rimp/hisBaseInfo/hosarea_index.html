@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <#include "../include/head.html" />
+    <title>院区管理设置</title>
+   	<script type="text/javascript" src="${res}/js/tab.js"></script>
+   <script type="text/javascript" src="${res}/js/hisBaseInfo/hosarea_index.js"></script>
+   <style type="text/css">
+		body,td,th {font-size: 12px;} 
+	</style>
+  </head>
+  <body>
+<!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+		<form action="#" id="searchForm">
+           <table class="n_input" id="searchform">
+               <tr>
+               	   <td width="100" height="20" align="right" nowrap>院区名称：</td>
+                   <td><input type="text" class="easyui-textbox" name="searchParams[areaName]" /></td>
+                   <td height="32" colspan="10" align="center">
+                   </td>
+                   <td height="32" colspan="10" align="center" nowrap="nowrap">
+                   <a href="#" class="easyui-linkbutton" id="hosarea-queryBtn" data-options="iconCls:'icon-search'">查询</a>
+                   <a href="#" class="easyui-linkbutton" id="hosarea-resetBtn" data-options="iconCls:'icon-undo'">重置</a>
+                   </td>
+               </tr>
+           </table>  
+           </form>
+       </fieldset>
+       <div style="height:400px">
+	    	 <div id="button-bar">  
+	    	 	<@shiro.hasPermission name="/rimp/hosarea/save.json">
+			    <a href="#" id="addArea" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a>
+			    </@shiro.hasPermission>
+			    <@shiro.hasPermission name="/rimp/hosarea/update.json">    
+			    <a href="javascript:void(0);" id="editArea" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
+			    </@shiro.hasPermission>
+			    <@shiro.hasPermission name="/rimp/hosarea/delete.json">
+			    <a href="javascript:void(0);" id="delete" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a>
+			    </@shiro.hasPermission>
+			    <@shiro.hasPermission name="/rimp/hosarea/upload.do">    
+			    <a href="javascript:void(0);" id="upload" class="easyui-linkbutton" iconCls="icon-tabicons_01_13" plain="true">上传</a>
+			    </@shiro.hasPermission>    
+			    <@shiro.hasPermission name="/rimp/hosarea/save.json">  
+			    <a href="javascript:void(0);" id="save"  class="easyui-linkbutton" iconCls="icon-save" plain="true">保存</a>
+			    </@shiro.hasPermission>
+			    <@shiro.hasPermission name="/rimp/hosarea/update.json">    
+			    <a href="javascript:void(0);" id="cancel" class="easyui-linkbutton" iconCls="icon-redo" plain="true">取消</a>
+			    </@shiro.hasPermission>    
+			</div>	
+			<table id="hosareainfo"></table>
+		</div>
+			
+		
+		<!-- 上传Dialog -->
+    	<div id="uploadDialog" class="easyui-dialog" title="院区信息管理 -- 图片上传" data-options="closed:true,modal:true,
+    		href:'upload.do',
+    		toolbar:[{
+				text:'保存',
+				iconCls:'icon-save',
+				handler:upload
+			},{
+				text:'取消',
+				iconCls:'icon-cancel',
+				handler:function(){
+					$.messager.confirm('提示:','您确认要取消吗?',function(r){ 
+						if(r){ 
+							$('#uploadDialog').dialog('close');
+						}
+					}); 
+				}
+			}],
+			onLoad : function () {
+       			var row = $('#hosareainfo').datagrid('getSelected');
+       			$('#areaId').val(row.areaId);
+       			if (row.hosAreaPhoto) {
+					$('#preview img').attr('src', 'data:image/png;base64,' + row.hosAreaPhoto);
+					$('#hosAreaPhoto').val(row.hosAreaPhoto);
+				} else {
+					$('#preview img').attr('src', '${res}/images/hospital.jpg');
+				}
+       		},
+       		onOpen : function () {
+       			var row = $('#hosareainfo').datagrid('getSelected');
+       			$('#areaId').val(row.areaId);
+       			if (row.hosAreaPhoto) {
+					$('#preview img').attr('src', 'data:image/png;base64,' + row.hosAreaPhoto);
+					$('#hosAreaPhoto').val(row.hosAreaPhoto);
+				} else {
+					$('#preview img').attr('src', '${res}/images/hospital.jpg');
+				}
+       		}" style="width:720px;height:400px;padding:5px">
+   	 	</div>
+  </body>
+</html>

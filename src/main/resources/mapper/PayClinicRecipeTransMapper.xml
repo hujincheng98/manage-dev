@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skynet.rimp.registerInfo.dao.PayClinicRecipeTransDao">
+     
+    <!-- 单表操作频繁 并无频繁增删改，可加二级缓存 -->
+    <!-- <cache type="com.tiuweb.climb.framework.config.ehcache.RedisCache"/> --> 
+     
+    <resultMap id="BaseResultMap" type="com.skynet.rimp.registerInfo.vo.PayClinicRecipeTrans">
+       <id column="TRANS_ID" property="transId" jdbcType="VARCHAR" />           
+       <result column="cardId" property="cardId" jdbcType="VARCHAR" />             
+       <result column="clinicRecipeId" property="clinicRecipeId" jdbcType="VARCHAR" />
+       <result column="PATIENT_NAME" property="patientName" jdbcType="VARCHAR" />             
+       <result column="IDENTITY_CARD" property="identityCard" jdbcType="VARCHAR" />             
+       <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />          
+       <result column="payType" property="payType" jdbcType="VARCHAR" />             
+       <result column="MONEY" property="money" jdbcType="DECIMAL" />             
+       <result column="serialNumber" property="serialNumber" jdbcType="VARCHAR" />             
+       <result column="costType" property="costType" jdbcType="VARCHAR" />             
+       <result column="payVoucher" property="payVoucher" jdbcType="VARCHAR" />             
+       <result column="payDate" property="payDate" jdbcType="VARCHAR" />             
+       <result column="operatorId" property="operatorId" jdbcType="VARCHAR" />             
+       <result column="hisSerialNumber" property="hisSerialNumber" jdbcType="VARCHAR" />             
+       <result column="officeName" property="officeName" jdbcType="VARCHAR" />             
+       <result column="officeAddress" property="officeAddress" jdbcType="VARCHAR" />             
+       <result column="windowName" property="windowName" jdbcType="VARCHAR" />             
+       <result column="TRANS_STATE" property="transState" jdbcType="VARCHAR" />             
+       <result column="CH_NAME" property="chName" jdbcType="VARCHAR" />             
+       <result column="CH_TOKEN" property="chToken" jdbcType="VARCHAR" />             
+       <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />             
+       <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />             
+       <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />             
+       <result column="EXT1" property="ext1" jdbcType="VARCHAR" />             
+       <result column="EXT2" property="ext2" jdbcType="VARCHAR" />             
+       <result column="EXT3" property="ext3" jdbcType="VARCHAR" />             
+       <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />             
+    </resultMap>
+      
+    <sql id="Base_Column_List" >
+        TRANS_ID,
+        cardId,
+        clinicRecipeId,
+        payType,
+        MONEY,
+        serialNumber,
+        costType,
+        payVoucher,
+        payDate,
+        operatorId,
+        hisSerialNumber,
+        officeName,
+        officeAddress,
+        windowName,
+        TRANS_STATE,
+        CH_NAME,
+        CH_TOKEN,
+        HOS_ID,
+        ORG_ID,
+        REMARKS,
+        EXT1,
+        EXT2,
+        EXT3,
+        CREATE_DATE,
+        PATIENT_NAME,
+        IDENTITY_CARD,
+        TELEPHONE
+    </sql>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from pay_clinic_recipe_trans
+        ORDER BY payDate DESC
+    </select> 
+
+    <select id="findByPrimaryKey" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from pay_clinic_recipe_trans	
+        where 1 = 1
+        AND TRANS_ID = #{transId}  		  
+    </select> 
+
+    <!-- <select id="findByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from pay_clinic_recipe_trans
+        where 1=1
+        <if test="transId!=null">
+            AND TRANS_ID = #{transId}
+        </if>
+        <if test="cardId!=null">
+            AND cardId = #{cardId}
+        </if>
+        <if test="clinicRecipeId!=null">
+            AND clinicRecipeId = #{clinicRecipeId}
+        </if>
+        <if test="payType!=null">
+            AND payType = #{payType}
+        </if>
+        <if test="money!=null">
+            AND MONEY = #{money}
+        </if>
+        <if test="serialNumber!=null">
+            AND serialNumber = #{serialNumber}
+        </if>
+        <if test="costType!=null">
+            AND costType = #{costType}
+        </if>
+        <if test="payVoucher!=null">
+            AND payVoucher = #{payVoucher}
+        </if>
+        <if test="payDate!=null">
+            AND payDate = #{payDate}
+        </if>
+        <if test="operatorId!=null">
+            AND operatorId = #{operatorId}
+        </if>
+        <if test="hisSerialNumber!=null">
+            AND hisSerialNumber = #{hisSerialNumber}
+        </if>
+        <if test="officeName!=null">
+            AND officeName = #{officeName}
+        </if>
+        <if test="officeAddress!=null">
+            AND officeAddress = #{officeAddress}
+        </if>
+        <if test="windowName!=null">
+            AND windowName = #{windowName}
+        </if>
+        <if test="transState!=null">
+            AND TRANS_STATE = #{transState}
+        </if>
+        <if test="chName!=null">
+            AND CH_NAME = #{chName}
+        </if>
+        <if test="chToken!=null">
+            AND CH_TOKEN = #{chToken}
+        </if>
+        <if test="hosId!=null">
+            AND HOS_ID = #{hosId}
+        </if>
+        <if test="orgId!=null">
+            AND ORG_ID = #{orgId}
+        </if>
+        <if test="remarks!=null">
+            AND REMARKS = #{remarks}
+        </if>
+        <if test="ext1!=null">
+            AND EXT1 = #{ext1}
+        </if>
+        <if test="ext2!=null">
+            AND EXT2 = #{ext2}
+        </if>
+        <if test="ext3!=null">
+            AND EXT3 = #{ext3}
+        </if>
+        <if test="createDate!=null">
+            AND CREATE_DATE = #{createDate}
+        </if>
+    </select> -->
+
+    <select id="findByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from pay_clinic_recipe_trans
+        where 1=1
+        <if test="searchParams.transId!=null">
+            AND TRANS_ID = #{searchParams.transId}
+        </if>
+        <if test="searchParams.cardId!=null">
+            AND cardId = #{searchParams.cardId}
+        </if>
+        <if test="searchParams.clinicRecipeId!=null and searchParams.clinicRecipeId!=''">
+            AND clinicRecipeId like '%${searchParams.clinicRecipeId}%'
+        </if>
+        <if test="searchParams.payType!=null">
+            AND payType = #{searchParams.payType}
+        </if>
+        <if test="searchParams.money!=null">
+            AND MONEY = #{searchParams.money}
+        </if>
+         <if test="searchParams.serialNumber!=null and searchParams.serialNumber!=''">
+            AND serialNumber like '%${searchParams.serialNumber}%'
+        </if>
+        <if test="searchParams.costType!=null">
+            AND costType = #{searchParams.costType}
+        </if>
+        <if test="searchParams.payVoucher!=null">
+            AND payVoucher = #{searchParams.payVoucher}
+        </if>
+       <!--  <if test="searchParams.payDate!=null">
+            AND payDate = #{searchParams.payDate}
+        </if> -->
+        <if test="searchParams.payDateStart!=null and searchParams.payDateStart!=''">
+            AND date_format(payDate,'%Y-%m-%d') &gt;= #{searchParams.payDateStart}
+        </if>
+        <if test="searchParams.payDateEnd!=null and searchParams.payDateEnd!=''">
+            AND date_format(payDate,'%Y-%m-%d') &lt;= #{searchParams.payDateEnd}
+        </if>
+        <if test="searchParams.patientName!=null and searchParams.patientName!=''">
+            AND PATIENT_NAME like '%${searchParams.patientName}%'
+        </if>
+         <if test="searchParams.identityCard!=null and searchParams.identityCard!=''">          
+            AND IDENTITY_CARD like '%${searchParams.identityCard}%'
+        </if>
+        <if test="searchParams.operatorId!=null">
+            AND operatorId = #{searchParams.operatorId}
+        </if>
+        <if test="searchParams.hisSerialNumber!=null">
+            AND hisSerialNumber = #{searchParams.hisSerialNumber}
+        </if>
+        <if test="searchParams.officeName!=null">
+            AND officeName = #{searchParams.officeName}
+        </if>
+        <if test="searchParams.officeAddress!=null">
+            AND officeAddress = #{searchParams.officeAddress}
+        </if>
+        <if test="searchParams.windowName!=null">
+            AND windowName = #{searchParams.windowName}
+        </if>
+        <if test="searchParams.transState!=null and searchParams.transState!=''">
+            AND TRANS_STATE = #{searchParams.transState}
+        </if>
+        <if test="searchParams.chName!=null and searchParams.chName!=''">
+            AND CH_NAME = #{searchParams.chName}
+        </if>
+        <if test="searchParams.chToken!=null and searchParams.chToken!=''">
+            AND CH_TOKEN = #{searchParams.chToken}
+        </if>
+        <if test="searchParams.hosId!=null">
+            AND HOS_ID = #{searchParams.hosId}
+        </if>
+        <if test="searchParams.orgId!=null">
+            AND ORG_ID = #{searchParams.orgId}
+        </if>
+        <if test="searchParams.remarks!=null">
+            AND REMARKS = #{searchParams.remarks}
+        </if>
+        <if test="searchParams.ext1!=null">
+            AND EXT1 = #{searchParams.ext1}
+        </if>
+        <if test="searchParams.ext2!=null">
+            AND EXT2 = #{searchParams.ext2}
+        </if>
+        <if test="searchParams.ext3!=null">
+            AND EXT3 = #{searchParams.ext3}
+        </if>
+        <if test="searchParams.createDate!=null">
+            AND CREATE_DATE = #{searchParams.createDate}
+        </if>
+        order by payDate DESC
+    </select>
+
+    <insert id="insert" parameterType="com.skynet.rimp.registerInfo.vo.PayClinicRecipeTrans">
+       insert into pay_clinic_recipe_trans 
+       <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="transId!=null">
+                TRANS_ID, 
+            </if>
+            <if test="cardId!=null">
+                cardId, 
+            </if>
+            <if test="clinicRecipeId!=null">
+                clinicRecipeId, 
+            </if>
+            <if test="payType!=null">
+                payType, 
+            </if>
+            <if test="money!=null">
+                MONEY, 
+            </if>
+            <if test="serialNumber!=null">
+                serialNumber, 
+            </if>
+            <if test="costType!=null">
+                costType, 
+            </if>
+            <if test="payVoucher!=null">
+                payVoucher, 
+            </if>
+            <if test="payDate!=null">
+                payDate, 
+            </if>
+            <if test="operatorId!=null">
+                operatorId, 
+            </if>
+            <if test="hisSerialNumber!=null">
+                hisSerialNumber, 
+            </if>
+            <if test="officeName!=null">
+                officeName, 
+            </if>
+            <if test="officeAddress!=null">
+                officeAddress, 
+            </if>
+            <if test="windowName!=null">
+                windowName, 
+            </if>
+            <if test="transState!=null">
+                TRANS_STATE, 
+            </if>
+            <if test="chName!=null">
+                CH_NAME, 
+            </if>
+            <if test="chToken!=null">
+                CH_TOKEN, 
+            </if>
+            <if test="hosId!=null">
+                HOS_ID, 
+            </if>
+            <if test="orgId!=null">
+                ORG_ID, 
+            </if>
+            <if test="remarks!=null">
+                REMARKS, 
+            </if>
+            <if test="ext1!=null">
+                EXT1, 
+            </if>
+            <if test="ext2!=null">
+                EXT2, 
+            </if>
+            <if test="ext3!=null">
+                EXT3, 
+            </if>
+            <if test="createDate!=null">
+                CREATE_DATE, 
+            </if>
+        </trim>  
+        <trim prefix="values (" suffix=")" suffixOverrides="," > 
+            <if test="transId!=null">      
+                #{transId,jdbcType=VARCHAR}, 
+            </if>
+            <if test="cardId!=null">      
+                #{cardId,jdbcType=VARCHAR}, 
+            </if>
+            <if test="clinicRecipeId!=null">      
+                #{clinicRecipeId,jdbcType=VARCHAR}, 
+            </if>
+            <if test="payType!=null">      
+                #{payType,jdbcType=VARCHAR}, 
+            </if>
+            <if test="money!=null">      
+                #{money,jdbcType=DECIMAL}, 
+            </if>
+            <if test="serialNumber!=null">      
+                #{serialNumber,jdbcType=VARCHAR}, 
+            </if>
+            <if test="costType!=null">      
+                #{costType,jdbcType=VARCHAR}, 
+            </if>
+            <if test="payVoucher!=null">      
+                #{payVoucher,jdbcType=VARCHAR}, 
+            </if>
+            <if test="payDate!=null">      
+                #{payDate,jdbcType=VARCHAR}, 
+            </if>
+            <if test="operatorId!=null">      
+                #{operatorId,jdbcType=VARCHAR}, 
+            </if>
+            <if test="hisSerialNumber!=null">      
+                #{hisSerialNumber,jdbcType=VARCHAR}, 
+            </if>
+            <if test="officeName!=null">      
+                #{officeName,jdbcType=VARCHAR}, 
+            </if>
+            <if test="officeAddress!=null">      
+                #{officeAddress,jdbcType=VARCHAR}, 
+            </if>
+            <if test="windowName!=null">      
+                #{windowName,jdbcType=VARCHAR}, 
+            </if>
+            <if test="transState!=null">      
+                #{transState,jdbcType=VARCHAR}, 
+            </if>
+            <if test="chName!=null">      
+                #{chName,jdbcType=VARCHAR}, 
+            </if>
+            <if test="chToken!=null">      
+                #{chToken,jdbcType=VARCHAR}, 
+            </if>
+            <if test="hosId!=null">      
+                #{hosId,jdbcType=VARCHAR}, 
+            </if>
+            <if test="orgId!=null">      
+                #{orgId,jdbcType=VARCHAR}, 
+            </if>
+            <if test="remarks!=null">      
+                #{remarks,jdbcType=VARCHAR}, 
+            </if>
+            <if test="ext1!=null">      
+                #{ext1,jdbcType=VARCHAR}, 
+            </if>
+            <if test="ext2!=null">      
+                #{ext2,jdbcType=VARCHAR}, 
+            </if>
+            <if test="ext3!=null">      
+                #{ext3,jdbcType=VARCHAR}, 
+            </if>
+            <if test="createDate!=null">      
+                #{createDate,jdbcType=TIMESTAMP}, 
+            </if>
+        </trim> 
+    </insert>
+
+    <delete id="delete" parameterType="com.skynet.rimp.registerInfo.vo.PayClinicRecipeTrans" >
+        delete from pay_clinic_recipe_trans  
+        where  1=1 
+        <if test="transId!=null">    
+           and TRANS_ID = #{transId,jdbcType=VARCHAR}        
+        </if>
+        <if test="cardId!=null">    
+           and cardId = #{cardId,jdbcType=VARCHAR}        
+        </if>
+        <if test="clinicRecipeId!=null">    
+           and clinicRecipeId = #{clinicRecipeId,jdbcType=VARCHAR}        
+        </if>
+        <if test="payType!=null">    
+           and payType = #{payType,jdbcType=VARCHAR}        
+        </if>
+        <if test="money!=null">    
+           and MONEY = #{money,jdbcType=DECIMAL}        
+        </if>
+        <if test="serialNumber!=null">    
+           and serialNumber = #{serialNumber,jdbcType=VARCHAR}        
+        </if>
+        <if test="costType!=null">    
+           and costType = #{costType,jdbcType=VARCHAR}        
+        </if>
+        <if test="payVoucher!=null">    
+           and payVoucher = #{payVoucher,jdbcType=VARCHAR}        
+        </if>
+        <if test="payDate!=null">    
+           and payDate = #{payDate,jdbcType=VARCHAR}        
+        </if>
+        <if test="operatorId!=null">    
+           and operatorId = #{operatorId,jdbcType=VARCHAR}        
+        </if>
+        <if test="hisSerialNumber!=null">    
+           and hisSerialNumber = #{hisSerialNumber,jdbcType=VARCHAR}        
+        </if>
+        <if test="officeName!=null">    
+           and officeName = #{officeName,jdbcType=VARCHAR}        
+        </if>
+        <if test="officeAddress!=null">    
+           and officeAddress = #{officeAddress,jdbcType=VARCHAR}        
+        </if>
+        <if test="windowName!=null">    
+           and windowName = #{windowName,jdbcType=VARCHAR}        
+        </if>
+        <if test="transState!=null">    
+           and TRANS_STATE = #{transState,jdbcType=VARCHAR}        
+        </if>
+        <if test="chName!=null">    
+           and CH_NAME = #{chName,jdbcType=VARCHAR}        
+        </if>
+        <if test="chToken!=null">    
+           and CH_TOKEN = #{chToken,jdbcType=VARCHAR}        
+        </if>
+        <if test="hosId!=null">    
+           and HOS_ID = #{hosId,jdbcType=VARCHAR}        
+        </if>
+        <if test="orgId!=null">    
+           and ORG_ID = #{orgId,jdbcType=VARCHAR}        
+        </if>
+        <if test="remarks!=null">    
+           and REMARKS = #{remarks,jdbcType=VARCHAR}        
+        </if>
+        <if test="ext1!=null">    
+           and EXT1 = #{ext1,jdbcType=VARCHAR}        
+        </if>
+        <if test="ext2!=null">    
+           and EXT2 = #{ext2,jdbcType=VARCHAR}        
+        </if>
+        <if test="ext3!=null">    
+           and EXT3 = #{ext3,jdbcType=VARCHAR}        
+        </if>
+        <if test="createDate!=null">    
+           and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}        
+        </if>
+    </delete>
+
+    <update id="update" parameterType="com.skynet.rimp.registerInfo.vo.PayClinicRecipeTrans" >
+        update pay_clinic_recipe_trans   
+        <set>
+            <if test="cardId!=null"> 
+              cardId = #{cardId,jdbcType=VARCHAR},
+            </if>
+            <if test="clinicRecipeId!=null"> 
+              clinicRecipeId = #{clinicRecipeId,jdbcType=VARCHAR},
+            </if>
+            <if test="payType!=null"> 
+              payType = #{payType,jdbcType=VARCHAR},
+            </if>
+            <if test="money!=null"> 
+              MONEY = #{money,jdbcType=DECIMAL},
+            </if>
+            <if test="serialNumber!=null"> 
+              serialNumber = #{serialNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="costType!=null"> 
+              costType = #{costType,jdbcType=VARCHAR},
+            </if>
+            <if test="payVoucher!=null"> 
+              payVoucher = #{payVoucher,jdbcType=VARCHAR},
+            </if>
+            <if test="payDate!=null"> 
+              payDate = #{payDate,jdbcType=VARCHAR},
+            </if>
+            <if test="operatorId!=null"> 
+              operatorId = #{operatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="hisSerialNumber!=null"> 
+              hisSerialNumber = #{hisSerialNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="officeName!=null"> 
+              officeName = #{officeName,jdbcType=VARCHAR},
+            </if>
+            <if test="officeAddress!=null"> 
+              officeAddress = #{officeAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="windowName!=null"> 
+              windowName = #{windowName,jdbcType=VARCHAR},
+            </if>
+            <if test="transState!=null"> 
+              TRANS_STATE = #{transState,jdbcType=VARCHAR},
+            </if>
+            <if test="chName!=null"> 
+              CH_NAME = #{chName,jdbcType=VARCHAR},
+            </if>
+            <if test="chToken!=null"> 
+              CH_TOKEN = #{chToken,jdbcType=VARCHAR},
+            </if>
+            <if test="hosId!=null"> 
+              HOS_ID = #{hosId,jdbcType=VARCHAR},
+            </if>
+            <if test="orgId!=null"> 
+              ORG_ID = #{orgId,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks!=null"> 
+              REMARKS = #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="ext1!=null"> 
+              EXT1 = #{ext1,jdbcType=VARCHAR},
+            </if>
+            <if test="ext2!=null"> 
+              EXT2 = #{ext2,jdbcType=VARCHAR},
+            </if>
+            <if test="ext3!=null"> 
+              EXT3 = #{ext3,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate!=null"> 
+              CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where> 
+            <if test="transId!=null"> 
+               and TRANS_ID = #{transId,jdbcType=VARCHAR}        
+            </if>
+        </where> 
+    </update>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        insert into pay_clinic_recipe_trans
+        (
+            TRANS_ID,
+        cardId,
+        clinicRecipeId,
+        payType,
+        MONEY,
+        serialNumber,
+        costType,
+        payVoucher,
+        payDate,
+        operatorId,
+        hisSerialNumber,
+        officeName,
+        officeAddress,
+        windowName,
+        TRANS_STATE,
+        CH_NAME,
+        CH_TOKEN,
+        HOS_ID,
+        ORG_ID,
+        REMARKS,
+        EXT1,
+        EXT2,
+        EXT3,
+        CREATE_DATE 
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator="," > 
+        (
+            #{item.transId,jdbcType=VARCHAR},   
+            #{item.cardId,jdbcType=VARCHAR},   
+            #{item.clinicRecipeId,jdbcType=VARCHAR},   
+            #{item.payType,jdbcType=VARCHAR},   
+            #{item.money,jdbcType=DECIMAL},   
+            #{item.serialNumber,jdbcType=VARCHAR},   
+            #{item.costType,jdbcType=VARCHAR},   
+            #{item.payVoucher,jdbcType=VARCHAR},   
+            #{item.payDate,jdbcType=VARCHAR},   
+            #{item.operatorId,jdbcType=VARCHAR},   
+            #{item.hisSerialNumber,jdbcType=VARCHAR},   
+            #{item.officeName,jdbcType=VARCHAR},   
+            #{item.officeAddress,jdbcType=VARCHAR},   
+            #{item.windowName,jdbcType=VARCHAR},   
+            #{item.transState,jdbcType=VARCHAR},   
+            #{item.chName,jdbcType=VARCHAR},   
+            #{item.chToken,jdbcType=VARCHAR},   
+            #{item.hosId,jdbcType=VARCHAR},   
+            #{item.orgId,jdbcType=VARCHAR},   
+            #{item.remarks,jdbcType=VARCHAR},   
+            #{item.ext1,jdbcType=VARCHAR},   
+            #{item.ext2,jdbcType=VARCHAR},   
+            #{item.ext3,jdbcType=VARCHAR},   
+            #{item.createDate,jdbcType=TIMESTAMP}  
+        )
+        </foreach>
+    </insert>
+</mapper>

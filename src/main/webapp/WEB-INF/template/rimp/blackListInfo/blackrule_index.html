@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<#include "../include/head.html" />
+<title>规则设置</title>
+<script type="text/javascript" src="${res}/js/blackListInfo/blackrule_index.js"></script>
+<style type="text/css">
+body, td, th {
+	font-size: 12px;
+}
+</style>
+</head>
+<body style="overflow-y:scroll">
+	<!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+			<form id="searchform" method="post">
+				<table class="n_input">
+	               <tr>
+	                   <td width="100" height="20" align="right" nowrap>规则名称：</td>
+	                   <td nowrap>
+	                      <input type="text" class="easyui-textbox" name="searchParams[likePabaRuleName]"/>
+	                   </td>
+		               <td align="center" nowrap="nowrap">
+		                   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="btnSearch">查询</a>
+		                   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-undo'" id="btnReset">重置</a>    
+	                   </td>
+	               </tr>
+	            </table>
+			</form>
+       </fieldset>
+       
+    <!-- 按钮区域 -->
+	<div id="button-bar">  
+		<@shiro.hasPermission name="/rimp/blackRule/paba_add.do">
+	    	<a href="#" class="easyui-linkbutton" id="btnAdd" iconCls="icon-add" plain="true">新增</a> 
+	    </@shiro.hasPermission>   
+	    <@shiro.hasPermission name="/rimp/blackRule/paba_edit.do">   
+	    	<a href="#" class="easyui-linkbutton" id="btnEdit" iconCls="icon-edit" plain="true">修改</a>
+	    </@shiro.hasPermission>    
+	    <@shiro.hasPermission name="/rimp/blackRule/paba_save.do">   
+	    	<a href="#" class="easyui-linkbutton" id="btnSave" iconCls="icon-save" plain="true">保存</a>
+	    </@shiro.hasPermission>    
+	    <@shiro.hasPermission name="/rimp/blackRule/paba_cancel.do">   
+	    	<a href="#" class="easyui-linkbutton" id="btnCancel" iconCls="icon-redo" plain="true">取消</a>
+	    </@shiro.hasPermission>    
+	</div>
+	
+	<div id="dg"></div>
+</body>
+</html>

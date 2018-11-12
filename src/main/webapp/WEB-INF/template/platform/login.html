@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>欢迎进入统一资源管理平台</title>
+<script type="text/javascript" src="${base}/plug-in/jquery.min.js"></script>
+<link href="${res}/css/hyglindex.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+	if (window != top)
+	{
+		top.location.href = location.href;
+	}
+
+	$(function() {
+		//得到焦点
+		$("#password").focus(function() {
+			$("#left_hand").animate({
+				left : "150",
+				top : " -38"
+			}, {
+				step : function() {
+					if (parseInt($("#left_hand").css("left")) > 140) {
+						$("#left_hand").attr("class", "left_hand");
+					}
+				}
+			}, 2000);
+			$("#right_hand").animate({
+				right : "-64",
+				top : "-38px"
+			}, {
+				step : function() {
+					if (parseInt($("#right_hand").css("right")) > -70) {
+						$("#right_hand").attr("class", "right_hand");
+					}
+				}
+			}, 2000);
+		});
+		//失去焦点
+		$("#password").blur(function() {
+			$("#left_hand").attr("class", "initial_left_hand");
+			$("#left_hand").attr("style", "left:100px;top:-12px;");
+			$("#right_hand").attr("class", "initial_right_hand");
+			$("#right_hand").attr("style", "right:-112px;top:-12px");
+		});
+	});
+</script>
+</head>
+
+<body>
+<div class="loginbackcolor">
+  <div class="lgincenter">
+    <div class="loginleftpic">
+      <img src="${res}/images/leftpic.jpg" />
+    </div>
+    <div class="logo">
+      <img src="${res}/images/logoAndName.png" />
+    </div>
+    <div class="login">
+     <form action="" method="post">
+      <div class="inforbox">
+        <p style="background:url(${res}/images/user.jpg) no-repeat">
+        	<input type="text" name="username" id="username" class="username" placeholder="登录账号" data-validate="required:请填写账号,length#&gt;=5:账号长度不符合要求" />
+        </p>
+        <p style="background:url(${res}/images/password.jpg) no-repeat">
+        	<input type="password" name="password" id="password" class="password" placeholder="登录密码" data-validate="required:请填写密码,length#&gt;=5:密码长度不符合要求" />
+       	</p>
+        <!--下面这个p标签是新添加的，其他没有任何改动-->
+        <p style="background:url(${res}/images/yanzm.jpg) no-repeat">
+	        <input type="text" name="imageCode" id="imageCode" class="yzm" placeholder="验证码" placeholder="验证码" data-validate="required:请填写验证码,length==4:请输入正确的验证码" />
+	        <img src="${base}/common/code_image.do" style="margin-top:2px;margin-left:10px; float:left" title="点击刷新验证码" onclick="this.src='${base}/common/code_image.do?d='+Math.random();"  />
+        </p>
+      </div>
+      <div class="errorinfor">
+      <p>${error!}</p>
+      </div>
+      <div class="m-dlsubmit">
+       <input type="image" src="${res}/images/loginbtn.jpg" class="submit" />
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="g-cinfro">
+</div>
+</body>
+</html>

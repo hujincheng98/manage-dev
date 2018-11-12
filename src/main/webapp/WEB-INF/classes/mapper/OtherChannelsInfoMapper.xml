@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.channelInfo.dao.OtherChannelsInfoDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.channelInfo.vo.OtherChannelsInfo" >
+    <id column="CH_ID" property="chId" jdbcType="VARCHAR" />
+    <result column="CH_NAME" property="chName" jdbcType="VARCHAR" />
+    <result column="CH_URL" property="chUrl" jdbcType="VARCHAR" />
+    <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <result column="HOS_NAME" property="hosName" jdbcType="VARCHAR" />
+    <result column="CH_TYPE" property="chType" jdbcType="VARCHAR" />
+    <result column="IS_RESERVATION" property="isReservation" jdbcType="VARCHAR" />
+    <result column="IS_REGISTRATION" property="isRegistration" jdbcType="VARCHAR" />
+    <result column="VALID_DATE" property="validDate" jdbcType="DATE" />
+    <result column="CH_GRADE" property="chGrade" jdbcType="VARCHAR" />
+    <result column="TOKEN" property="token" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="CH_REGI_NUM" property="chRegiNum" jdbcType="INTEGER" />
+    <result column="CH_STATE" property="chState" jdbcType="VARCHAR" />
+    <result column="REGI_PUSS_MARK" property="regiPushMark" jdbcType="INTEGER" />
+    <result column="SCHM_PUSS_MARK" property="schmPushMark" jdbcType="INTEGER" />
+    <result column="REMARKS" property="remarks" jdbcType="INTEGER" />
+    <result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+    <result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+    <result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+    <result column="APPID" property="appId" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CH_ID, CH_NAME, CH_URL, HOS_ID, CH_TYPE, IS_RESERVATION, IS_REGISTRATION, VALID_DATE, CH_GRADE, TOKEN, APPID,
+    CH_STATE, REGI_PUSS_MARK, SCHM_PUSS_MARK, REMARKS, EXT1, EXT2, EXT3, CREATE_DATE, CREATE_USER, UPDATE_DATE, UPDATE_USER
+  </sql>
+  
+  <!-- 新增 -->
+  <insert id="insert" parameterType="com.skynet.rimp.channelInfo.vo.OtherChannelsInfo" >
+    insert into other_channels_info (CH_ID, CH_NAME, CH_URL, HOS_ID, CH_TYPE, 
+      IS_RESERVATION, IS_REGISTRATION, VALID_DATE, 
+      CH_GRADE, TOKEN, CH_REGI_NUM, CH_STATE, REGI_PUSS_MARK, SCHM_PUSS_MARK, 
+      REMARKS, EXT1, EXT2, 
+      EXT3, CREATE_DATE, CREATE_USER, 
+      UPDATE_DATE, UPDATE_USER, ORG_ID, APPID)
+    values (#{chId,jdbcType=VARCHAR}, #{chName,jdbcType=VARCHAR}, #{chUrl,jdbcType=VARCHAR}, 
+      #{hosId,jdbcType=VARCHAR}, #{chType,jdbcType=VARCHAR}, #{isReservation,jdbcType=VARCHAR}, 
+      #{isRegistration,jdbcType=VARCHAR}, #{validDate,jdbcType=VARCHAR}, 
+      #{chGrade,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, #{chRegiNum,jdbcType=INTEGER}, 
+      #{chState,jdbcType=VARCHAR}, #{regiPushMark,jdbcType=INTEGER}, #{schmPushMark,jdbcType=INTEGER}, 
+      #{remarks,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, 
+      #{ext3,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR},#{orgId,jdbcType=VARCHAR},#{appId,jdbcType=VARCHAR})
+  </insert>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from other_channels_info
+    where CH_ID = #{chId,jdbcType=VARCHAR}
+  </delete>
+  <!-- 批量删除 -->
+  <delete id="deleteByKeyArr" parameterType="java.util.List">
+		DELETE FROM other_channels_info WHERE CH_ID IN
+		<foreach collection="array" index="index" item="item" open="(" separator="," close=")">  
+            #{item}   
+    	</foreach>  
+  </delete>
+  <!-- 修改 -->
+  <update id="update" parameterType="com.skynet.rimp.channelInfo.vo.OtherChannelsInfo" >
+    update other_channels_info
+    <set >
+      <if test="chName != null" >
+        CH_NAME = #{chName,jdbcType=VARCHAR},
+      </if>
+      <if test="chUrl != null" >
+        CH_URL = #{chUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="hosId != null" >
+        HOS_ID = #{hosId,jdbcType=VARCHAR},
+      </if>
+      <if test="chType != null" >
+        CH_TYPE = #{chType,jdbcType=VARCHAR},
+      </if>
+      <if test="isReservation != null" >
+        IS_RESERVATION = #{isReservation,jdbcType=VARCHAR},
+      </if>
+      <if test="isRegistration != null" >
+        IS_REGISTRATION = #{isRegistration,jdbcType=VARCHAR},
+      </if>
+      <if test="validDate != null" >
+        VALID_DATE = #{validDate,jdbcType=VARCHAR},
+      </if>
+      <if test="chGrade != null" >
+        CH_GRADE = #{chGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null" >
+        TOKEN = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="chState != null" >
+        CH_STATE = #{chState,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        EXT2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        EXT3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="chRegiNum != null" >
+        CH_REGI_NUM = #{chRegiNum,jdbcType=INTEGER},
+      </if>
+      <if test="regiPushMark != null" >
+        REGI_PUSS_MARK = #{regiPushMark,jdbcType=INTEGER},
+      </if>
+      <if test="schmPushMark != null" >
+        SCHM_PUSS_MARK = #{schmPushMark,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null" >
+        APPID = #{appId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CH_ID = #{chId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 查询 -->
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT CH.*, HOS.HOS_NAME FROM OTHER_CHANNELS_INFO CH, HOS_INFO HOS WHERE CH.HOS_ID = HOS.HOS_ID
+  </select>
+  
+  <select id="findByCondition" parameterType="com.skynet.common.SearchParams" resultMap="BaseResultMap">
+    SELECT CH.*, HOS.HOS_NAME FROM OTHER_CHANNELS_INFO CH, HOS_INFO HOS WHERE CH.HOS_ID = HOS.HOS_ID
+    <if test="searchParams.chName!=null and searchParams.chName!=''">
+		AND CH.CH_NAME like '%${searchParams.chName}%'
+	</if>
+	<if test="searchParams.chId!=null and searchParams.chId!=''">
+		AND CH.CH_ID = #{searchParams.chId,jdbcType=VARCHAR}
+	</if>
+    <if test="searchParams.chState!=null and searchParams.chState!=''">
+		AND CH.CH_STATE = #{searchParams.chState,jdbcType=VARCHAR}
+	</if>
+    <if test="searchParams.ext1!=null and searchParams.ext1!=''">
+		AND CH.EXT1 = #{searchParams.ext1,jdbcType=VARCHAR}
+	</if>
+  </select>
+  
+  <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from other_channels_info where CH_ID = #{chId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 获取渠道名称下拉框数据 -->
+  <select id="findListByOrgId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT CH.*, HOS.HOS_NAME FROM OTHER_CHANNELS_INFO CH LEFT JOIN HOS_INFO HOS ON CH.HOS_ID = HOS.HOS_ID 
+    WHERE 1=1
+	<if test="orgId!=null and orgId!=''">
+		AND CH.ORG_ID = #{orgId}
+	</if>
+	    AND CH_STATE = 'state_1'
+  </select>
+
+  <select id="findByHosId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT * FROM OTHER_CHANNELS_INFO WHERE HOS_ID = #{hosId,jdbcType=VARCHAR}  AND EXT1 != 'HIS' AND CH_URL != ''
+  </select>
+  
+</mapper>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>资源管理</title> 
+	[#include "../include/head.html" /]
+	<script type="text/javascript" src="${res}/js_custom/base_dictionary.js"></script>
+</head>
+  
+<body style="padding:5px 5px 5px 5px;">
+
+	<div id="layout" class="easyui-layout" style="width:100%;height:100%;"data-options="fit:true">   
+	    <div data-options="region:'west'" style="width:300px;">
+	    	<div style="background-color: #efefef">
+	    		[@shiro.hasPermission name="/platform/dictionary/save_dic_type.json"]
+	    		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="addBtn">新增字典类型</a>
+		    	<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="editBtn">编辑</a>
+		    	[/@shiro.hasPermission]
+	    	</div>
+	    	<ul id="typeTree"></ul>
+	    </div>
+	    
+	    <div data-options="region:'center'" style="padding:2px;background:#fff;">
+	    	<iframe id="centerFrame" scrolling="auto" frameborder="0" style="width:100%;height:100%;"></iframe>
+	    </div>   
+	</div>
+	
+	<div id="addWin" class="easyui-dialog">
+		<form action="" id="addForm">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		  <tr>
+		    <td height="24" align="right">类型编码：</td>
+		    <td><input type="text" class="easyui-textbox" name="dictTypeCode" id="dictTypeCode" value="" data-options="" /></td>
+		  </tr>
+		  <tr>
+		    <td height="24" align="right">字典数据是否固定值：</td>
+		    <td>
+		    	<input type="radio" name="isFixed" value="true" checked="checked" />是
+    			<input type="radio" name="isFixed" value="false" />否
+		    </td>
+		  </tr>
+		  <tr>
+		    <td height="24" align="right">类型名称：</td>
+		    <td><input type="text" class="easyui-textbox" name="dictTypeName" id="dictTypeName" value="" data-options="required:true,validType:{length:[3,20]}" /></td>
+		  </tr>
+		  <tr>
+		    <td height="24" align="right">描述：</td>
+		    <td><textarea id="remarks" rows="4" name="remarks"></textarea></td>
+		  </tr>
+		</table>
+		</form>
+	</div>  
+	
+</body>
+</html>

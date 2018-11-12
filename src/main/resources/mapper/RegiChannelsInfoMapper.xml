@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.registerInfo.dao.RegiChannelsInfoDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.registerInfo.vo.RegiChannelsInfo" >
+    <id column="REGI_ID" property="regiId" jdbcType="VARCHAR" />
+    <result column="BESPEAKID" property="bespeakid" jdbcType="VARCHAR" />
+    <result column="BESPEAKOFFICEID" property="bespeakofficeid" jdbcType="VARCHAR" />
+    <result column="BESPEAKDOCTORID" property="bespeakdoctorid" jdbcType="VARCHAR" />
+    <result column="BESPEAKCHANNELSCODE" property="bespeakchannelscode" jdbcType="VARCHAR" />
+    <result column="BESPEAKCHANNELS" property="bespeakchannels" jdbcType="VARCHAR" />
+    <result column="BESPEAKDATE" property="bespeakdate" jdbcType="DATE" />
+    <result column="WORKTYPE" property="worktype" jdbcType="VARCHAR" />
+    <result column="STARTTIME" property="starttime" jdbcType="TIME" />
+    <result column="ENDTIME" property="endtime" jdbcType="TIME" />
+    <result column="SCHM_ID" property="schmId" jdbcType="VARCHAR" />
+    <result column="PATIENT_TYPE" property="patientType" jdbcType="INTEGER" />
+	<result column="GUAR_NAME" property="guarName" jdbcType="VARCHAR" />
+    <result column="PATIENTNAME" property="patientname" jdbcType="VARCHAR" />
+    <result column="IDENTITYCARD" property="identitycard" jdbcType="VARCHAR" />
+    <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+    <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <result column="HOS_NAME" property="hosName" jdbcType="VARCHAR" />
+    <result column="REGISTATE" property="registate" jdbcType="VARCHAR" />
+    <result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+    <result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+    <result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+    <result column="REGICREATEDATE" property="regicreatedate" jdbcType="DATE" />
+    <result column="REGICANDATE" property="regicandate" jdbcType="DATE" />
+    <result column="REGIGODATE" property="regigodate" jdbcType="DATE" />
+    <result column="DATA_TYPE" property="dataType" jdbcType="VARCHAR" />
+    <result column="QUEUE_NUM" property="queueNum" jdbcType="VARCHAR" />
+    <result column="QUEUE_DATE" property="queueDate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    REGI_ID, BESPEAKID, BESPEAKOFFICEID, BESPEAKDOCTORID, BESPEAKCHANNELSCODE, BESPEAKCHANNELS, 
+    BESPEAKDATE, WORKTYPE, STARTTIME, ENDTIME, SCHM_ID, PATIENT_TYPE, GUAR_NAME, PATIENTNAME, IDENTITYCARD, TELEPHONE, 
+    HOS_ID, HOS_NAME, REGISTATE, EXT1, EXT2, EXT3, REGICREATEDATE, REGICANDATE, REGIGODATE,
+    DATA_TYPE,QUEUE_NUM,QUEUE_DATE
+  </sql>
+  
+  <!-- 新增 -->
+  <insert id="insert" parameterType="com.skynet.rimp.registerInfo.vo.RegiChannelsInfo" >
+    insert into regi_channels_info (REGI_ID, BESPEAKID, BESPEAKOFFICEID, 
+      BESPEAKDOCTORID, BESPEAKCHANNELSCODE, BESPEAKCHANNELS, 
+      BESPEAKDATE, WORKTYPE, STARTTIME, 
+      ENDTIME, SCHM_ID, PATIENTNAME, 
+      IDENTITYCARD, TELEPHONE, HOS_ID, 
+      REGISTATE, EXT1, EXT2, 
+      EXT3, REGICREATEDATE, REGICANDATE, 
+      REGIGODATE,DATA_TYPE,QUEUE_NUM,QUEUE_DATE)
+    values (#{regiId,jdbcType=VARCHAR}, #{bespeakid,jdbcType=VARCHAR}, #{bespeakofficeid,jdbcType=VARCHAR}, 
+      #{bespeakdoctorid,jdbcType=VARCHAR}, #{bespeakchannelscode,jdbcType=VARCHAR}, #{bespeakchannels,jdbcType=VARCHAR}, 
+      #{bespeakdate,jdbcType=TIMESTAMP}, #{worktype,jdbcType=VARCHAR}, #{starttime,jdbcType=TIME}, 
+      #{endtime,jdbcType=TIME}, #{schmId,jdbcType=VARCHAR}, #{patientname,jdbcType=VARCHAR}, 
+      #{identitycard,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, #{hosId,jdbcType=VARCHAR}, 
+      #{registate,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, 
+      #{ext3,jdbcType=VARCHAR}, #{regicreatedate,jdbcType=DATE}, #{regicandate,jdbcType=DATE}, 
+      #{regigodate,jdbcType=DATE}), #{dateType,jdbcType=VARCHAR}), #{queueNum,jdbcType=VARCHAR}) ,#{queueDate,jdbcType=VARCHAR})
+  </insert>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from regi_channels_info
+    where REGI_ID = #{regiId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 更新 -->
+  <update id="update" parameterType="com.skynet.rimp.registerInfo.vo.RegiChannelsInfo" >
+    update regi_channels_info
+    <set >
+      <if test="bespeakid != null" >
+        BESPEAKID = #{bespeakid,jdbcType=VARCHAR},
+      </if>
+      <if test="bespeakofficeid != null" >
+        BESPEAKOFFICEID = #{bespeakofficeid,jdbcType=VARCHAR},
+      </if>
+      <if test="bespeakdoctorid != null" >
+        BESPEAKDOCTORID = #{bespeakdoctorid,jdbcType=VARCHAR},
+      </if>
+      <if test="bespeakchannelscode != null" >
+        BESPEAKCHANNELSCODE = #{bespeakchannelscode,jdbcType=VARCHAR},
+      </if>
+      <if test="bespeakchannels != null" >
+        BESPEAKCHANNELS = #{bespeakchannels,jdbcType=VARCHAR},
+      </if>
+      <if test="bespeakdate != null" >
+        BESPEAKDATE = #{bespeakdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="worktype != null" >
+        WORKTYPE = #{worktype,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        STARTTIME = #{starttime,jdbcType=TIME},
+      </if>
+      <if test="endtime != null" >
+        ENDTIME = #{endtime,jdbcType=TIME},
+      </if>
+      <if test="schmId != null" >
+        SCHM_ID = #{schmId,jdbcType=VARCHAR},
+      </if>
+      <if test="patientname != null" >
+        PATIENTNAME = #{patientname,jdbcType=VARCHAR},
+      </if>
+      <if test="identitycard != null" >
+        IDENTITYCARD = #{identitycard,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="hosId != null" >
+        HOS_ID = #{hosId,jdbcType=VARCHAR},
+      </if>
+      <if test="registate != null" >
+        REGISTATE = #{registate,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        EXT2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        EXT3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="regicreatedate != null" >
+        REGICREATEDATE = #{regicreatedate,jdbcType=DATE},
+      </if>
+      <if test="regicandate != null" >
+        REGICANDATE = #{regicandate,jdbcType=DATE},
+      </if>
+      <if test="regigodate != null" >
+        REGIGODATE = #{regigodate,jdbcType=DATE},
+      </if>
+      <if test="datatype != null" >
+        DATA_TYPE = #{dataType,jdbcType=DATE},
+      </if>
+      <if test="regigodate != null" >
+        QUEUE_NUM = #{queueNum,jdbcType=DATE},
+      </if>
+      <if test="regigodate != null" >
+        QUEUE_DATE = #{queueDate,jdbcType=DATE},
+      </if>
+    </set>
+    where REGI_ID = #{regiId,jdbcType=VARCHAR}
+  </update>
+ 
+  <!-- 查询 -->
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT R.*, HOS.HOS_NAME FROM regi_channels_info R, hos_info HOS
+  	WHERE R.HOS_ID = HOS.HOS_ID
+  </select>
+  
+  <select id="findByCondition" parameterType="com.skynet.common.SearchParams" resultMap="BaseResultMap">
+  	SELECT R.*, HOS.HOS_NAME FROM regi_channels_info R, hos_info HOS
+  	WHERE R.HOS_ID = HOS.HOS_ID
+  	<if test="searchParams.regiId!=null and searchParams.regiId!=''">
+		AND R.REGI_ID = #{searchParams.regiId}
+	</if>
+	<if test="searchParams.bespeakid!=null and searchParams.bespeakid!=''">
+  		AND R.BESPEAKID = #{searchParams.bespeakid}
+	</if>
+	<if test="searchParams.regicreatedateStart!=null and searchParams.regicreatedateStart!=''">
+		<![CDATA[
+		      and R.REGICREATEDATE >= #{searchParams.regicreatedateStart}
+		]]>
+	</if>
+	<if test="searchParams.regicreatedateEnd!=null and searchParams.regicreatedateEnd!=''">
+		<![CDATA[
+		      and R.REGICREATEDATE <= #{searchParams.regicreatedateEnd}
+		]]>
+	</if>
+	<if test="searchParams.bespeakdateStart!=null and searchParams.bespeakdateStart!=''">
+		<![CDATA[
+		      and R.BESPEAKDATE >= #{searchParams.bespeakdateStart}
+		]]>
+	</if>
+	<if test="searchParams.bespeakdateEnd!=null and searchParams.bespeakdateEnd!=''">
+		<![CDATA[
+		      and R.BESPEAKDATE <= #{searchParams.bespeakdateEnd}
+		]]>
+	</if>
+  	<if test="searchParams.identitycard!=null and searchParams.identitycard!=''">
+		AND R.IDENTITYCARD = #{searchParams.identitycard}
+	</if>
+  	<if test="searchParams.patientname!=null and searchParams.patientname!=''">
+		AND R.PATIENTNAME like '%${searchParams.patientname}%'
+	</if>
+  	<if test="searchParams.telephone!=null and searchParams.telephone!=''">
+		AND R.TELEPHONE = #{searchParams.telephone}
+	</if>
+  	<if test="searchParams.registate!=null and searchParams.registate!=''">
+		AND R.REGISTATE = #{searchParams.registate}
+	</if>
+  	<if test="searchParams.bespeakchannelscode!=null and searchParams.bespeakchannelscode!=''">
+		AND R.BESPEAKCHANNELSCODE = #{searchParams.bespeakchannelscode}
+	</if>
+  </select>
+</mapper>

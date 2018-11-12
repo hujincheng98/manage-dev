@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.schmInfo.dao.SchmDetailInfoDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.schmInfo.vo.SchmDetailInfo" >
+    <id column="SCHM_DETAIL_ID" property="schmDetailId" jdbcType="VARCHAR" />
+    <result column="SCHM_ON_NUM" property="schmOnNum" jdbcType="INTEGER" />
+    <result column="SCHM_DOWN_NUM" property="schmDownNum" jdbcType="INTEGER" />
+    <result column="SCHM_ID" property="schmId" jdbcType="VARCHAR" />
+    <result column="SHIFT_ID" property="shiftId" jdbcType="VARCHAR" />
+    <result column="TISL_START_DATE" property="tislStartDate" jdbcType="TIME" />
+    <result column="TISL_END_DATE" property="tislEndDate" jdbcType="TIME" />
+    <result column="DETAIL_UPRE_NUM" property="detailUpreNum" jdbcType="INTEGER" />
+    <result column="DETAIL_DOWNRE_NUM" property="detailDownreNum" jdbcType="INTEGER" />
+    <result column="DETAIL_UPGO_NUM" property="detailUpgoNum" jdbcType="INTEGER" />
+    <result column="DETAIL_DOWNGO_NUM" property="detailDowngoNum" jdbcType="INTEGER" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="SCHM_STATE" property="schmState" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+    <result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+    <result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="findAll" resultMap="BaseResultMap">
+		select
+		*
+		from schm_detail_info
+	</select>
+	
+	<select id="findDetailInfoBySchmId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		*
+		from schm_detail_info
+		where 
+		SCHM_ID = #{schmId}
+	</select>
+	
+  <delete id="deleteBySchmId" parameterType="java.lang.String" >
+    delete from schm_detail_info
+    where SCHM_ID = #{schmId,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteBySchmIds" parameterType="java.util.List" >
+    delete from schm_detail_info where SCHM_ID IN
+    <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+  
+  
+  <select id="findByShiftId" parameterType="java.lang.String" resultType="int">
+    select count(*) from schm_detail_info
+    where SHIFT_ID = #{shiftId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  
+  <insert id="insertBatch" parameterType="java.util.List" >
+    insert into schm_detail_info (SCHM_DETAIL_ID, SCHM_ON_NUM, SCHM_DOWN_NUM, 
+      SCHM_ID, SHIFT_ID, TISL_START_DATE, 
+      TISL_END_DATE, DETAIL_UPRE_NUM, DETAIL_DOWNRE_NUM, 
+      DETAIL_UPGO_NUM, DETAIL_DOWNGO_NUM, ORG_ID, 
+      SCHM_STATE, REMARKS, EXT1, 
+      EXT2, EXT3, CREATE_DATE, 
+      CREATE_USER, UPDATE_DATE, UPDATE_USER
+      )
+    values 
+    <foreach collection="list" item="item" index="index" separator="," > 
+    (#{item.schmDetailId,jdbcType=VARCHAR}, #{item.schmOnNum,jdbcType=INTEGER}, #{item.schmDownNum,jdbcType=INTEGER}, 
+      #{item.schmId,jdbcType=VARCHAR}, #{item.shiftId,jdbcType=VARCHAR}, #{item.tislStartDate,jdbcType=TIME}, 
+      #{item.tislEndDate,jdbcType=TIME}, #{item.detailUpreNum,jdbcType=INTEGER}, #{item.detailDownreNum,jdbcType=INTEGER}, 
+      #{item.detailUpgoNum,jdbcType=INTEGER}, #{item.detailDowngoNum,jdbcType=INTEGER}, #{item.orgId,jdbcType=VARCHAR}, 
+      #{item.schmState,jdbcType=VARCHAR}, #{item.remarks,jdbcType=VARCHAR}, #{item.ext1,jdbcType=VARCHAR}, 
+      #{item.ext2,jdbcType=VARCHAR}, #{item.ext3,jdbcType=VARCHAR}, #{item.createDate,jdbcType=TIMESTAMP}, 
+      #{item.createUser,jdbcType=VARCHAR}, #{item.updateDate,jdbcType=TIMESTAMP}, #{item.updateUser,jdbcType=VARCHAR}
+      )
+      </foreach>
+  </insert>
+	
+	
+	
+  <sql id="Base_Column_List" >
+    SCHM_DETAIL_ID, SCHM_ON_NUM, SCHM_DOWN_NUM, SCHM_ID, SHIFT_ID, TISL_START_DATE, TISL_END_DATE, 
+    DETAIL_UPRE_NUM, DETAIL_DOWNRE_NUM, DETAIL_UPGO_NUM, DETAIL_DOWNGO_NUM, ORG_ID, SCHM_STATE, 
+    REMARKS, EXT1, EXT2, EXT3, CREATE_DATE, CREATE_USER, UPDATE_DATE, UPDATE_USER
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from schm_detail_info
+    where SCHM_DETAIL_ID = #{schmDetailId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from schm_detail_info
+    where SCHM_DETAIL_ID = #{schmDetailId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.skynet.rimp.schmInfo.vo.SchmDetailInfo" >
+    insert into schm_detail_info (SCHM_DETAIL_ID, SCHM_ON_NUM, SCHM_DOWN_NUM, 
+      SCHM_ID, SHIFT_ID, TISL_START_DATE, 
+      TISL_END_DATE, DETAIL_UPRE_NUM, DETAIL_DOWNRE_NUM, 
+      DETAIL_UPGO_NUM, DETAIL_DOWNGO_NUM, ORG_ID, 
+      SCHM_STATE, REMARKS, EXT1, 
+      EXT2, EXT3, CREATE_DATE, 
+      CREATE_USER, UPDATE_DATE, UPDATE_USER
+      )
+    values (#{schmDetailId,jdbcType=VARCHAR}, #{schmOnNum,jdbcType=INTEGER}, #{schmDownNum,jdbcType=INTEGER}, 
+      #{schmId,jdbcType=VARCHAR}, #{shiftId,jdbcType=VARCHAR}, #{tislStartDate,jdbcType=TIME}, 
+      #{tislEndDate,jdbcType=TIME}, #{detailUpreNum,jdbcType=INTEGER}, #{detailDownreNum,jdbcType=INTEGER}, 
+      #{detailUpgoNum,jdbcType=INTEGER}, #{detailDowngoNum,jdbcType=INTEGER}, #{orgId,jdbcType=VARCHAR}, 
+      #{schmState,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR}, 
+      #{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.skynet.rimp.schmInfo.vo.SchmDetailInfo" >
+    insert into schm_detail_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="schmDetailId != null" >
+        SCHM_DETAIL_ID,
+      </if>
+      <if test="schmOnNum != null" >
+        SCHM_ON_NUM,
+      </if>
+      <if test="schmDownNum != null" >
+        SCHM_DOWN_NUM,
+      </if>
+      <if test="schmId != null" >
+        SCHM_ID,
+      </if>
+      <if test="shiftId != null" >
+        SHIFT_ID,
+      </if>
+      <if test="tislStartDate != null" >
+        TISL_START_DATE,
+      </if>
+      <if test="tislEndDate != null" >
+        TISL_END_DATE,
+      </if>
+      <if test="detailUpreNum != null" >
+        DETAIL_UPRE_NUM,
+      </if>
+      <if test="detailDownreNum != null" >
+        DETAIL_DOWNRE_NUM,
+      </if>
+      <if test="detailUpgoNum != null" >
+        DETAIL_UPGO_NUM,
+      </if>
+      <if test="detailDowngoNum != null" >
+        DETAIL_DOWNGO_NUM,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="schmState != null" >
+        SCHM_STATE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="ext1 != null" >
+        EXT1,
+      </if>
+      <if test="ext2 != null" >
+        EXT2,
+      </if>
+      <if test="ext3 != null" >
+        EXT3,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="schmDetailId != null" >
+        #{schmDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="schmOnNum != null" >
+        #{schmOnNum,jdbcType=INTEGER},
+      </if>
+      <if test="schmDownNum != null" >
+        #{schmDownNum,jdbcType=INTEGER},
+      </if>
+      <if test="schmId != null" >
+        #{schmId,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftId != null" >
+        #{shiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="tislStartDate != null" >
+        #{tislStartDate,jdbcType=TIME},
+      </if>
+      <if test="tislEndDate != null" >
+        #{tislEndDate,jdbcType=TIME},
+      </if>
+      <if test="detailUpreNum != null" >
+        #{detailUpreNum,jdbcType=INTEGER},
+      </if>
+      <if test="detailDownreNum != null" >
+        #{detailDownreNum,jdbcType=INTEGER},
+      </if>
+      <if test="detailUpgoNum != null" >
+        #{detailUpgoNum,jdbcType=INTEGER},
+      </if>
+      <if test="detailDowngoNum != null" >
+        #{detailDowngoNum,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="schmState != null" >
+        #{schmState,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.skynet.rimp.schmInfo.vo.SchmDetailInfo" >
+    update schm_detail_info
+    <set >
+      <if test="schmOnNum != null" >
+        SCHM_ON_NUM = #{schmOnNum,jdbcType=INTEGER},
+      </if>
+      <if test="schmDownNum != null" >
+        SCHM_DOWN_NUM = #{schmDownNum,jdbcType=INTEGER},
+      </if>
+      <if test="schmId != null" >
+        SCHM_ID = #{schmId,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftId != null" >
+        SHIFT_ID = #{shiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="tislStartDate != null" >
+        TISL_START_DATE = #{tislStartDate,jdbcType=TIME},
+      </if>
+      <if test="tislEndDate != null" >
+        TISL_END_DATE = #{tislEndDate,jdbcType=TIME},
+      </if>
+      <if test="detailUpreNum != null" >
+        DETAIL_UPRE_NUM = #{detailUpreNum,jdbcType=INTEGER},
+      </if>
+      <if test="detailDownreNum != null" >
+        DETAIL_DOWNRE_NUM = #{detailDownreNum,jdbcType=INTEGER},
+      </if>
+      <if test="detailUpgoNum != null" >
+        DETAIL_UPGO_NUM = #{detailUpgoNum,jdbcType=INTEGER},
+      </if>
+      <if test="detailDowngoNum != null" >
+        DETAIL_DOWNGO_NUM = #{detailDowngoNum,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="schmState != null" >
+        SCHM_STATE = #{schmState,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        EXT2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        EXT3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SCHM_DETAIL_ID = #{schmDetailId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.skynet.rimp.schmInfo.vo.SchmDetailInfo" >
+    update schm_detail_info
+    set SCHM_ON_NUM = #{schmOnNum,jdbcType=INTEGER},
+      SCHM_DOWN_NUM = #{schmDownNum,jdbcType=INTEGER},
+      SCHM_ID = #{schmId,jdbcType=VARCHAR},
+      SHIFT_ID = #{shiftId,jdbcType=VARCHAR},
+      TISL_START_DATE = #{tislStartDate,jdbcType=TIME},
+      TISL_END_DATE = #{tislEndDate,jdbcType=TIME},
+      DETAIL_UPRE_NUM = #{detailUpreNum,jdbcType=INTEGER},
+      DETAIL_DOWNRE_NUM = #{detailDownreNum,jdbcType=INTEGER},
+      DETAIL_UPGO_NUM = #{detailUpgoNum,jdbcType=INTEGER},
+      DETAIL_DOWNGO_NUM = #{detailDowngoNum,jdbcType=INTEGER},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      SCHM_STATE = #{schmState,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      EXT1 = #{ext1,jdbcType=VARCHAR},
+      EXT2 = #{ext2,jdbcType=VARCHAR},
+      EXT3 = #{ext3,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR}
+    where SCHM_DETAIL_ID = #{schmDetailId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reports>
+	<report id="report_regi_channels" reportName="预约信息.xls" templateFileName="regi_channels_template.xls"
+		reportClsName="">
+		<sheet name="sheet_regi_channels" direction="0" partitionLine="1">
+			<column dbColumn="patientname" excelColumn="0" dataType="String" />               <!-- 患者姓名 -->
+			<column dbColumn="identitycard" excelColumn="1" dataType="String" />              <!-- 身份证号 -->
+			<column dbColumn="telephone" excelColumn="2" dataType="String" />                 <!-- 联系电话 -->
+			<column dbColumn="bespeakdate" excelColumn="3" dataType="String" />               <!-- 就诊时间 -->
+			<column dbColumn="bespeakdoctorid" excelColumn="4" dataType="String" />           <!-- 预约科室 -->
+			<column dbColumn="bespeakofficeid" excelColumn="5" dataType="String" />           <!-- 预约医生 -->
+			<column dbColumn="bespeakid" excelColumn="6" dataType="String" />                 <!-- 预约号     -->
+			<column dbColumn="bespeakchannels" excelColumn="7" dataType="String" />           <!-- 预约渠道 -->
+		</sheet>
+	</report>
+</reports>

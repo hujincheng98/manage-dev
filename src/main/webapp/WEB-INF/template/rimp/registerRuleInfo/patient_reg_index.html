@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<#include "../include/head.html" />
+<title><@s.m code="shift.management" /></title>
+<link type="text/css" rel="stylesheet"
+	href="${res}/css/dialog_index.css" />
+<style type="text/css">
+body, td, th {
+	font-size: 12px;
+}
+</style>
+</head>
+<body>
+	<div class="easyui-panel">
+		<div style="padding: 10px 60px 20px 60px">
+			<form id="blackRuleForm" method="post" action="update.do">
+				<table cellpadding="5">
+					<tr>
+						<td>患者一天可预约次数:</td>
+						<td><input class="easyui-textbox" type="text"
+							name="bookNumByDay" data-options="required:true,
+							validType:{
+								rateCheck : [0,99]
+							}" /></td>
+					</tr>
+				</table>
+			</form>
+			<@shiro.hasPermission name="/rimp/patientRegRule/update.do">
+			<div style="text-align: center; padding: 5px">
+				<a href="#" class="easyui-linkbutton" id="btnSubmit" >保存设置</a>
+			</div>
+			</@shiro.hasPermission>
+		</div>
+	</div>
+	<script type="text/javascript">
+	$.extend($.fn.textbox.defaults.rules, {
+	        rateCheck:{
+	            validator:function(value,param){
+		              if(/^[+]?[0-9]\d*$/.test(value)){
+		                return parseFloat(value) >= parseFloat(param[0]) && parseFloat(value) <= parseFloat(param[1]);
+		              }else{
+		                return false;
+		              }
+	            },
+	            message:'请输入0到99之间整数'
+	       }
+      });
+		$(function() {
+			$('#blackRuleForm').form('load', 'list.do');
+			$("#btnSubmit").linkbutton({
+				onClick:function(){
+					if($('#blackRuleForm').form('validate')){
+						//alert("通过")
+						//$('#blackRuleForm').form('submit');
+						$.ajax({
+							url : 'update.do',
+							dataType : "json",
+							type : "post",
+							data : $('#blackRuleForm').toJson(),
+							error : function() {
+								datagrid.datagrid("loaded");
+								$.message.alert("出错了");
+							},
+							success : function(data) {
+								if(data.success){
+									$.messager.alert('黑名单规则设置', data.msg,
+									'info');
+								}
+							}
+						});
+					}else{
+						//alert("没通过")
+					}
+				}
+			});
+		});
+	</script>
+</body>
+</html>

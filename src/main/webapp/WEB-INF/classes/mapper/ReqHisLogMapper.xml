@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.channelInfo.dao.ReqHisLogDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.channelInfo.vo.ReqHisLogInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="req_url" property="reqUrl" jdbcType="VARCHAR" />
+    <result column="req_date" property="reqDate" jdbcType="TIMESTAMP" />
+    <result column="transactionCode" property="transactioncode" jdbcType="VARCHAR" />
+    <result column="operationType" property="operationtype" jdbcType="VARCHAR" />
+    <result column="resp_code" property="respCode" jdbcType="VARCHAR" />
+    <result column="requestData" property="requestdata" jdbcType="LONGVARCHAR" />
+    <result column="resp_data" property="respData" jdbcType="LONGVARCHAR" />
+  </resultMap>
+ 
+  <insert id="insertSelective" parameterType="com.skynet.rimp.channelInfo.vo.ReqHisLogInfo" >
+    insert into req_his_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="reqUrl != null" >
+        req_url,
+      </if>
+      <if test="reqDate != null" >
+        req_date,
+      </if>
+      <if test="transactioncode != null" >
+        transactionCode,
+      </if>
+      <if test="operationtype != null" >
+        operationType,
+      </if>
+      <if test="respCode != null" >
+        resp_code,
+      </if>
+      <if test="requestdata != null" >
+        requestData,
+      </if>
+      <if test="respData != null" >
+        resp_data,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="reqUrl != null" >
+        #{reqUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="reqDate != null" >
+        #{reqDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transactioncode != null" >
+        #{transactioncode,jdbcType=VARCHAR},
+      </if>
+      <if test="operationtype != null" >
+        #{operationtype,jdbcType=VARCHAR},
+      </if>
+      <if test="respCode != null" >
+        #{respCode,jdbcType=VARCHAR},
+      </if>
+      <if test="requestdata != null" >
+        #{requestdata,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="respData != null" >
+        #{respData,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+ 
+</mapper>

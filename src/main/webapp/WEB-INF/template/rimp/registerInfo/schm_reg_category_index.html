@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <#include "../include/head.html" />
+  <title>挂号类别设置</title>
+  <script type="text/javascript" src="${res}/js/tab.js"></script>
+  <script type="text/javascript" src="${res}/js/registerInfo/schm_reg_category_index.js"></script>
+  <style type="text/css">
+    body,
+    td,
+    th {
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 搜索区域 -->
+  <fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+    <legend>查询条件</legend>
+    <form action="#" id="searchform">
+      <table class="n_input">
+        <tr>
+          <td width="100" height="20" align="right" nowrap>挂号类别</td>
+          <td>
+            <input type="text" class="easyui-textbox" name="searchParams[regcategory]" />
+          </td>
+          <td height="32" colspan="10" align="center">
+          </td>
+          <td height="32" colspan="10" align="center" nowrap="nowrap">
+            <a href="#" class="easyui-linkbutton" id="btnSearch" data-options="iconCls:'icon-search'">查询</a>
+            <a href="#" class="easyui-linkbutton" id="btnReset" data-options="iconCls:'icon-undo'">重置</a>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </fieldset>
+  <div style="height:400px">
+    <!-- hosdisinfo -->
+    <div id="button-bar">
+      <@shiro.hasPermission name="/rimp/regcategory/add.do">
+        <a href="#" id="addCategory" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a>
+      </@shiro.hasPermission>
+      <@shiro.hasPermission name="/rimp/regcategory/update.do">
+        <a href="javascript:void(0);" id="editCategory" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
+      </@shiro.hasPermission>
+      <@shiro.hasPermission name="/rimp/regcategory/delete.do">
+        <a href="javascript:void(0);" id="delete" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a>
+      </@shiro.hasPermission>
+      <@shiro.hasPermission name="/rimp/regcategory/save.do">
+        <a href="javascript:void(0);" id="save" class="easyui-linkbutton" iconCls="icon-save" plain="true">保存</a>
+      </@shiro.hasPermission>
+      <@shiro.hasPermission name="/rimp/regcategory/update.do">
+        <a href="javascript:void(0);" id="cancel" class="easyui-linkbutton" iconCls="icon-redo" plain="true">取消</a>
+      </@shiro.hasPermission>
+    </div>
+    <table id="schmregcategory"></table>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.messPush.dao.MessPushLogInfoDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.messPush.dto.MessPushBusiLogInfo" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="CH_ID" property="chId" jdbcType="VARCHAR" />
+    <result column="PUSH_URL" property="pushUrl" jdbcType="VARCHAR" />
+    <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <result column="CH_TOKEN" property="chToken" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="PUSH_DATE" property="pushDate" jdbcType="TIMESTAMP" />
+    <result column="TRANSACTIONCODE" property="transactionCode" jdbcType="VARCHAR" />
+    <result column="TRANSACTIONNAME" property="transactionName" jdbcType="VARCHAR" />
+    <result column="PUSH_DATA" property="pushData" jdbcType="VARCHAR" />
+    <result column="PUSH_RESP_CODE" property="pushRespCode" jdbcType="VARCHAR" />
+    <result column="PUSH_RESP_DATA" property="pushRespData" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+        ID,
+        CH_ID,
+        PUSH_URL,
+        HOS_ID,
+        CH_TOKEN,
+        ORG_ID,
+        PUSH_DATE,
+        TRANSACTIONCODE,
+        TRANSACTIONNAME,
+        PUSH_DATA,
+        PUSH_RESP_CODE,
+        PUSH_RESP_DATA
+    </sql>
+
+  <insert id="insert" parameterType="com.skynet.rimp.messPush.dto.MessPushBusiLogInfo">
+    insert into mess_push_info_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id!=null">
+        ID,
+      </if>
+      <if test="chId!=null">
+        CH_ID,
+      </if>
+      <if test="pushUrl!=null">
+        PUSH_URL,
+      </if>
+      <if test="hosId!=null">
+        HOS_ID,
+      </if>
+      <if test="chToken!=null">
+        CH_TOKEN,
+      </if>
+      <if test="orgId!=null">
+        ORG_ID,
+      </if>
+      <if test="pushDate!=null">
+        PUSH_DATE,
+      </if>
+      <if test="transactionCode!=null">
+        TRANSACTIONCODE,
+      </if>
+      <if test="transactionName!=null">
+        TRANSACTIONNAME,
+      </if>
+      <if test="pushData!=null">
+        PUSH_DATA,
+      </if>
+      <if test="pushRespCode!=null">
+        PUSH_RESP_CODE,
+      </if>
+      <if test="pushRespData!=null">
+        PUSH_RESP_DATA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id!=null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="chId!=null">
+        #{chId,jdbcType=VARCHAR},
+      </if>
+      <if test="pushUrl!=null">
+        #{pushUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="hosId!=null">
+        #{hosId,jdbcType=VARCHAR},
+      </if>
+      <if test="chToken!=null">
+        #{chToken,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId!=null">
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="pushDate!=null">
+        #{pushDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transactionCode!=null">
+        #{transactionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionName!=null">
+        #{transactionName,jdbcType=VARCHAR},
+      </if>
+      <if test="pushData!=null">
+        #{pushData,jdbcType=VARCHAR},
+      </if>
+      <if test="pushRespCode!=null">
+        #{pushRespCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pushRespData!=null">
+        #{pushRespData,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

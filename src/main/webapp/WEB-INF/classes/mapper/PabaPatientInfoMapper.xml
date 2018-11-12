@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.blackListInfo.dao.PabaPatientInfoDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.blackListInfo.vo.PabaPatientInfo" >
+    <id column="PABA_PATIENT_ID" property="pabaPatientId" jdbcType="VARCHAR" />
+    <result column="PABA_PATIENT_NAME" property="pabaPatientName" jdbcType="VARCHAR" />
+    <result column="PABA_PATIENT_CARD" property="pabaPatientCard" jdbcType="VARCHAR" />
+    <result column="PABA_PATIENT_TEL" property="pabaPatientTel" jdbcType="VARCHAR" />
+    <result column="PABA_OFF_DATE" property="pabaOffDate" jdbcType="TIMESTAMP" />
+    <result column="PABA_ON_DATE" property="pabaOnDate" jdbcType="TIMESTAMP" />
+    <result column="PABA_OFF_REMARK" property="pabaOffRemark" jdbcType="VARCHAR" />
+    <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="PABA_PATIENT_STATE" property="pabaPatientState" jdbcType="VARCHAR" />
+    <result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+    <result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+    <result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    PABA_PATIENT_ID, PABA_PATIENT_NAME, PABA_PATIENT_CARD, PABA_PATIENT_TEL, PABA_OFF_DATE, 
+    PABA_ON_DATE, PABA_OFF_REMARK, ORG_ID, PABA_PATIENT_STATE, EXT1, EXT2, EXT3, CREATE_DATE, 
+    CREATE_USER, UPDATE_DATE, UPDATE_USER
+  </sql>
+  
+   <update id="updateTaskPaba" parameterType="com.skynet.rimp.blackListInfo.dao.PabaPatientInfoDao" >
+    	 update paba_patient_info  
+    	 <set>
+    	  PABA_PATIENT_STATE='PABA_STATE_1',
+		      <if test="updateDate != null" >
+		        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="updateUser != null" >
+		        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+		      </if>
+		       <if test="pabaOnDate != null" >
+		        PABA_ON_DATE = #{pabaOnDate,jdbcType=VARCHAR},
+		      </if>
+		  </set>
+		  
+    	where  PABA_PATIENT_STATE='PABA_STATE_0' and left(PABA_OFF_DATE,10) <![CDATA[  <=  ]]> #{pabaOffDateTask,jdbcType=DATE}  
+    	<if test="hosId != null">
+    		and HOS_ID = #{hosId,jdbcType=VARCHAR}
+    	</if>
+    	
+
+    </update>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from paba_patient_info
+    where PABA_PATIENT_ID = #{pabaPatientId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 查询 -->
+  <select id="findAll" resultMap="BaseResultMap">
+		select a.* from paba_patient_info a
+  </select>
+  
+  <select id="findByCondition" resultMap="BaseResultMap" parameterType="com.skynet.common.SearchParams">
+	  	select * from paba_patient_info 
+	    where 1=1 
+	    <if test="searchParams.pabaPatientName != null  and searchParams.pabaPatientName != ''">
+	    	and PABA_PATIENT_NAME like '%${searchParams.pabaPatientName}%'
+	    </if>
+	    <if test="searchParams.pabaPatientCard != null  and searchParams.pabaPatientCard != ''">
+	    	and PABA_PATIENT_CARD like '%${searchParams.pabaPatientCard}%'
+	    </if>
+	    <if test="searchParams.pabaPatientState != null  and searchParams.pabaPatientState != ''">
+	    	and PABA_PATIENT_STATE = #{searchParams.pabaPatientState}
+	    </if>
+	    <if test="searchParams.pabaOffStartDate != null  and searchParams.pabaOffStartDate != ''">
+	    	<![CDATA[ and PABA_OFF_DATE >= #{searchParams.pabaOffStartDate} ]]>
+	    </if>
+	    <if test="searchParams.pabaOffEndDate != null  and searchParams.pabaOffEndDate != ''">
+	    	<![CDATA[ and PABA_OFF_DATE <= #{searchParams.pabaOffEndDate} ]]>
+	    </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from paba_patient_info
+    where PABA_PATIENT_ID = #{pabaPatientId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.skynet.rimp.blackListInfo.vo.PabaPatientInfo" >
+    insert into paba_patient_info (PABA_PATIENT_ID, PABA_PATIENT_NAME, PABA_PATIENT_CARD, 
+      PABA_PATIENT_TEL, PABA_OFF_DATE, PABA_ON_DATE, 
+      PABA_OFF_REMARK, ORG_ID, PABA_PATIENT_STATE, 
+      EXT1, EXT2, EXT3, CREATE_DATE, 
+      CREATE_USER, UPDATE_DATE, UPDATE_USER
+      )
+    values (#{pabaPatientId,jdbcType=VARCHAR}, #{pabaPatientName,jdbcType=VARCHAR}, #{pabaPatientCard,jdbcType=VARCHAR}, 
+      #{pabaPatientTel,jdbcType=VARCHAR}, #{pabaOffDate,jdbcType=TIMESTAMP}, #{pabaOnDate,jdbcType=TIMESTAMP}, 
+      #{pabaOffRemark,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{pabaPatientState,jdbcType=VARCHAR}, 
+      #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}
+      )
+  </insert>
+ 
+  <update id="updateByPrimaryKeySelective" parameterType="com.skynet.rimp.blackListInfo.vo.PabaPatientInfo" >
+    update paba_patient_info
+    <set >
+      <if test="pabaPatientName != null" >
+        PABA_PATIENT_NAME = #{pabaPatientName,jdbcType=VARCHAR},
+      </if>
+      <if test="pabaPatientCard != null" >
+        PABA_PATIENT_CARD = #{pabaPatientCard,jdbcType=VARCHAR},
+      </if>
+      <if test="pabaPatientTel != null" >
+        PABA_PATIENT_TEL = #{pabaPatientTel,jdbcType=VARCHAR},
+      </if>
+      <if test="pabaOffDate != null" >
+        PABA_OFF_DATE = #{pabaOffDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pabaOnDate != null" >
+        PABA_ON_DATE = #{pabaOnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pabaOffRemark != null" >
+        PABA_OFF_REMARK = #{pabaOffRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="pabaPatientState != null" >
+        PABA_PATIENT_STATE = #{pabaPatientState,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        EXT2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        EXT3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PABA_PATIENT_ID = #{pabaPatientId,jdbcType=VARCHAR}
+  </update>
+</mapper>

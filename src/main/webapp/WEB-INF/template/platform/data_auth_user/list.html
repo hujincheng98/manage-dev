@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>用户数据权限管理</title> 
+	[#include "../include/head.html" /]
+	<script type="text/javascript" src="${base}/plug-in/skynet.comboxGridKeyHandler.js"></script>
+	<script type="text/javascript" src="${res}/js_custom/data_auth_user.js"></script>
+</head>
+<body>
+
+	<!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+		<table class="n_input" id="searchform">
+             <tr>
+                 <td height="20" align="right" nowrap>用户名称：</td>
+                 <td><input type="text" class="easyui-textbox" id="searchParams_userName" value="" name="searchParams['userName']" /></td>
+                  <td height="20" align="right" nowrap>表格名称：</td>
+                 <td><input type="text" class="easyui-textbox" id="searchParams_tableName" value="" name="searchParams['tableName']" /></td>
+                 <td height="32" colspan="18" align="center">
+                 	<a id="searchBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+                 	<a id="resetBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">重置</a>
+                 </td>
+             </tr>
+         </table>
+     </fieldset>
+
+	<!-- 按钮区域 -->
+	<div id="button-bar">
+		[@shiro.hasPermission name="/platform/data_auth_user/add.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="addBtn">新增</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/data_auth_user/delete.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true" id="deleteBtn">删除</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/data_auth_user/update.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="editBtn">编辑</a>
+	    [/@shiro.hasPermission]
+		[@shiro.hasPermission name="/platform/data_auth_user/update.json"]
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" id="saveBtn">保存</a>
+	    [/@shiro.hasPermission]
+	    <a href="#" class="easyui-linkbutton" style="display:none;" iconCls="icon-tabicons_03_04" plain="true" id="resetDataBtn">撤销</a>
+	</div>
+	
+	<div id="tableList"></div>
+	
+</body>
+</html>

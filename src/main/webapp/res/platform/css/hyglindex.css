@@ -1,0 +1,135 @@
+body 
+{
+	background: #fff;
+	font-family: "微软雅黑", "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei",
+		"\9ED1\4F53", Arial, sans-serif;
+	color: #222;
+	font-size: 12px;
+}
+
+* {
+	padding: 0px;
+	margin: 0px;
+}
+.loginbackcolor
+{
+	position:absolute;
+	top:200px;
+	width:100%;
+	height:378px;
+	background:#0086ce;
+}
+.lgincenter
+{
+	width:950px;
+	height:378px;
+	margin:0 auto;
+}
+.loginleftpic
+{
+	width:429px;
+	height:378px;
+	float:left;
+}
+.loginleftpic img
+{
+	width:429px;
+	height:378px;
+	float:left;
+}
+.logo
+{
+	width:241px;
+	height:35px;
+	margin-left:225px;
+	margin-top:25px;
+	float:left;
+}
+.logo img
+{
+	width:241px;
+	height:35px;
+	float:left;
+}
+.login
+{
+	width:352px;
+	height:262px;
+	background:url(../images/loginbackpic.png) no-repeat;
+	margin-left:169px;
+	margin-top:25px;
+	float:left;
+}
+.inforbox
+{
+	width:259px;
+	height:110px;
+	margin-left:45px;
+	margin-top:61px;
+	float:left;
+}
+.inforbox p
+{
+	width:259px;
+	height:33px;
+	background:url(../WebClassImages/user.jpg) no-repeat;
+	margin-top:5px;
+	float:left;
+}
+.username,.password
+{
+	width:172px;
+	height:14px;
+	padding:6px 5px;
+	margin-left:73px;
+	margin-top:3px;
+	font-size:14px;
+	line-height:14px;
+	border:none;
+	float:left;
+}
+.yzm
+{
+	width:88px;
+	height:14px;
+	padding:6px 5px;
+	margin-left:74px;
+	margin-top:3px;
+	font-size:14px;
+	line-height:14px;
+	border:none;
+	float:left;
+}
+.username:focus,.password:focus,.yzm:focus
+{
+	outline:none;
+}
+.errorinfor
+{
+	height:30px;
+	margin-left:45px;
+	float:left;
+}
+.errorinfor p
+{
+	width:259px;
+	height:28px;
+	font-size:14px;
+	line-height:28px;
+	text-align:center;
+	float:left;
+}
+.m-dlsubmit
+{
+	height:42px;
+	margin-left:50px;
+	float:left;
+}
+.g-cinfro
+{
+	width:282px;
+	height:44px;
+	background:url(../images/logoinformation.png) no-repeat;
+	position:absolute;
+	left:40%;
+	bottom:0;

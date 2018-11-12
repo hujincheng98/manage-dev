@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <#include "../include/head.html" />
+    <title>数据服务管理</title>
+   	<script type="text/javascript" src="${res}/js/channelInfo/other_hisDatachneels_index.js"></script>
+   	<link type="text/css" rel="stylesheet" href="${res}/css/dialog_index.css" />
+    <style type="text/css">
+		body,td,th {font-size: 12px;} 
+		.easyui-dialog div label {width: 120px;}
+	</style>
+  </head>
+  
+  <body>
+       
+    <!-- 新增Dialog -->
+   	<div id="addDialog" class="easyui-dialog" title="数据服务管理 -- 新增" data-options="closed:true,modal:true,
+   		href:'add.do',
+   		toolbar:[{
+			text:'保存',
+			iconCls:'icon-save',
+			handler:save
+		},{
+			text:'取消',
+			iconCls:'icon-cancel',
+			handler:function(){
+				$.messager.confirm('提示:','您确认要取消吗?',function(r){ 
+					if(r){ 
+						$('#addDialog').dialog('close');
+					}
+				}); 
+			}
+		}],
+		onOpen : function (){
+			$('#other_hisDatachneels_add_form').form('clear');
+		}" style="width:700px;height:320px;padding:5px">
+  	 	</div>
+       
+    <!-- 修改Dialog -->
+   	<div id="editDialog" class="easyui-dialog" title="数据服务管理  -- 修改" data-options="closed:true,modal:true,
+   		href:'edit.do',
+   		toolbar:[{
+			text:'保存',
+			iconCls:'icon-save',
+			handler:update
+		},{
+			text:'取消',
+			iconCls:'icon-cancel',
+			handler:function(){
+				$.messager.confirm('提示:','您确认要取消吗?',function(r){ 
+					if(r){ 
+						$('#editDialog').dialog('close');
+					}
+				}); 
+			}
+		}],
+		onLoad : function () {
+			var row = $(dataTable).datagrid('getSelected');
+			$('#other_hisDatachneels_edit_form').form('load', row);
+      		},
+      		onOpen : function () {
+			var row = $(dataTable).datagrid('getSelected');
+			$('#other_hisDatachneels_edit_form').form('load', row);
+      		}
+      		" style="width:700px;height:320px;padding:5px">
+   	</div>
+    	
+    <!-- 按钮区域 -->
+	<div id="button-bar">  
+		<@shiro.hasPermission name="/rimp/otherHisDatachneels/add.do"> 
+	    	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:add();">新增</a>
+	    </@shiro.hasPermission>    
+	    <@shiro.hasPermission name="/rimp/otherHisDatachneels/delete.json"> 
+	    	<a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true" onclick="javascript:_remove();">删除</a> 
+    	</@shiro.hasPermission>   
+	    <@shiro.hasPermission name="/rimp/otherHisDatachneels/edit.do"> 
+	    	<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="javascript:edit();">修改</a>
+	    </@shiro.hasPermission>
+	    <@shiro.hasPermission name="/rimp/otherHisDatachneels/syncDept.do"> 
+	    	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" plain="true" onclick="javascript:syncDept();">同步科室</a>
+	    </@shiro.hasPermission>    
+	    <@shiro.hasPermission name="/rimp/otherHisDatachneels/syncDocm.do"> 
+	    	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" plain="true" onclick="javascript:syncDocm();">同步医生</a>  
+	   	</@shiro.hasPermission>  
+	</div>
+	
+	<div id="dg"></div>
+	
+	<div id="progress"></div>
+  </body>
+</html>

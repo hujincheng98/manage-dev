@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <#include "../include/head.html" />
+    <title><@s.m code="shift.management" /></title>
+   	<script type="text/javascript" src="${res}/js/hisBaseInfo/dept_Index.js"></script>
+   	<link type="text/css" rel="stylesheet" href="${res}/css/dept_index.css" />
+    <style type="text/css">
+		body,td,th {font-size: 12px;} 
+	</style>
+  </head>
+  <body style="overflow-y:scroll">
+   <!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 10px; padding:5px;">
+		<legend>查询条件</legend>
+           <form id="searchform" name="formsearchform" method="post" action="">
+           <input type="hidden" name="act" value="logmanage.vlist">          
+           <table class="n_input" id="tabform">
+               <tr>
+                   <td width="100" height="20" align="right" nowrap>科室名称：</td>
+                   <td nowrap>
+                      <input type="text" class="easyui-textbox" id="serdeptName"/>
+                   </td>
+                   <td width="100" height="20" align="right" nowrap>科室状态：</td>
+                   <td nowrap>
+                     <select
+						class="easyui-combobox"
+						data-options="
+			    		valueField:'dictValue',
+			    		textField:'dictName',
+			    		editable:false,
+			            url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=DEPARTMENT_TYPE'"
+						style="width:170px;" id="serdeptState" name="serdeptState">
+                   </td>
+                   <td height="32" colspan="10" align="center" nowrap="nowrap">
+                   <a href="javascript:void(0);" class="easyui-linkbutton" id="search" iconCls="icon-search" data-options="iconCls:'icon-search'">查询</a>
+                   <a href="javascript:void(0);" class="easyui-linkbutton" id="reset" iconCls="icon-undo" data-options="iconCls:'icon-undo'">重置</a>
+                   <input type="reset" id="resetform" style="display: none;">    
+                   </td>
+               </tr>
+           </table>  
+           </form>
+       </fieldset>
+	<!-- 按钮区域 -->
+	<div id="layout" class="easyui-layout" style="width:100%;height:100%;"data-options="fit:true">
+	    <div data-options="region:'north'" style="height:30px;background-color: #E6F0FF;">
+	    	 <div id="button-bar">  
+	    	 	<@shiro.hasPermission name="/rimp/dept/dept_add.do">
+			    <a href="javascript:void(0);" id="addDept" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a>
+			    </@shiro.hasPermission>
+			    <@shiro.hasPermission name="/rimp/dept/dept_edit.do">    
+			    <a href="javascript:void(0);" id="editDept" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
+			    </@shiro.hasPermission>
+			    <@shiro.hasPermission name="/rimp/dept/delete.do">
+			    <a href="javascript:void(0);" id="delete" class="easyui-linkbutton" iconCls="icon-cut" plain="true">删除</a>
+			    </@shiro.hasPermission>
+			    <@shiro.hasPermission name="/rimp/dept/dept_edit.do">  
+			    <a href="javascript:void(0);" id="enabled"  class="easyui-linkbutton" iconCls="icon-save" plain="true">启用</a>
+			    </@shiro.hasPermission>
+			    <@shiro.hasPermission name="/rimp/dept/dept_edit.do">    
+			    <a href="javascript:void(0);" id="disEnabled" class="easyui-linkbutton" iconCls="icon-save" plain="true">停用</a>
+			    </@shiro.hasPermission>    
+			</div>	
+	    </div>  
+		<div data-options="region:'west'" style="width:200px;">
+	    	<ul id="org_tree" class="ztree"></ul>
+	    </div>   
+	    <div data-options="region:'center'" style="padding:2px;background:#fff;">
+			<div id="tableList"></div>
+		</div>
+		
+	</div>
+	
+	<!-- 按钮区域 -->
+	<div id="addDialog" class="easyui-dialog" title="科室管理-- 新增" data-options="closed:true,modal:true,
+   		href:'dept_add.do',
+   		toolbar:[{
+			text:'保存',
+			iconCls:'icon-save',
+			id:'save'
+		},{
+			text:'取消',
+			iconCls:'icon-cancel',
+			id:'cancelAdd'
+		}],
+		onLoad : function () {
+			/**
+			 *失去焦点 填充拼音码
+			 **/
+			$('input',$('#deptName').next('span')).blur(function(){  
+				var pym = CF2PY($('#deptName').val());
+				$('#deptPinyCode').next('span').find('input').val(pym);
+			});
+      	},onOpen : function () {
+      		/**
+			 *失去焦点 填充拼音码
+			 **/
+			$('input',$('#deptName').next('span')).blur(function(){  
+				var pym = CF2PY($('#deptName').val());
+				$('#deptPinyCode').next('span').find('input').val(pym);
+			});
+      	}" style="width:700px;height:500px;padding:5px">
+    </div>
+    <div id="editDialog" class="easyui-dialog" title="科室管理-- 修改" data-options="closed:true,modal:true,
+   		href:'dept_edit.do',
+   		toolbar:[{
+			text:'保存',
+			iconCls:'icon-save',
+			id:'update'
+		},{
+			text:'取消',
+			iconCls:'icon-cancel',
+			id:'cancelEdit'
+		}],
+		onLoad : function () {
+			var row = $('#tableList').datagrid('getSelected');
+			$('#dept_edit_form').form('load', row);
+      		/**
+			 *失去焦点 填充拼音码
+			 **/
+			$('input',$('#deptName').next('span')).blur(function(){  
+				var pym = CF2PY($('#deptName').val());
+				$('#deptPinyCode').next('span').find('input').val(pym);
+			});
+      	},
+    	onOpen : function () {
+			var row = $('#tableList').datagrid('getSelected');
+			$('#dept_edit_form').form('load', row);
+	     	/**
+			 *失去焦点 填充拼音码
+			 **/
+			$('input',$('#deptName').next('span')).blur(function(){  
+				var pym = CF2PY($('#deptName').val());
+				$('#deptPinyCode').next('span').find('input').val(pym);
+			});
+     	 }" style="width:700px;height:500px;padding:5px">
+    </div>
+    <div id="detailDialog" class="easyui-dialog" title="科室管理-- 详情" data-options="closed:true,modal:true,
+   		href:'dept_detail.do',
+   		toolbar:[{
+			text:'关闭',
+			iconCls:'icon-cancel',
+			id:'cancelDetail'
+		}],
+		onLoad : function () {
+			var row = $('#tableList').datagrid('getSelected');
+			$('#dept_detail_form').form('load', row);
+      	},
+    	onOpen : function () {
+			var row = $('#tableList').datagrid('getSelected');
+			$('#dept_detail_form').form('load', row);
+     	 }" style="width:700px;height:440px;padding:5px">
+    </div>
+  </body>
+</html>

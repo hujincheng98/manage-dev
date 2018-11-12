@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <#include "../include/head.html" />
+    <title><@s.m code="docm.management" /></title>
+   	<script type="text/javascript" src="${res}/js/hisBaseInfo/docm_index.js"></script>
+    <script type="text/javascript" src="${base}/plug-in/skynet.common.js"></script>
+
+   	<link type="text/css" rel="stylesheet" href="${res}/css/dialog_index.css" />
+    <style type="text/css">
+		body,td,th {font-size: 12px;} 
+		.easyui-dialog div {
+			width:270px;
+		}
+		.easyui-dialog div label {
+			width: 90px;
+		}
+	</style>
+  </head>
+  <body style="overflow-y:auto;">
+<!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 10px; padding:5px;">
+		<legend>查询条件</legend>
+           <table class="n_input" id="searchform">
+               <tr>
+               	   <td width="100" height="20" align="right" nowrap>医生名称：</td>
+                   <td><input type="text" class="easyui-textbox" name="searchParams[docmName]" id="docmNameSearch" class=""/></td>
+                   <td width="100" height="20" align="right" nowrap>医生状态：</td>
+                   <td>
+                   		<select class="easyui-combobox" data-options="
+                   			valueField:'dictValue',
+                   			textField:'dictName',
+                   			editable:false,
+                   			url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=DOCM_STATE'
+                   		" style="width:180px;" name="searchParams[docmState]" id="docmState"></select>
+                   </td>
+                   	<td height="32" colspan="10" align="center" nowrap="nowrap">
+		                  &nbsp;&nbsp;<button class="easyui-linkbutton" id="searchBtn" data-options="iconCls:'icon-search'">查询</button>
+		                   <button class="easyui-linkbutton" id="clearBtn" data-options="iconCls:'icon-undo'">重置</button>
+	                 </td>
+               </tr>
+           </table>  
+       </fieldset>
+       
+   		<!-- 按钮区域 -->
+		<div id="addDialog" class="easyui-dialog" title="医生信息管理 -- 新增" data-options="closed:true,modal:true,
+    		href:'docm_add.do',
+    		toolbar:[{
+				text:'保存',
+				iconCls:'icon-save',
+				handler:save
+			},{
+				text:'取消',
+				iconCls:'icon-cancel',
+				handler:function(){
+					$.messager.confirm('提示:','您确认要取消吗?',function(r){ 
+						if(r){ 
+							$('#addDialog').dialog('close');
+						}
+					}); 
+				}
+			}],
+			onLoad : function () {
+				/**
+				 *失去焦点 填充拼音码
+				 **/
+				$('input',$('#docmName').next('span')).blur(function(){  
+					var pym = CF2PY($('#docmName').val());
+					$('#docmPinyCode').next('span').find('input').val(pym);
+				});
+				$('#preview img').attr('src', '${res}/images/docmPhoto.jpg');
+       		},
+       		onOpen : function () {
+       			$('#docm_add_form').form('clear');
+       			$('#preview img').attr('src', '${res}/images/docmPhoto.jpg');
+       		}" style="width:710px;height:600px;padding:5px">
+    </div>
+    
+     <!-- 修改Dialog -->
+    	<div id="editDialog" class="easyui-dialog" title="医生信息管理 -- 修改" data-options="closed:true,modal:true,
+    		href:'docm_edit.do',
+    		toolbar:[{
+				text:'保存',
+				iconCls:'icon-save',
+				handler:update
+			},{
+				text:'取消',
+				iconCls:'icon-cancel',
+				handler:function(){
+					$.messager.confirm('提示:','您确认要取消吗?',function(r){ 
+						if(r){ 
+							$('#editDialog').dialog('close');
+						}
+					}); 
+				}
+			}],
+			onLoad : function () {
+				var row = $('#dg').datagrid('getSelected');
+				$('#docm_edit_form').form('load', row);
+       			/**
+				 *失去焦点 填充拼音码
+				 **/
+				$('input',$('#docmName').next('span')).blur(function(){  
+					var pym = CF2PY($('#docmName').val());
+					$('#docmPinyCode').next('span').find('input').val(pym);
+				});
+				if (row.docmPhoto) {
+					$('#preview img').attr('src', 'data:image/png;base64,' + row.docmPhoto);
+					$('#docmPhoto').val(row.docmPhoto);
+				} else {
+					$('#preview img').attr('src', '${res}/images/docmPhoto.jpg');
+				}
+       		},
+       		onOpen : function () {
+				var row = $('#dg').datagrid('getSelected');
+				$('#docm_edit_form').form('load', row);
+       			/**
+				 *失去焦点 填充拼音码
+				 **/
+				$('input',$('#docmName').next('span')).blur(function(){  
+					var pym = CF2PY($('#docmName').val());
+					$('#docmPinyCode').next('span').find('input').val(pym);
+				});
+				if (row.docmPhoto) {
+					$('#preview img').attr('src', 'data:image/png;base64,' + row.docmPhoto);
+					$('#docmPhoto').val(row.docmPhoto);
+				} else {
+					$('#preview img').attr('src', '${res}/images/docmPhoto.jpg');
+				}
+       		}
+       		" style="width:710px;height:600px;padding:5px">
+    	</div>
+       
+    
+     	<!-- 详情Dialog -->
+    	<div id="detailDialog" class="easyui-dialog" title="医生信息管理 -- 详情" data-options="closed:true,modal:true,
+    		href:'docm_detail.do',
+    		toolbar:[{
+				text:'关闭',
+				iconCls:'icon-cancel',
+				handler:function(){
+					$('#detailDialog').dialog('close');
+				}
+			}],
+			onLoad : function () {
+				var row = $('#dg').datagrid('getSelected');
+				$('#docm_detail_form').form('load', row);
+				if (row && row.docmPhoto) {
+					$('#preview img').attr('src', 'data:image/png;base64,' + row.docmPhoto);
+				} else {
+					$('#preview img').attr('src', '${res}/images/docmPhoto.jpg');
+				}
+       		},
+       		onOpen : function () {
+				var row = $('#dg').datagrid('getSelected');
+				$('#docm_detail_form').form('load', row);
+				if (row && row.docmPhoto) {
+					$('#preview img').attr('src', 'data:image/png;base64,' + row.docmPhoto);
+				} else {
+					$('#preview img').attr('src', '${res}/images/docmPhoto.jpg');
+				}
+       		}
+       		" style="width:710px;height:600px;padding:5px">
+    	</div>
+       
+
+	<!-- 按钮区域 -->
+	<div id="layout" class="easyui-layout" style="width:100%;height:100%;"data-options="fit:true">
+		<div data-options="region:'north'" style="height:30px;background-color: #E6F0FF;">
+			<div id="button-bar">  
+				<@shiro.hasPermission name="/rimp/hosdocm/docm_add.do">
+			    	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:add();">新增</a>
+			    </@shiro.hasPermission>        
+			   	<@shiro.hasPermission name="/rimp/hosdocm/docm_edit.do">
+			   		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="javascript:edit();">修改</a>
+			   	</@shiro.hasPermission>       
+			   	<@shiro.hasPermission name="/rimp/hosdocm/delete.json">
+			    	<a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true" id="deleteBtn">删除</a>
+			     </@shiro.hasPermission>    	  
+			    <@shiro.hasPermission name="/rimp/hosdocm/updateState.json">
+			    	<a href="#" class="easyui-linkbutton" iconCls="icon-man" plain="true" onclick="javascript:submitState('docm_state_2')">可预约</a>
+			     </@shiro.hasPermission>        
+			    <@shiro.hasPermission name="/rimp/hosdocm/updateState.json">
+			    	<a href="#" class="easyui-linkbutton" iconCls="icon-lock" plain="true" onclick="javascript:submitState('docm_state_3')">不可预约</a>
+			   	</@shiro.hasPermission>        
+			</div>
+		</div>
+	
+	<div data-options="region:'west'" style="width:200px;">
+	    	<ul id="org_tree" class="ztree"></ul>
+	</div>  
+	
+	 <div data-options="region:'center'" style="padding:2px;background:#fff;overflow: auto;width: 100%;">
+		<div id="dg"></div>	
+	 </div>
+	 
+	</div>
+  </body>
+</html>

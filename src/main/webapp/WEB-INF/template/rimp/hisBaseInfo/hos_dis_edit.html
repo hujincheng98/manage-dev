@@ -1,0 +1,31 @@
+<script type="text/javascript" src="${res}/js/common/hosCombox.js"></script>
+<form id="dis_edit_form">
+	<div>
+		<label><span class="tip">*</span>病区名称</label>
+		<input class="easyui-textbox" type="text" name="disName" data-options="required:true" missingMessage="医院名称不能为空！"/>
+	</div>
+	<div>
+		<label><span class="tip">*</span>所属医院</label>
+		<select name="hosId" class="_common_hos_combox" style="width:120px;">
+	    </select>
+	</div>
+	<div>
+		<label><span class="tip">*</span>所属组织机构</label>
+		<input class="easyui-textbox" type="text" name="disOrgCode" data-options="required:true" missingMessage="所属组织机构不能为空！"/>
+	</div>
+	<div>
+		<label>病区位置</label>
+		<input class="easyui-textbox" type="text" name="disSite"/>
+	</div>
+	<div>
+		<label>病区电话</label>
+		<input class="easyui-textbox" type="text" name="disPhone"/>
+	</div>
+	<div style="display: block;width: 95%;">
+    	<label>备注</label>
+    	<textarea rows="" cols="" name="remarks"></textarea>
+    </div>
+    <div>
+    	<input type="hidden" name="disId"/>
+    </div>
+</form>

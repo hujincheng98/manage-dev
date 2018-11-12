@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skynet.rimp.registerInfo.dao.SchmRegCategoryDao">
+
+  <!-- 单表操作频繁 并无频繁增删改，可加二级缓存 -->
+  <!-- <cache type="com.tiuweb.climb.framework.config.ehcache.RedisCache"/> -->
+
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.registerInfo.vo.SchmRegCategoryInfo">
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="REG_CATEGORY" property="regcategory" jdbcType="VARCHAR" />
+    <result column="SERV_CODING" property="servcoding" jdbcType="VARCHAR" />
+    <result column="REG_FEE" property="regfee" jdbcType="VARCHAR" />
+    <result column="FEE" property="fee" jdbcType="VARCHAR" />
+    <result column="FLAT_FEE" property="flatfee" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+    <result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+    <result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+        ID,
+        REG_CATEGORY,
+        SERV_CODING,
+        REG_FEE,
+        FEE,
+        FLAT_FEE,
+        ORG_ID,
+        EXT1,
+        EXT2,
+        EXT3
+    </sql>
+
+  <select id="findAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from schm_reg_category
+  </select>
+
+  <select id="findByPrimaryKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from schm_reg_category
+    where 1 = 1
+    AND ID = #{id}
+  </select>
+
+  <select id="findByCondition" parameterType="com.skynet.common.SearchParams" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from schm_reg_category
+    where 1=1
+    <if test="searchParams.id!=null and searchParams.id != ''">
+      AND ID = #{searchParams.id}
+    </if>
+    <if test="searchParams.regcategory!=null and searchParams.regcategory != ''">
+      AND REG_CATEGORY = #{searchParams.regcategory}
+    </if>
+    <if test="searchParams.servcoding!=null and searchParams.servcoding != ''">
+      AND SERV_CODING = #{searchParams.servcoding}
+    </if>
+    <if test="searchParams.regfee!=null and searchParams.regfee != ''">
+      AND REG_FEE = #{searchParams.regfee}
+    </if>
+    <if test="searchParams.fee!=null and searchParams.fee != ''">
+      AND FEE = #{searchParams.fee}
+    </if>
+    <if test="searchParams.flatfee!=null and searchParams.flatfee != ''">
+      AND FLAT_FEE = #{searchParams.flatfee}
+    </if>
+    <if test="searchParams.ext1!=null and searchParams.ext1 != ''">
+      AND EXT1 = #{searchParams.ext1}
+    </if>
+    <if test="searchParams.ext2!=null and searchParams.ext2 != ''">
+      AND EXT2 = #{searchParams.ext2}
+    </if>
+    <if test="searchParams.ext3!=null and searchParams.ext3 != ''">
+      AND EXT3 = #{searchParams.ext3}
+    </if>
+  </select>
+
+  <insert id="insert" parameterType="com.skynet.rimp.registerInfo.vo.SchmRegCategoryInfo">
+    insert into schm_reg_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id!=null">
+        ID,
+      </if>
+      <if test="regcategory!=null">
+        REG_CATEGORY,
+      </if>
+      <if test="servcoding!=null">
+        SERV_CODING,
+      </if>
+      <if test="regfee!=null">
+        REG_FEE,
+      </if>
+      <if test="fee!=null">
+        FEE,
+      </if>
+      <if test="flatfee!=null">
+        FLAT_FEE,
+      </if>
+      <if test="orgId!=null">
+        ORG_ID,
+      </if>
+      <if test="ext1!=null">
+        EXT1,
+      </if>
+      <if test="ext2!=null">
+        EXT2,
+      </if>
+      <if test="ext3!=null">
+        EXT3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id!=null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regcategory!=null">
+        #{regcategory,jdbcType=VARCHAR},
+      </if>
+      <if test="servcoding!=null">
+        #{servcoding,jdbcType=VARCHAR},
+      </if>
+      <if test="regfee!=null">
+        #{regfee,jdbcType=VARCHAR},
+      </if>
+      <if test="fee!=null">
+        #{fee,jdbcType=VARCHAR},
+      </if>
+      <if test="flatfee!=null">
+        #{flatfee,jdbcType=VARCHAR},
+      </if>
+        <if test="orgId!=null">
+            #{orgId,jdbcType=VARCHAR},
+        </if>
+      <if test="ext1!=null">
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2!=null">
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3!=null">
+        #{ext3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from schm_reg_category
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <update id="update" parameterType="com.skynet.rimp.registerInfo.vo.SchmRegCategoryInfo" >
+    update schm_reg_category
+    <set>
+      <if test="regcategory!=null">
+        REG_CATEGORY = #{regcategory,jdbcType=VARCHAR},
+      </if>
+      <if test="servcoding!=null">
+        SERV_CODING = #{servcoding,jdbcType=VARCHAR},
+      </if>
+      <if test="regfee!=null">
+        REG_FEE = #{regfee,jdbcType=VARCHAR},
+      </if>
+      <if test="fee!=null">
+        FEE = #{fee,jdbcType=VARCHAR},
+      </if>
+      <if test="flatfee!=null">
+        FLAT_FEE = #{flatfee,jdbcType=VARCHAR},
+      </if>
+        <if test="orgId!=null">
+            ORG_ID = #{orgId,jdbcType=VARCHAR},
+        </if>
+      <if test="ext1!=null">
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2!=null">
+        EXT2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3!=null">
+        EXT3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <where>
+      <if test="id!=null">
+        and ID = #{id,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+
+  <insert id="insertBatch" parameterType="java.util.List" >
+    insert into schm_reg_category
+    (
+    ID,
+    REG_CATEGORY,
+    SERV_CODING,
+    REG_FEE,
+    FEE,
+    FLAT_FEE,
+    ORG_ID,
+    EXT1,
+    EXT2,
+    EXT3
+    )
+    values
+    <foreach collection="list" item="item" index="index" separator="," >
+      (
+      #{item.id,jdbcType=VARCHAR},
+      #{item.regcategory,jdbcType=VARCHAR},
+      #{item.servcoding,jdbcType=VARCHAR},
+      #{item.regfee,jdbcType=VARCHAR},
+      #{item.fee,jdbcType=VARCHAR},
+      #{item.flatfee,jdbcType=VARCHAR},
+      #{item.orgId,jdbcType=VARCHAR},
+      #{item.ext1,jdbcType=VARCHAR},
+      #{item.ext2,jdbcType=VARCHAR},
+      #{item.ext3,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+</mapper>

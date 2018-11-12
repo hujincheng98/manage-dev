@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <#include "../include/head.html" />
+    <title><@s.m code="paba.management" /></title>
+    <script type="text/javascript" src="${res}/js/blackListInfo/paba_Index.js"></script>
+    <style type="text/css">
+		body,td,th {font-size: 12px;}
+        input[type='checkbox']{
+            display: block!important;
+            vertical-align:middle;
+            margin:auto;
+        }
+	</style>
+  </head>
+  <body>
+   <!-- 搜索区域 -->
+	<fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+           <form id="searchform" name="formsearchform" method="post" action="">
+           <input type="hidden" name="act" value="logmanage.vlist">          
+           <table class="n_input" id="tabform">
+               <tr>
+                   <td width="100" height="20" align="right" nowrap>患者姓名：</td>
+                   <td nowrap>
+                      <input type="text" id="serpabaPatientName" class="easyui-textbox"/>
+                   </td>
+                   <td width="100" height="20" align="right" nowrap>身份证号码：</td>
+                   <td nowrap>
+                      <input type="text" id="serpabaPatientCard" class="easyui-textbox"/>
+                   </td>
+                   <td width="100" height="20" align="right" nowrap>状态：</td>
+                   <td nowrap>
+                     <select
+						class="easyui-combobox"
+						data-options="
+			    		valueField:'dictValue',
+			    		textField:'dictName',
+			    		editable:false,
+			            url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=PABA_STATE'"
+						style="width:170px;" id="serpabaPatientState" name="serpabaPatientState">
+                   </td>
+                   <td width="100" height="20" align="right" nowrap>锁定时间：</td>
+                   <td nowrap>
+                   	  <input id="startDate" name="searchParams[pabaOffStartDate]" type="text" class="easyui-datebox" 
+                   	  data-options="prompt:'请选择开始日期',editable:false,onSelect:onSelect"></input>~
+                   	  <input id="endDate" name="searchParams[pabaOffEndDate]" type="text" class="easyui-datebox" 
+                   	  data-options="prompt:'请选择结束日期',editable:false,disabled:true"></input>
+                   </td>
+                   
+                   <script type="text/javascript">  
+					    function onSelect(date){  //开始日期选择时触发  
+					        $('#endDate').datebox('enable');    //启用结束日期控件  
+					        $('#endDate').datebox('reset')      //重置结束日期的值  
+					    };  
+					</script>
+                   
+                   <td height="32" colspan="10" align="center" nowrap="nowrap">
+                   <a href="javascript:void(0);" class="easyui-linkbutton" id="search"   data-options="iconCls:'icon-search'">查询</a>
+                   <a href="javascript:void(0);" class="easyui-linkbutton" id="reset"  data-options="iconCls:'icon-undo'">重置</a>
+                   <input type="reset" id="resetform" style="display: none;">    
+                   </td>
+               </tr>
+           </table>  
+           </form>
+       </fieldset>
+	<!-- 按钮区域 -->
+    	 <div id="button-bar">  
+    	 	<@shiro.hasPermission name="/rimp/paba/jiesuo.do">
+		    <a href="javascript:void(0);" id="disEnabled"  class="easyui-linkbutton" iconCls="icon-ok" plain="true">解锁</a>
+		    </@shiro.hasPermission>
+		    <@shiro.hasPermission name="/rimp/paba/suoding.do">
+		    <a href="javascript:void(0);" id="enabled" class="easyui-linkbutton" iconCls="icon-no" plain="true">锁定</a>
+		    </@shiro.hasPermission>
+		</div>	
+	    <div data-options="region:'center'" style="padding:2px;background:#fff;">
+			<@p.table id="tableList" url="list.json" idField="pabaPatientId" toolbar="button-bar" remoteSort="false" singleSelect="false" showHeader="true" title="黑名单列表" rownumbers="true">
+			<@p.column title="编号" field="pabaPatientId" checkbox="true"/>
+			<@p.column title="患者姓名" field="pabaPatientName"   width="10%" sortable="true"/>
+			<@p.column code="身份证号码" field="pabaPatientCard" width="20%" sortable="true"/>
+			<@p.column code="联系电话" field="pabaPatientTel" width="15%" sortable="true"/>
+			<@p.column code="锁定时间" field="pabaOffDate" width="10%" sortable="true"/>
+			<@p.column code="解锁时间" field="pabaOnDate" width="10%" sortable="true"/>
+			<@p.column code="锁定原因" field="pabaOffRemark" width="22%" sortable="true"/>
+			<@p.column code="状态" field="pabaStateName" width="10%" sortable="true"/>
+			</@p.table>
+		</div>
+  </body>
+</html>

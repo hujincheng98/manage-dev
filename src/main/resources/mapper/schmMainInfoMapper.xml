@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.schmInfo.dao.SchmMainInfoDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.schmInfo.vo.SchmMainInfo" >
+    <id column="SCHM_ID" property="schmId" jdbcType="VARCHAR" />
+    <result column="SCHM_DATE" property="schmDate" jdbcType="DATE" />
+    <result column="DOCM_ID" property="docmId" jdbcType="VARCHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="SCHM_DEPT_ID" property="schmDeptId" jdbcType="VARCHAR" />
+    <result column="SCHM_WEEK" property="schmWeek" jdbcType="VARCHAR" />
+    <result column="SHIFT_ID" property="shiftId" jdbcType="VARCHAR" />
+    <result column="SCHM_ON_WORK" property="schmOnWork" jdbcType="TIME" />
+    <result column="SCHM_OFF_WORK" property="schmOffWork" jdbcType="TIME" />
+    <result column="SCHM_REGI_SUM" property="schmRegiSum" jdbcType="INTEGER" />
+    <result column="SCHM_ON_SUM" property="schmOnSum" jdbcType="INTEGER" />
+    <result column="SCHM_DOWN_SUM" property="schmDownSum" jdbcType="INTEGER" />
+    <result column="SCHM_ON_REGI_SUM" property="schmOnRegiSum" jdbcType="INTEGER" />
+    <result column="SCHM_DOWN_REGI_SUM" property="schmDownRegiSum" jdbcType="INTEGER" />
+    <result column="SCHM_REGI_ON_NUM" property="schmRegiOnNum" jdbcType="INTEGER" />
+    <result column="SCHM_REGI_DOWN_NUM" property="schmRegiDownNum" jdbcType="INTEGER" />
+    <result column="SCHM_UPRE_NUM" property="schmUpreNum" jdbcType="INTEGER" />
+    <result column="SCHM_DOWNRE_NUM" property="schmDownreNum" jdbcType="INTEGER" />
+    <result column="SCHM_UPGO_NUM" property="schmUpgoNum" jdbcType="INTEGER" />
+    <result column="SCHM_DOWNGO_NUM" property="schmDowngoNum" jdbcType="INTEGER" />
+    <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="SCHM_STATE" property="schmState" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+    <result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+    <result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+    <result column="schm_Dept_Name" property="schmDeptName" jdbcType="VARCHAR" />
+    <result column="DOCM_NAME" property="docmName" jdbcType="VARCHAR" />
+    <result column="schm_state_name" property="schmStateName" jdbcType="VARCHAR" />
+    <result column="shift_name" property="shiftName" jdbcType="VARCHAR" />
+     <result column="DOCM_TITLE" property="docmTitle" jdbcType="VARCHAR" />
+    <result column="REG_CATEGORY" property="regcategory" jdbcType="VARCHAR" />
+    <result column="ID" property="regCategoryId" jdbcType="VARCHAR" />
+    <result column="SERV_CODING" property="servCoding" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+    <update id="updateTaskSchm" parameterType="com.skynet.rimp.schmInfo.vo.SchmMainInfo" >
+    	update schm_main_info  
+    	 <set >
+    	 		SCHM_DOWN_REGI_SUM = SCHM_DOWN_REGI_SUM+SCHM_ON_SUM-SCHM_UPRE_NUM,
+    	 		SCHM_ON_SUM = SCHM_UPRE_NUM,
+		      <if test="updateDate != null" >
+		        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="updateUser != null" >
+		        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+		       </if>
+		  </set>
+    	where  SCHM_DATE = #{schmDate,jdbcType=DATE}  
+    </update>
+  
+  <!-- 查询 -->
+	<select id="findAll" resultMap="BaseResultMap">
+		select a.*,b.DEPT_NAME,c.DEPT_NAME as schm_Dept_Name,d.DOCM_NAME,d.DOCM_TITLE, 
+			E.SHIFT_NAME AS shift_name,f.REG_CATEGORY
+		  from schm_main_info a 
+		left join hos_dept_info b on a.DEPT_ID=b.DEPT_ID
+		left join hos_dept_info c on a.SCHM_DEPT_ID=c.DEPT_ID
+		left join hos_docm_info d on a.DOCM_ID=d.DOCM_ID 
+		left join schm_shift_info e on a.SHIFT_ID=e.SHIFT_ID
+		left join schm_reg_category f on a.EXT1=f.ID order by a.SCHM_DATE
+	</select>
+	
+  <select id="findByShiftId" parameterType="java.lang.String" resultType="int">
+    select count(*) from schm_main_info
+    where SHIFT_ID = #{shiftId,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="findByDocmId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from schm_main_info
+    where DOCM_ID = #{docmId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <select id="findByShiftIdByDocmDate" parameterType="com.skynet.rimp.schmInfo.vo.SchmMainInfoVo" resultType="int">
+    select count(*) from schm_main_info
+    where 1=1 
+    <if test="schmDate != null and schmDate != ''">
+    	and SCHM_DATE =  #{schmDate,jdbcType=DATE}
+    </if>
+     <if test="shiftId != null and shiftId != ''">
+    	and SHIFT_ID =  #{shiftId,jdbcType=VARCHAR}
+    </if>
+     <if test="docmId != null and docmId != ''">
+    	and DOCM_ID =  #{docmId,jdbcType=VARCHAR}
+    </if>
+     <if test="schmDeptIDtocontext != null and schmDeptIDtocontext != ''">
+    	and SCHM_DEPT_ID =  #{schmDeptIDtocontext,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <select id="findByRegCategoryId" parameterType="java.lang.String" resultMap="BaseResultMap">
+          select * from schm_main_info
+          where EXT1 = #{ext1,jdbcType=VARCHAR}
+  </select>
+  
+  
+	<select id="findByCondition" resultMap="BaseResultMap" parameterType="com.skynet.common.SearchParams">
+		select a.*,b.DEPT_NAME,c.DEPT_NAME as schm_Dept_Name,d.DOCM_NAME,d.DOCM_TITLE, 
+			E.SHIFT_NAME AS shift_name,f.REG_CATEGORY
+		  from schm_main_info a 
+		left join hos_dept_info b on a.DEPT_ID=b.DEPT_ID
+		left join hos_dept_info c on a.SCHM_DEPT_ID=c.DEPT_ID
+		left join hos_docm_info d on a.DOCM_ID=d.DOCM_ID 
+		left join schm_shift_info e on a.SHIFT_ID=e.SHIFT_ID
+        left join schm_reg_category f on a.EXT1=f.ID
+		where 1=1
+		<if test="searchParams != null">
+			<if test="searchParams.deptName != null and searchParams.deptName != ''">
+				and a.SCHM_DEPT_ID = '${searchParams.deptName}'
+			</if>
+			<if test="searchParams.docmName != null and searchParams.docmName != ''">
+				and a.DOCM_ID = '${searchParams.docmName}'
+			</if>
+			<if test="searchParams.schmStartDate != null and searchParams.schmStartDate != ''">
+				and a.SCHM_DATE <![CDATA[   >=  ]]> '${searchParams.schmStartDate}'
+			</if>
+			<if test="searchParams.schmEndDate != null and searchParams.schmEndDate != ''">
+				and a.SCHM_DATE <![CDATA[  <=  ]]> '${searchParams.schmEndDate}'
+			</if>
+		</if>
+      order by a.SCHM_DATE
+<!--
+		<if test="sort != null and sort != '' and order != null and order != ''">
+			 <choose>
+			 	<when test="sort=='schmWeek'">
+			 		ORDER BY 
+					CASE A.SCHM_WEEK
+						WHEN '星期一' THEN '1'
+						WHEN '星期二' THEN '2'
+						WHEN '星期三' THEN '3'
+						WHEN '星期四' THEN '4'
+						WHEN '星期五' THEN '5'
+						WHEN '星期六' THEN '6'
+						WHEN '星期日' THEN '7'
+					ELSE '0' END ${order}
+			 	</when>
+			 	<otherwise>
+			 		ORDER BY
+			 		<if test="sort=='schmDate'">
+			 			A.SCHM_DATE
+			 		</if> 
+			 		<if test="sort=='docmName'">
+			 			D.DOCM_NAME
+			 		</if> 
+			 		<if test="sort=='docmTitleName'">
+			 			D.DOCM_TITLE
+			 		</if> 
+			 		<if test="sort=='schmOnWork'">
+			 			A.SCHM_ON_WORK
+			 		</if> 
+			 		<if test="sort=='schmOffWork'">
+			 			A.SCHM_OFF_WORK
+			 		</if> 
+			 		<if test="sort=='schmRegiSum'">
+			 			A.SCHM_REGI_SUM
+			 		</if> 
+			 		<if test="sort=='schmOnRegiSum'">
+			 			A.SCHM_ON_REGI_SUM
+			 		</if> 
+			 		<if test="sort=='schmRegiOnNum'">
+			 			A.SCHM_REGI_ON_NUM
+			 		</if> 
+			 		<if test="sort=='schmDownRegiSum'">
+			 			A.SCHM_DOWN_REGI_SUM
+			 		</if> 
+			 		<if test="sort=='schmRegiDownNum'">
+			 			A.SCHM_REGI_DOWN_NUM
+			 		</if> 
+			 		<if test="sort=='schmOnSum'">
+			 			A.SCHM_ON_SUM
+			 		</if> 
+			 		<if test="sort=='schmUpreNum'">
+			 			A.SCHM_UPRE_NUM
+			 		</if> 
+			 		<if test="sort=='schmDownSum'">
+			 			A.SCHM_DOWN_SUM
+			 		</if> 
+			 		<if test="sort=='schmDownreNum'">
+			 			A.SCHM_DOWNRE_NUM
+			 		</if> 
+			 		${order}
+			 	</otherwise>
+			 </choose>	
+		</if>
+		
+		<if test="sort==''">
+			ORDER BY A.SCHM_DATE
+		</if>
+-->
+	</select>
+	
+	<select id="findByConditionBydel" resultMap="BaseResultMap" parameterType="com.skynet.common.SearchParams">
+		select  a.schm_id from schm_main_info a where 1=1
+		<if test="searchParams != null">
+			<if test="searchParams.deptId != null and searchParams.deptId != ''">
+				and a.SCHM_DEPT_ID = '${searchParams.deptId}'
+			</if>
+			<if test="searchParams.docmId != null and searchParams.docmId != ''">
+				and a.DOCM_ID = '${searchParams.docmId}'
+			</if>
+		</if>
+	</select>
+	
+	<select id="findByConditionByDate" resultType="java.lang.String" parameterType="com.skynet.rimp.schmInfo.vo.SchmMainInfo">
+		select concat(a.SCHM_DATE,'$',a.DOCM_ID,'$',a.SCHM_DEPT_ID,'$',a.SHIFT_ID)  
+		from schm_main_info a where  a.SCHM_DATE <![CDATA[   >=  ]]> #{startDate,jdbcType=DATE} and a.SCHM_DATE <![CDATA[  <=  ]]> #{endDate,jdbcType=DATE} 
+		
+	</select>
+	
+	
+	
+	 <insert id="insertBatch" parameterType="java.util.List" >
+    insert into schm_main_info (SCHM_ID, SCHM_DATE, DOCM_ID, 
+      DEPT_ID, SCHM_DEPT_ID, SCHM_WEEK, 
+      SHIFT_ID, SCHM_ON_WORK, SCHM_OFF_WORK, 
+      SCHM_REGI_SUM, SCHM_ON_SUM, SCHM_DOWN_SUM, 
+      SCHM_ON_REGI_SUM, SCHM_DOWN_REGI_SUM, SCHM_REGI_ON_NUM, 
+      SCHM_REGI_DOWN_NUM, SCHM_UPRE_NUM, SCHM_DOWNRE_NUM, 
+      SCHM_UPGO_NUM, SCHM_DOWNGO_NUM, ORG_ID, 
+      SCHM_STATE, REMARKS, EXT1, 
+      EXT2, EXT3, CREATE_DATE, 
+      CREATE_USER, UPDATE_DATE, UPDATE_USER,HOS_ID
+      )
+    values 
+     <foreach collection="list" item="item" index="index" separator="," > 
+     	 (#{item.schmId,jdbcType=VARCHAR}, #{item.schmDate,jdbcType=DATE}, #{item.docmId,jdbcType=VARCHAR}, 
+      #{item.deptId,jdbcType=VARCHAR}, #{item.schmDeptId,jdbcType=VARCHAR}, #{item.schmWeek,jdbcType=VARCHAR}, 
+      #{item.shiftId,jdbcType=VARCHAR}, #{item.schmOnWork,jdbcType=TIME}, #{item.schmOffWork,jdbcType=TIME}, 
+      #{item.schmRegiSum,jdbcType=INTEGER}, #{item.schmOnSum,jdbcType=INTEGER}, #{item.schmDownSum,jdbcType=INTEGER}, 
+      #{item.schmOnRegiSum,jdbcType=INTEGER}, #{item.schmDownRegiSum,jdbcType=INTEGER}, #{item.schmRegiOnNum,jdbcType=INTEGER}, 
+      #{item.schmRegiDownNum,jdbcType=INTEGER}, #{item.schmUpreNum,jdbcType=INTEGER}, #{item.schmDownreNum,jdbcType=INTEGER}, 
+      #{item.schmUpgoNum,jdbcType=INTEGER}, #{item.schmDowngoNum,jdbcType=INTEGER}, #{item.orgId,jdbcType=VARCHAR}, 
+      #{item.schmState,jdbcType=VARCHAR}, #{item.remarks,jdbcType=VARCHAR}, #{item.ext1,jdbcType=VARCHAR}, 
+      #{item.ext2,jdbcType=VARCHAR}, #{item.ext3,jdbcType=VARCHAR}, #{item.createDate,jdbcType=TIMESTAMP}, 
+      #{item.createUser,jdbcType=VARCHAR}, #{item.updateDate,jdbcType=TIMESTAMP}, #{item.updateUser,jdbcType=VARCHAR}, #{item.hosId,jdbcType=VARCHAR}
+      )
+     </foreach>
+   
+  </insert>
+	
+	
+	
+	
+  
+  <sql id="Base_Column_List" >
+    SCHM_ID, SCHM_DATE, DOCM_ID, DEPT_ID, SCHM_DEPT_ID, SCHM_WEEK, SHIFT_ID, SCHM_ON_WORK, 
+    SCHM_OFF_WORK, SCHM_REGI_SUM, SCHM_ON_SUM, SCHM_DOWN_SUM, SCHM_ON_REGI_SUM, SCHM_DOWN_REGI_SUM, 
+    SCHM_REGI_ON_NUM, SCHM_REGI_DOWN_NUM, SCHM_UPRE_NUM, SCHM_DOWNRE_NUM, SCHM_UPGO_NUM, 
+    SCHM_DOWNGO_NUM, ORG_ID, SCHM_STATE, REMARKS, EXT1, EXT2, EXT3, CREATE_DATE, CREATE_USER, 
+    UPDATE_DATE, UPDATE_USER
+  </sql>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select a.*,b.DEPT_NAME,c.DEPT_NAME as schm_Dept_Name,d.DOCM_NAME,d.DOCM_TITLE, 
+		CASE a.SCHM_STATE
+			WHEN '1' THEN '启用'
+			WHEN '0' THEN '停用'
+			ELSE '其他' END AS schm_state_name,
+			E.SHIFT_NAME AS shift_name,f.REG_CATEGORY,f.ID,f.SERV_CODING
+		  from schm_main_info a 
+		left join hos_dept_info b on a.DEPT_ID=b.DEPT_ID
+		left join hos_dept_info c on a.SCHM_DEPT_ID=c.DEPT_ID
+		left join hos_docm_info d on a.DOCM_ID=d.DOCM_ID 
+		left join schm_shift_info e on a.SHIFT_ID=e.SHIFT_ID
+		left join schm_reg_category f on a.EXT1=f.ID
+    	where SCHM_ID = #{schmId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from schm_main_info
+    where SCHM_ID = #{schmId,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteBySchmIds" parameterType="java.util.List" >
+    delete from schm_main_info where SCHM_ID IN
+    <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+  
+  <insert id="insert" parameterType="com.skynet.rimp.schmInfo.vo.SchmMainInfo" >
+    insert into schm_main_info (SCHM_ID, SCHM_DATE, DOCM_ID, 
+      DEPT_ID, SCHM_DEPT_ID, SCHM_WEEK, 
+      SHIFT_ID, SCHM_ON_WORK, SCHM_OFF_WORK, 
+      SCHM_REGI_SUM, SCHM_ON_SUM, SCHM_DOWN_SUM, 
+      SCHM_ON_REGI_SUM, SCHM_DOWN_REGI_SUM, SCHM_REGI_ON_NUM, 
+      SCHM_REGI_DOWN_NUM, SCHM_UPRE_NUM, SCHM_DOWNRE_NUM, 
+      SCHM_UPGO_NUM, SCHM_DOWNGO_NUM, ORG_ID, 
+      SCHM_STATE, REMARKS, EXT1, 
+      EXT2, EXT3, CREATE_DATE, 
+      CREATE_USER, UPDATE_DATE, UPDATE_USER,HOS_ID
+      )
+    values (#{schmId,jdbcType=VARCHAR}, #{schmDate,jdbcType=DATE}, #{docmId,jdbcType=VARCHAR}, 
+      #{deptId,jdbcType=VARCHAR}, #{schmDeptId,jdbcType=VARCHAR}, #{schmWeek,jdbcType=VARCHAR}, 
+      #{shiftId,jdbcType=VARCHAR}, #{schmOnWork,jdbcType=TIME}, #{schmOffWork,jdbcType=TIME}, 
+      #{schmRegiSum,jdbcType=INTEGER}, #{schmOnSum,jdbcType=INTEGER}, #{schmDownSum,jdbcType=INTEGER}, 
+      #{schmOnRegiSum,jdbcType=INTEGER}, #{schmDownRegiSum,jdbcType=INTEGER}, #{schmRegiOnNum,jdbcType=INTEGER}, 
+      #{schmRegiDownNum,jdbcType=INTEGER}, #{schmUpreNum,jdbcType=INTEGER}, #{schmDownreNum,jdbcType=INTEGER}, 
+      #{schmUpgoNum,jdbcType=INTEGER}, #{schmDowngoNum,jdbcType=INTEGER}, #{orgId,jdbcType=VARCHAR}, 
+      #{schmState,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR}, 
+      #{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{hosId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.skynet.rimp.schmInfo.vo.SchmMainInfo" >
+    insert into schm_main_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="schmId != null" >
+        SCHM_ID,
+      </if>
+      <if test="schmDate != null" >
+        SCHM_DATE,
+      </if>
+      <if test="docmId != null" >
+        DOCM_ID,
+      </if>
+      <if test="deptId != null" >
+        DEPT_ID,
+      </if>
+      <if test="schmDeptId != null" >
+        SCHM_DEPT_ID,
+      </if>
+      <if test="schmWeek != null" >
+        SCHM_WEEK,
+      </if>
+      <if test="shiftId != null" >
+        SHIFT_ID,
+      </if>
+      <if test="schmOnWork != null" >
+        SCHM_ON_WORK,
+      </if>
+      <if test="schmOffWork != null" >
+        SCHM_OFF_WORK,
+      </if>
+      <if test="schmRegiSum != null" >
+        SCHM_REGI_SUM,
+      </if>
+      <if test="schmOnSum != null" >
+        SCHM_ON_SUM,
+      </if>
+      <if test="schmDownSum != null" >
+        SCHM_DOWN_SUM,
+      </if>
+      <if test="schmOnRegiSum != null" >
+        SCHM_ON_REGI_SUM,
+      </if>
+      <if test="schmDownRegiSum != null" >
+        SCHM_DOWN_REGI_SUM,
+      </if>
+      <if test="schmRegiOnNum != null" >
+        SCHM_REGI_ON_NUM,
+      </if>
+      <if test="schmRegiDownNum != null" >
+        SCHM_REGI_DOWN_NUM,
+      </if>
+      <if test="schmUpreNum != null" >
+        SCHM_UPRE_NUM,
+      </if>
+      <if test="schmDownreNum != null" >
+        SCHM_DOWNRE_NUM,
+      </if>
+      <if test="schmUpgoNum != null" >
+        SCHM_UPGO_NUM,
+      </if>
+      <if test="schmDowngoNum != null" >
+        SCHM_DOWNGO_NUM,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="schmState != null" >
+        SCHM_STATE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="ext1 != null" >
+        EXT1,
+      </if>
+      <if test="ext2 != null" >
+        EXT2,
+      </if>
+      <if test="ext3 != null" >
+        EXT3,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER,
+      </if>
+       <if test="hosId != null" >
+        HOS_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="schmId != null" >
+        #{schmId,jdbcType=VARCHAR},
+      </if>
+      <if test="schmDate != null" >
+        #{schmDate,jdbcType=DATE},
+      </if>
+      <if test="docmId != null" >
+        #{docmId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="schmDeptId != null" >
+        #{schmDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="schmWeek != null" >
+        #{schmWeek,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftId != null" >
+        #{shiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="schmOnWork != null" >
+        #{schmOnWork,jdbcType=TIME},
+      </if>
+      <if test="schmOffWork != null" >
+        #{schmOffWork,jdbcType=TIME},
+      </if>
+      <if test="schmRegiSum != null" >
+        #{schmRegiSum,jdbcType=INTEGER},
+      </if>
+      <if test="schmOnSum != null" >
+        #{schmOnSum,jdbcType=INTEGER},
+      </if>
+      <if test="schmDownSum != null" >
+        #{schmDownSum,jdbcType=INTEGER},
+      </if>
+      <if test="schmOnRegiSum != null" >
+        #{schmOnRegiSum,jdbcType=INTEGER},
+      </if>
+      <if test="schmDownRegiSum != null" >
+        #{schmDownRegiSum,jdbcType=INTEGER},
+      </if>
+      <if test="schmRegiOnNum != null" >
+        #{schmRegiOnNum,jdbcType=INTEGER},
+      </if>
+      <if test="schmRegiDownNum != null" >
+        #{schmRegiDownNum,jdbcType=INTEGER},
+      </if>
+      <if test="schmUpreNum != null" >
+        #{schmUpreNum,jdbcType=INTEGER},
+      </if>
+      <if test="schmDownreNum != null" >
+        #{schmDownreNum,jdbcType=INTEGER},
+      </if>
+      <if test="schmUpgoNum != null" >
+        #{schmUpgoNum,jdbcType=INTEGER},
+      </if>
+      <if test="schmDowngoNum != null" >
+        #{schmDowngoNum,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="schmState != null" >
+        #{schmState,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="hosId != null" >
+        #{hosId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.skynet.rimp.schmInfo.vo.SchmMainInfo" >
+    update schm_main_info
+    <set >
+      <if test="schmDate != null" >
+        SCHM_DATE = #{schmDate,jdbcType=DATE},
+      </if>
+      <if test="docmId != null" >
+        DOCM_ID = #{docmId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="schmDeptId != null" >
+        SCHM_DEPT_ID = #{schmDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="schmWeek != null" >
+        SCHM_WEEK = #{schmWeek,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftId != null" >
+        SHIFT_ID = #{shiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="schmOnWork != null" >
+        SCHM_ON_WORK = #{schmOnWork,jdbcType=TIME},
+      </if>
+      <if test="schmOffWork != null" >
+        SCHM_OFF_WORK = #{schmOffWork,jdbcType=TIME},
+      </if>
+      <if test="schmRegiSum != null" >
+        SCHM_REGI_SUM = #{schmRegiSum,jdbcType=INTEGER},
+      </if>
+      <if test="schmOnSum != null" >
+        SCHM_ON_SUM = #{schmOnSum,jdbcType=INTEGER},
+      </if>
+      <if test="schmDownSum != null" >
+        SCHM_DOWN_SUM = #{schmDownSum,jdbcType=INTEGER},
+      </if>
+      <if test="schmOnRegiSum != null" >
+        SCHM_ON_REGI_SUM = #{schmOnRegiSum,jdbcType=INTEGER},
+      </if>
+      <if test="schmDownRegiSum != null" >
+        SCHM_DOWN_REGI_SUM = #{schmDownRegiSum,jdbcType=INTEGER},
+      </if>
+      <if test="schmRegiOnNum != null" >
+        SCHM_REGI_ON_NUM = #{schmRegiOnNum,jdbcType=INTEGER},
+      </if>
+      <if test="schmRegiDownNum != null" >
+        SCHM_REGI_DOWN_NUM = #{schmRegiDownNum,jdbcType=INTEGER},
+      </if>
+      <if test="schmUpreNum != null" >
+        SCHM_UPRE_NUM = #{schmUpreNum,jdbcType=INTEGER},
+      </if>
+      <if test="schmDownreNum != null" >
+        SCHM_DOWNRE_NUM = #{schmDownreNum,jdbcType=INTEGER},
+      </if>
+      <if test="schmUpgoNum != null" >
+        SCHM_UPGO_NUM = #{schmUpgoNum,jdbcType=INTEGER},
+      </if>
+      <if test="schmDowngoNum != null" >
+        SCHM_DOWNGO_NUM = #{schmDowngoNum,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="schmState != null" >
+        SCHM_STATE = #{schmState,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        EXT2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        EXT3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+       <if test="hosId != null" >
+        HOS_ID = #{hosId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SCHM_ID = #{schmId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.skynet.rimp.schmInfo.vo.SchmMainInfo" >
+    update schm_main_info
+    set SCHM_DATE = #{schmDate,jdbcType=DATE},
+      DOCM_ID = #{docmId,jdbcType=VARCHAR},
+      DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      SCHM_DEPT_ID = #{schmDeptId,jdbcType=VARCHAR},
+      SCHM_WEEK = #{schmWeek,jdbcType=VARCHAR},
+      SHIFT_ID = #{shiftId,jdbcType=VARCHAR},
+      SCHM_ON_WORK = #{schmOnWork,jdbcType=TIME},
+      SCHM_OFF_WORK = #{schmOffWork,jdbcType=TIME},
+      SCHM_REGI_SUM = #{schmRegiSum,jdbcType=INTEGER},
+      SCHM_ON_SUM = #{schmOnSum,jdbcType=INTEGER},
+      SCHM_DOWN_SUM = #{schmDownSum,jdbcType=INTEGER},
+      SCHM_ON_REGI_SUM = #{schmOnRegiSum,jdbcType=INTEGER},
+      SCHM_DOWN_REGI_SUM = #{schmDownRegiSum,jdbcType=INTEGER},
+      SCHM_REGI_ON_NUM = #{schmRegiOnNum,jdbcType=INTEGER},
+      SCHM_REGI_DOWN_NUM = #{schmRegiDownNum,jdbcType=INTEGER},
+      SCHM_UPRE_NUM = #{schmUpreNum,jdbcType=INTEGER},
+      SCHM_DOWNRE_NUM = #{schmDownreNum,jdbcType=INTEGER},
+      SCHM_UPGO_NUM = #{schmUpgoNum,jdbcType=INTEGER},
+      SCHM_DOWNGO_NUM = #{schmDowngoNum,jdbcType=INTEGER},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      SCHM_STATE = #{schmState,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      EXT1 = #{ext1,jdbcType=VARCHAR},
+      EXT2 = #{ext2,jdbcType=VARCHAR},
+      EXT3 = #{ext3,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      HOS_ID = #{hosId,jdbcType=VARCHAR}
+    where SCHM_ID = #{schmId,jdbcType=VARCHAR}
+  </update>
+</mapper>

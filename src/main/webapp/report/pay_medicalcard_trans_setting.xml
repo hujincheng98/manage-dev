@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reports>
+	<report id="report_pay_medicalcard_trans" reportName="预交金充值信息.xls" templateFileName="pay_medicalcard_trans_template.xls"
+		reportClsName="">
+		<sheet name="sheet_pay_medicalcard_trans" direction="0" partitionLine="1">
+			<column dbColumn="chTransNum" excelColumn="0" dataType="String" />               <!-- 支付流水号 -->
+			<column dbColumn="hisTransNum" excelColumn="1" dataType="String" />              <!-- HIS充值流水号 -->
+			<column dbColumn="transTime" excelColumn="2" dataType="String" />                <!-- 充值时间 -->
+			<column dbColumn="transMedicardName" excelColumn="3" dataType="String" />        <!-- 患者姓名 -->
+			<column dbColumn="transMedicardIdencard" excelColumn="4" dataType="String" />    <!-- 身份证号 -->
+			<column dbColumn="transMedicardPhone" excelColumn="5" dataType="String" />       <!-- 联系电话 -->
+			<column dbColumn="transMedicardId" excelColumn="6" dataType="String" />          <!-- 就诊卡卡号  -->
+			<column dbColumn="transAmount" excelColumn="7" dataType="String" />              <!-- 充值金额 -->
+			<column dbColumn="transType" excelColumn="8" dataType="String" />                <!-- 充值方式 -->
+			<column dbColumn="transState" excelColumn="9" dataType="String" />                <!-- 充值状态 -->
+			<column dbColumn="chName" excelColumn="10" dataType="String" />                  <!-- 渠道名称 -->
+		</sheet>
+	</report>
+</reports>

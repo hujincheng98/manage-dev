@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<#include "../include/head.html" />
+    <title><@s.m code="shift.management" /></title>
+   	<script type="text/javascript" src="${res}/js/registerInfo/regi_channels_index.js"></script>
+   	<link type="text/css" rel="stylesheet" href="${res}/css/dialog_index.css" />
+    <style type="text/css">
+		body,td,th {font-size: 12px;} 
+	</style>
+  </head>
+  <body>
+    <!-- 搜索区域  -->
+    <fieldset style="border: 1px solid #99BBE8; margin:10px 0; padding:5px;">
+		<legend>查询条件</legend>
+           <form id="searchform">
+	           <table class="n_input">
+	               <tr>
+	               	   <td width="100" height="20" align="right" nowrap>预约号：</td>
+	                   <td nowrap>
+	                      <input type="text" class="easyui-textbox" name="searchParams[bespeakid]"/>
+	                   </td>
+	                   <td width="100" height="20" align="right" nowrap>起始日期：</td>
+	                   <td nowrap>
+	                      <input type="text" class="easyui-datebox" name="searchParams[bespeakdateStart]"/>
+	                   </td>
+	                   <td width="100" height="20" align="right" nowrap>结束日期：</td>
+	                   <td nowrap>
+	                      <input type="text" class="easyui-datebox" name="searchParams[bespeakdateEnd]" style="width: 150px;"/>
+	                   </td>
+	                   <td width="100" height="20" align="right" nowrap>患者身份证号：</td>
+	                   <td nowrap>
+	                      <input type="text" class="easyui-textbox" name="searchParams[identitycard]"/>
+	                   </td>
+	               </tr>
+	               <tr>
+	                   <td width="100" height="20" align="right" nowrap>患者姓名：</td>
+	                   <td nowrap>
+	                      <input type="text" class="easyui-textbox" name="searchParams[patientname]"/>
+	                   </td>
+	                   <td width="100" height="20" align="right" nowrap>联系电话：</td>
+	                   <td nowrap>
+	                      <input type="text" class="easyui-textbox" name="searchParams[telephone]"/>
+	                   </td>
+	                   <td width="100" height="20" align="right" nowrap>预约状态：</td>
+	                   <td nowrap>
+	                   		<select class="easyui-combobox" id="registate" data-options="
+				        		valueField:'dictValue',
+				        		textField:'dictName',
+				        		editable:false,
+				                url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=REGI_STATE',
+				                onLoadSuccess: function (){
+            						//$(this).combobox('select', 'state_01');
+				                }" style="width:150px;" name="searchParams[registate]">
+				        	</select>
+	                   </td>
+	                   <!-- <td width="100" height="20" align="right" nowrap>渠道名称：</td>
+	                   <td nowrap>
+	                      <select id="bespeakchannels" name="searchParams[bespeakchannelscode]">
+	                      	
+					   	  </select>
+	                   </td> -->
+	                   
+	                   <td width="100" height="20" align="right" nowrap>渠道名称：</td>
+	                   <td nowrap>
+	                    <select class="easyui-combobox" 
+			              data-options="
+      		              valueField:'token',
+      		              textField:'chName',
+      		              editable:false,
+      		              required:false,
+                          missingMessage:'渠道名称',
+                          url:'${base}/rimp/mobilePayment/listBychName.json'"
+			              style="width:142px;height: 24px;" name="searchParams[bespeakchannelscode]" id="bespeakchannels">
+		               </select>
+	                   </td>
+	                   	                   
+	                   <td height="20" colspan="10" align="center" nowrap="nowrap">
+		                   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="_search();">查询</a>
+		                   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-undo'" onclick="$('#searchform').form('clear');$('#report').linkbutton('disable');_search();">重置</a>    
+		                   <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-tabicons_15_14',disabled:false" id="report" onclick="report('exportExcel.do');">导出</a>
+	                   </td>
+	               </tr>
+	           </table>  
+           </form>
+       </fieldset>
+       
+	   <!-- 数据表格区域 -->
+	   <table id="dg"></table>
+  </body>
+</html>

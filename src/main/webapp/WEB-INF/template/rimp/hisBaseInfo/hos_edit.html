@@ -1,0 +1,114 @@
+<script type="text/javascript" src="${res}/js/previewImage.js"></script>
+<form id="hos_edit_form"  method="post" enctype="multipart/form-data">
+	<div>
+		<label><span class="tip">*</span>医院名称</label>
+		<input class="easyui-textbox" type="text" name="hosName" id="edit_hosName" data-options="required:true" missingMessage="医院名称不能为空！"/>
+	</div>
+	<div>
+		<label>拼音码</label>
+		<input class="easyui-textbox" type="text" name="hosPinyCode" id="edit_hosPinyCode" readonly="readonly" missingMessage="拼音码不能为空！"/>
+	</div>
+	<!-- <div>
+		<label><span class="tip">*</span>组织医疗机构代码</label>
+		<input class="easyui-textbox" type="text" name="hosOrgCode"/>
+	</div> -->
+	<div>
+    	<label><span class="tip">*</span>医院地址</label>
+    	<input class="easyui-textbox" type="text" name="hosAddr" data-options="required:true" missingMessage="医院地址不能为空！"/>
+    </div>
+	<div>
+		<label>网站地址</label>
+		<input class="easyui-textbox" type="text" name="hosWebAddr"/>
+	</div>
+	<div style="display: block;width: 95%;height: 30px;">
+		<label><span class="tip">*</span>所属区域</label>
+		<p><select name="areaProCode" class="easyui-combobox" style="width:120px;" data-options="
+		   	  valueField:'areaCode',
+              textField:'areaName',
+              editable:false,
+              required:true,
+              missingMessage:'请选择所在省',
+              method:'post',
+              url:'findArea.json?parentAreaId=0',
+              onSelect:function(record){
+	               	var url = 'findArea.json?parentAreaId=' + record.areaCode;
+	               	$('#edit_city').combobox('clear');
+	               	$('#edit_district').combobox('clear');
+	               	$('#edit_city').combobox('reload',url);
+              }">
+	   	</select> 省 </p>
+		<p><select name="areaCityCode" id="edit_city" class="easyui-combobox" style="width:120px;" data-options="
+			   valueField:'areaCode',
+               textField:'areaName',
+               required:true,
+               editable:false,
+               missingMessage:'请选择所在市',
+               method:'post',
+               onSelect:function(record){
+                	var url = 'findArea.json?parentAreaId=' + record.areaCode;
+                	$('#edit_district').combobox('clear');
+                	$('#edit_district').combobox('reload',url);
+               }">
+       </select> 市  </p>
+		<p><select name="areaCountyCode" id="edit_district" class="easyui-combobox" style="width:120px;" data-options="
+			   valueField:'areaCode',
+               textField:'areaName',
+               editable:false,
+               required:true,
+               missingMessage:'请选择所在区/县',
+               method:'post'">
+	    </select> 区/县 </p>
+      </div>
+        <div>
+        	<label><span class="tip">*</span>联系电话</label>
+        	<input class="easyui-textbox" type="text" name="hosTelep" data-options="required:true,validType:'mobileAndTel'" missingMessage="联系电话不能为空！"/>
+        </div>
+        <div>
+        	<label>医院邮箱</label>
+        	<input class="easyui-textbox" type="text" name="hosEmail"/>
+        </div>
+        <div>
+        	<label><span class="tip">*</span>医院等级</label>
+        	<select class="easyui-combobox" data-options="
+        		valueField:'dictValue',
+        		textField:'dictName',
+        		editable:false,
+        		required:true,
+                missingMessage:'请选择医院等级',
+        		url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=HOSPTAIL_GRADE'" style="width:170px;" name="hosLevel">
+        	</select>
+        </div>
+        <div>
+        	<label><span class="tip">*</span>医院状态</label>
+        	<select class="easyui-combobox" data-options="
+        		valueField:'dictValue',
+        		textField:'dictName',
+        		editable:false,
+        		required:true,
+                missingMessage:'请选择医院状态',
+                url:'${base}/platform/dictionary/show_dic_by_type.json?typeId=STATE'" style="width:170px;" name="hosState">
+        	</select>
+        </div>
+        <!-- <div style="display: block;width: 95%;">
+        	<label><span class="tip">*</span>宣传图片</label>
+        	<input class="easyui-filebox" data-options="buttonText: '请选择文件...',buttonAlign: 'right'" style="width: 200px"/>
+        </div>
+        <div style="display: block;width: 95%;">
+        	<label><span class="tip">*</span>logo</label>
+        	<input class="easyui-filebox" data-options="buttonText: '请选择文件...',buttonAlign: 'right'" style="width: 200px"/>
+        </div> -->
+        <div style="display: block;width: 95%;height:90px">
+        	<label>医院简介</label>
+        	<textarea rows="" cols="" name="hosIntro"></textarea>
+        </div>
+        	<input type="hidden" name="hosId"/>
+        <div style="display: block;width: 95%; height: 180px;">
+        <label><span class="tip">*</span>照片</label>
+        <div id="preview" style="float: left;width:240px;height:180px;margin:0;border:1px solid #ccc;text-align: center;padding:5px;overflow: hidden;border-radius:5px">
+		    <span style="height: 100%;display: inline-block;vertical-align: middle;"></span><img style="vertical-align: middle;" src="" />
+		</div>
+		<div style="float: left; ">
+	        <input name="file" id="file" style="width:160px; border:0px;" type="file" onchange="previewImage(this, 240, 180);">
+		</div>
+     </div>
+</form>

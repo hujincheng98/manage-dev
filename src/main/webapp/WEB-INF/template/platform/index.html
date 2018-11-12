@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>${sysInfo.sysName}</title>
+	[#include "include/head.html" /]
+	<script src="${base}/plug-in/easyui/jquery.portal.js" type="text/javascript"></script>
+	<script src="${res}/js/outlook2.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${res}/js/index.js"></script>
+	<script type="text/javascript">
+		//var redirectUrl = "${redirectUrl!}";
+		[@p.treeMenu /]
+	</script>
+	<style type="text/css">
+	<!--
+	.line-b-r {
+		border-right-width: 1px;
+		border-bottom-width: 1px;
+		border-right-style: solid;
+		border-bottom-style: solid;
+		border-left-style: none;
+		border-right-color: #95B8E7;
+		border-bottom-color: #95B8E7;
+	}
+	.line-b {
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: #95B8E7;
+	}
+	.line-r {
+		border-right-width: 1px;
+		border-right-style: solid;
+		border-right-color: #95B8E7;
+	}
+	-->
+	</style>
+</head>
+
+<body class="easyui-layout" style="overflow-y: hidden" scroll="no">
+	<noscript>
+		<div
+			style=" position:absolute; z-index:100000; height:2046px;top:0px;left:0px; width:100%; background:white; text-align:center;">
+			<img src="${res}/images/noscript.gif" alt="抱歉，请开启脚本支持！" />
+		</div>
+	</noscript>
+	<div region="north" split="true" border="false" style="overflow: hidden; height: 52px; background:#0086ce; line-height: 20px;color: #fff; font-family: Verdana, 微软雅黑,黑体">
+		<span style="float:right; padding-right:20px; margin-top:8px;" class="head">
+			欢迎【${user.loginName}】
+			<select name="pageselect" onchange="self.location.href=options[selectedIndex].value" >
+				<option>--===选择系统===--</option>
+				[#list sysList as sys]
+				<option value="${base}${sys.welcomeUrl}">${sys.sysName}</option>
+				[/#list]
+			</select>
+			
+			 <a href="#" userId="${user.userId}" id="editpass">修改密码</a> 
+			 <a href="#" id="loginOut">安全退出</a>
+		</span> 
+		<span style="padding-left:10px; font-size: 20px; ">
+			<img src="${res}/images/zy-logo.jpg" width="35px" height="29px" align="absmiddle" /><span style="line-height:40px; margin-left:5px; font-size: 18px;"> ${sysInfo.sysName}</span>
+		</span>
+	</div>
+	<div region="south" split="true" style="height: 30px; background: #D2E0F2;">
+		<div class="footer">${sysInfo.sysName} V150525</div>
+	</div>
+	<div region="west" hide="true" split="true" title="导航菜单" style="width:180px;" id="west">
+		<div id="nav" class="easyui-accordion" fit="true" border="false">
+			<!--  导航内容 -->
+		</div>
+	</div>
+	
+	<div id="mainPanle" region="center" style="background: #eee; overflow-y:hidden">
+		<div id="tabs" class="easyui-tabs" fit="true" border="false">
+			<div title="欢迎使用" style="padding:5px;overflow:hidden;">
+			<!-- ############## -->
+				<div id="pp" style="position:relative; background:url(${res}/images/welcomepic.jpg) no-repeat; background-size:100% 100%; ">
+					<div style="width:20%;">
+						<div  title='系统属性'>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							  <tr>
+							    <td height="24" colspan="2" bgcolor="#FFE48D" class="line-b">&nbsp;内存</td>
+							  </tr>
+							  <tr>
+							    <td width="50%" height="24" align="right" class="line-b-r">系统内存：</td>
+							    <td width="50%" height="24" class="line-b">&nbsp;${(maxMemory/1024/1024)?string("0.##")}MB</td>
+							  </tr>
+							  <tr>
+							    <td width="50%" height="24" align="right" class="line-b-r">已用内存：</td>
+							    <td width="50%" height="24" class="line-b">&nbsp;${(usedMemory/1024/1024)?string("0.##")}MB</td>
+							  </tr>
+							  <tr>
+							    <td width="50%" height="24" align="right" class="line-b-r">可用内存：</td>
+							    <td width="50%" height="24" class="line-b">&nbsp;${(useableMemory/1024/1024)?string("0.##")}MB</td>
+							  </tr>
+							  <tr>
+							    <td height="24" colspan="2" bgcolor="#FFE48D" class="line-b">&nbsp;系统信息</td>
+							  </tr>
+							  <tr>
+							    <td width="50%" height="24" class="line-b-r" align="right">操作系统：</td>
+							    <td width="50%" height="24" class="line-b">&nbsp;${props['os.name']} ${props['os.arch']} ${props['os.version']}</td>
+							  </tr>
+							  <tr>
+							    <td width="50%" height="24" class="line-b-r" align="right">Jdk版本：</td>
+							    <td width="50%" height="24" class="line-b">&nbsp;${props['java.version']}</td>
+							  </tr>
+							  <tr>
+							    <td width="50%" height="24" class="line-r" align="right">应用容器：</td>
+							    <td width="50%" height="24">&nbsp;${webContent}</td>
+							  </tr>
+							</table>
+						</div>
+					</div>
+					<div style="width:20%;">
+						<div  title='缓存管理'>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							  <tr>
+							    <td height="24" colspan="2" bgcolor="#FFE48D" class="line-b">&nbsp;系统信息管理</td>
+							  </tr>
+							  <tr>
+							    <td width="50%" height="24" align="right" class="line-b-r">缓存对象数量：</td>
+							    <td width="50%" height="24" class="line-b">&nbsp;${cacheObjectSize}</td>
+							  </tr>
+							  <tr>
+							    <td width="50%" height="24" align="right" class="line-b-r">缓存占用内存大小：</td>
+							    <td width="50%" height="24" class="line-b">&nbsp;${cacheMemorySize}</td>
+							  </tr>
+							  <tr>
+							    <td width="50%" height="24" align="right" class="line-b-r">&nbsp;</td>
+							    <td width="50%" height="24" class="line-b">&nbsp;&nbsp;</td>
+							  </tr>
+							  <tr>
+							    <td width="50%" height="24" align="right" class="line-b-r">数据权限策略缓存刷新：</td>
+							    <td width="50%" height="24" class="line-b">&nbsp;<a href="#" class="easyui-linkbutton" iconCls="icon-reload" plain="true" id="refreshStrategy">刷新</a></td>
+							  </tr>
+							  <tr>
+							    <td width="50%" height="24" align="right" class="line-b-r">刷新系统应用数据缓存：</td>
+							    <td width="50%" height="24" class="line-b">&nbsp;<a href="#" class="easyui-linkbutton" iconCls="icon-reload" plain="true" id="refreshSysInfoCacheBtn">刷新</a></td>
+							  </tr>
+							  <tr>
+							    <td width="50%" height="24" align="right" class="line-b-r">字典数据缓存刷新：</td>
+							    <td width="50%" height="24" class="line-b">&nbsp;<a href="#" class="easyui-linkbutton" iconCls="icon-reload" plain="true" id="refreshDictionary">刷新</a></td>
+							  </tr>
+							  <tr>
+							    <td width="50%" height="24" class="line-r" align="right">&nbsp;</td>
+							    <td width="50%" height="24">&nbsp;&nbsp;</td>
+							  </tr>
+							</table>
+						</div>
+					</div>
+					<div style="width:60%;">
+					</div>
+				</div>
+			<!-- ############### -->
+			</div>
+		</div>
+	</div>
+
+
+	<!--修改密码窗口-->
+	<div id="w" class="easyui-window" title="修改密码" collapsible="false"
+		minimizable="false" maximizable="false" icon="icon-save"
+		style="width: 300px; height: 200px; padding: 5px;
+        background: #fafafa;">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc;">
+				<table cellpadding=3>
+					<tr>
+						<td>原始密码：</td>
+						<td><input id="txtOldPass" type="password" class="txt01" />
+						</td>
+					</tr>
+					<tr>
+						<td>新密码：</td>
+						<td><input id="txtNewPass" type="password" class="txt01" />
+						</td>
+					</tr>
+					<tr>
+						<td>确认密码：</td>
+						<td><input id="txtRePass" type="password" class="txt01" />
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div region="south" border="false" style="text-align: right; height: 30px; line-height: 30px;">
+				<a id="btnEp" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" > 确定</a> 
+				<a id="btnCancel" class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)">取消</a>
+			</div>
+		</div>
+	</div>
+
+	<div id="mm" class="easyui-menu" style="width:150px;">
+		<div id="mm-tabupdate">刷新</div>
+		<div class="menu-sep"></div>
+		<div id="mm-tabclose">关闭</div>
+		<div id="mm-tabcloseall">全部关闭</div>
+		<div id="mm-tabcloseother">除此之外全部关闭</div>
+	</div>
+
+</body>
+</html>

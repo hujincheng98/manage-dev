@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.schmInfo.dao.SchmReleLimitDao">
+	<resultMap id="BaseResultMap" type="com.skynet.rimp.schmInfo.vo.SchmReleLimit">
+		<id column="RELE_ID" property="releId" jdbcType="VARCHAR" />
+		<result column="RELE_DAY_NUM" property="releDayNum" jdbcType="INTEGER" />
+		<result column="RELE_DATE" property="releDate" jdbcType="TIME" />
+		<result column="RULE_DATE" property="ruleDate" jdbcType="TIME" /><!-- 显示时间点 -->
+		<result column="RULE_FLAG" property="ruleFlag" jdbcType="VARCHAR" /><!-- 显示标识 -->
+		<result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+		<result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+		<result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+		<result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+		<result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		RELE_ID, RELE_DAY_NUM, RELE_DATE, HOS_ID, ORG_ID, REMARKS, EXT1, EXT2, EXT3,
+		RULE_DATE,RULE_FLAG,
+		CREATE_DATE,
+		CREATE_USER, UPDATE_DATE, UPDATE_USER
+	</sql>
+	
+	<select id="findAll" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from schm_rele_limit
+	</select>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from schm_rele_limit
+		where RELE_ID = #{releId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectByHosId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from schm_rele_limit
+		where HOS_ID = #{hosId,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from schm_rele_limit
+		where RELE_ID = #{releId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.skynet.rimp.schmInfo.vo.SchmReleLimit">
+		insert into schm_rele_limit (RELE_ID, RELE_DAY_NUM, RELE_DATE,
+		HOS_ID, ORG_ID, REMARKS,
+		RULE_DATE,RULE_FLAG,
+		EXT1, EXT2, EXT3, CREATE_DATE,
+		CREATE_USER, UPDATE_DATE, UPDATE_USER
+		)
+		values (#{releId,jdbcType=VARCHAR}, #{releDayNum,jdbcType=INTEGER},
+		#{releDate,jdbcType=TIME},
+		#{hosId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR},
+		#{ruleDate,jdbcType=TIME},#{ruleFlag,jdbcType=VARCHAR},
+		#{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR},
+		#{ext3,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+		#{createUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP},
+		#{updateUser,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.skynet.rimp.schmInfo.vo.SchmReleLimit">
+		insert into schm_rele_limit
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="releId != null">
+				RELE_ID,
+			</if>
+			<if test="releDayNum != null">
+				RELE_DAY_NUM,
+			</if>
+			<if test="releDate != null">
+				RELE_DATE,
+			</if>
+			<if test="ruleDate != null">
+				RULE_DATE,
+			</if>
+			<if test="ruleFlag != null">
+				RULE_FLAG,
+			</if>
+			<if test="hosId != null">
+				HOS_ID,
+			</if>
+			<if test="orgId != null">
+				ORG_ID,
+			</if>
+			<if test="remarks != null">
+				REMARKS,
+			</if>
+			<if test="ext1 != null">
+				EXT1,
+			</if>
+			<if test="ext2 != null">
+				EXT2,
+			</if>
+			<if test="ext3 != null">
+				EXT3,
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE,
+			</if>
+			<if test="createUser != null">
+				CREATE_USER,
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE,
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="releId != null">
+				#{releId,jdbcType=VARCHAR},
+			</if>
+			<if test="releDayNum != null">
+				#{releDayNum,jdbcType=INTEGER},
+			</if>
+			<if test="releDate != null">
+				#{releDate,jdbcType=TIME},
+			</if>
+			<if test="ruleDate != null">
+				#{ruleDate,jdbcType=TIME},
+			</if>
+			<if test="ruleFlag != null">
+				#{ruleFlag,jdbcType=VARCHAR},
+			</if>
+			<if test="hosId != null">
+				#{hosId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+				#{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="ext1 != null">
+				#{ext1,jdbcType=VARCHAR},
+			</if>
+			<if test="ext2 != null">
+				#{ext2,jdbcType=VARCHAR},
+			</if>
+			<if test="ext3 != null">
+				#{ext3,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.skynet.rimp.schmInfo.vo.SchmReleLimit">
+		update schm_rele_limit
+		<set>
+			<if test="releDayNum != null">
+				RELE_DAY_NUM = #{releDayNum,jdbcType=INTEGER},
+			</if>
+			<if test="releDate != null">
+				RELE_DATE = #{releDate,jdbcType=TIME},
+			</if>
+			<if test="ruleDate != null">
+				RULE_DATE = #{ruleDate,jdbcType=TIME},
+			</if>
+			<if test="ruleFlag != null">
+				RULE_FLAG = #{ruleFlag,jdbcType=VARCHAR},
+			</if>
+			<if test="hosId != null">
+				HOS_ID = #{hosId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+				ORG_ID = #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="remarks != null">
+				REMARKS = #{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="ext1 != null">
+				EXT1 = #{ext1,jdbcType=VARCHAR},
+			</if>
+			<if test="ext2 != null">
+				EXT2 = #{ext2,jdbcType=VARCHAR},
+			</if>
+			<if test="ext3 != null">
+				EXT3 = #{ext3,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUser != null">
+				CREATE_USER = #{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where RELE_ID = #{releId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.skynet.rimp.schmInfo.vo.SchmReleLimit">
+		update schm_rele_limit
+		set RELE_DAY_NUM = #{releDayNum,jdbcType=INTEGER},
+		RELE_DATE = #{releDate,jdbcType=TIME},
+		RULE_DATE = #{ruleDate,jdbcType=TIME},
+		RULE_FLAG = #{ruleFlag,jdbcType=VARCHAR},
+		HOS_ID = #{hosId,jdbcType=VARCHAR},
+		ORG_ID = #{orgId,jdbcType=VARCHAR},
+		REMARKS = #{remarks,jdbcType=VARCHAR},
+		EXT1 = #{ext1,jdbcType=VARCHAR},
+		EXT2 = #{ext2,jdbcType=VARCHAR},
+		EXT3 = #{ext3,jdbcType=VARCHAR},
+		CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+		CREATE_USER = #{createUser,jdbcType=VARCHAR},
+		UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+		UPDATE_USER = #{updateUser,jdbcType=VARCHAR}
+		where RELE_ID = #{releId,jdbcType=VARCHAR}
+	</update>
+</mapper>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>资源管理</title> 
+	[#include "../include/head.html" /]
+	<script type="text/javascript" src="${res}/js_custom/res_tree.js"></script>
+</head>
+  
+<body>
+
+	<div id="layout" class="easyui-layout" style="width:100%;height:100%;"data-options="fit:true">   
+	    <div data-options="region:'west'" style="width:300px;">
+	    	<ul id="treeDemo" class="ztree"></ul>
+	    </div>   
+	    <div data-options="region:'center'" style="padding:2px;background:#fff;">
+	    	<iframe id="centerFrame" scrolling="auto" frameborder="0" style="width:100%;height:100%;"></iframe>
+	    </div>   
+	</div> 
+
+</body>
+</html>

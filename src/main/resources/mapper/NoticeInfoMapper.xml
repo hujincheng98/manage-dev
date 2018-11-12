@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skynet.rimp.hisBaseInfo.dao.NoticeInfoDao">
+     
+    <!-- 单表操作频繁查 并无频繁增删改，可加二级缓存 -->
+    <!-- <cache type="com.tiuweb.climb.framework.config.ehcache.RedisCache"/> --> 
+     
+    <resultMap id="BaseResultMap" type="com.skynet.rimp.hisBaseInfo.vo.NoticeInfo">
+       <id column="ID" property="id" jdbcType="VARCHAR" />       
+       <result column="NOTICE_NAME" property="noticename" jdbcType="VARCHAR" />             
+       <result column="NOTICE_TYPE" property="noticetype" jdbcType="VARCHAR" />             
+       <result column="HOS_CODING" property="hoscoding" jdbcType="VARCHAR" />             
+       <result column="AFFILIATED_HOS" property="affiliatedhos" jdbcType="VARCHAR" />             
+       <result column="BRIEF_CONTENT" property="briefcontent" jdbcType="VARCHAR" />             
+       <result column="SORT_ORDER" property="sortorder" jdbcType="VARCHAR" />             
+       <result column="UPLOAD_PICTURES" property="uploadpictures" jdbcType="VARCHAR" />             
+       <result column="OFFLINE_DATE" property="offlinedate" jdbcType="TIMESTAMP" />             
+       <result column="REMARK" property="remark" jdbcType="VARCHAR" />             
+       <result column="DETAILS" property="details" jdbcType="VARCHAR" />             
+       <result column="UPDATE_USER" property="updateuser" jdbcType="VARCHAR" />             
+       <result column="UPDATE_DATE" property="updatedate" jdbcType="VARCHAR" />             
+       <result column="CREATE_USER" property="createuser" jdbcType="VARCHAR" />             
+       <result column="CREATE_DATE" property="createdate" jdbcType="VARCHAR" />             
+        <result column="RELEASE_DATE" property="releasedate" jdbcType="TIMESTAMP" />            
+    </resultMap>
+      
+    <sql id="Base_Column_List" >
+        ID,
+        NOTICE_NAME,
+        NOTICE_TYPE,
+        HOS_CODING,
+        AFFILIATED_HOS,
+        BRIEF_CONTENT,
+        SORT_ORDER,
+        UPLOAD_PICTURES,
+        OFFLINE_DATE,
+        REMARK,
+        DETAILS,
+        UPDATE_USER,
+        UPDATE_DATE,
+        CREATE_USER,
+        CREATE_DATE,
+        RELEASE_DATE
+    </sql>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from notice_info
+        order by RELEASE_DATE DESC
+    </select> 
+
+    <select id="findByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from notice_info	
+        where 1 = 1
+        AND ID = #{id}		  
+    </select> 
+    
+    <select id="findByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select                               
+        <include refid="Base_Column_List" /> 
+        from notice_info
+        where 1=1
+        <if test="searchParams.id!=null and searchParams.id!=''">
+            AND ID = #{searchParams.id}
+        </if>
+        <if test="searchParams.noticename!=null and searchParams.noticename!=''">
+            AND NOTICE_NAME like '%${searchParams.noticename}%'
+        </if>
+        <if test="searchParams.noticetype!=null and searchParams.noticetype!=''">
+            AND NOTICE_TYPE = #{searchParams.noticetype}
+        </if>
+        <if test="searchParams.hoscoding!=null and searchParams.hoscoding!=''">
+            AND HOS_CODING = #{searchParams.hoscoding}
+        </if>
+        <if test="searchParams.affiliatedhos!=null and searchParams.affiliatedhos!=''">
+            AND AFFILIATED_HOS = #{searchParams.affiliatedhos}
+        </if>
+        <if test="searchParams.briefcontent!=null and searchParams.briefcontent!=''">
+            AND BRIEF_CONTENT = #{searchParams.briefcontent}
+        </if>
+        <if test="searchParams.sortorder!=null and searchParams.sortorder!=''">
+            AND SORT_ORDER = #{searchParams.sortorder}
+        </if>
+        <if test="searchParams.uploadpictures!=null and searchParams.uploadpictures!=''">
+            AND UPLOAD_PICTURES = #{searchParams.uploadpictures}
+        </if>
+        <if test="searchParams.offlinedate!=null and searchParams.offlinedate!=''">
+            AND OFFLINE_DATE = #{searchParams.offlinedate}
+        </if>
+        <if test="searchParams.remark!=null and searchParams.remark!=''">
+            AND REMARK = #{searchParams.remark}
+        </if>
+        <if test="searchParams.details!=null and searchParams.details!=''">
+            AND DETAILS = #{searchParams.details}
+        </if>
+        <if test="searchParams.updateuser!=null and searchParams.updateuser!=''">
+            AND UPDATE_USER = #{searchParams.updateuser}
+        </if>
+        <if test="searchParams.updatedate!=null and searchParams.updatedate!=''">
+            AND UPDATE_DATE = #{searchParams.updatedate}
+        </if>
+        <if test="searchParams.createuser!=null and searchParams.createuser!=''">
+            AND CREATE_USER = #{searchParams.createuser}
+        </if>
+        <if test="searchParams.createdate!=null and searchParams.createdate!=''">
+            AND CREATE_DATE = #{searchParams.createdate}
+        </if>
+        <if test="searchParams.releasedate!=null and searchParams.releasedate!=''">
+            AND RELEASE_DATE = #{searchParams.releasedate}
+        </if>
+        <if test="searchParams.releaseStartDate!=null and searchParams.releaseStartDate!=''">
+            AND date_format(RELEASE_DATE,'%Y-%m-%d') &gt;= #{searchParams.releaseStartDate}
+            <!-- AND RELEASE_DATE &gt;= #{searchParams.releaseStartDate} -->
+        </if>
+        <if test="searchParams.releaseEndDate!=null and searchParams.releaseEndDate!=''">
+           <!--  AND RELEASE_DATE &lt;= #{searchParams.releaseEndDate} -->
+            AND date_format(RELEASE_DATE,'%Y-%m-%d') &lt;= #{searchParams.releaseEndDate}
+        </if>
+        <if test="searchParams.offlineStartDate!=null and searchParams.offlineStartDate!=''">
+            AND date_format(OFFLINE_DATE,'%Y-%m-%d') &gt;= #{searchParams.offlineStartDate}
+           <!--  AND OFFLINE_DATE &gt;= #{searchParams.offlineStartDate} -->
+        </if>
+        <if test="searchParams.offlineEndDate!=null and searchParams.offlineEndDate!=''">
+            AND date_format(OFFLINE_DATE,'%Y-%m-%d') &lt;= #{searchParams.offlineEndDate}
+            <!-- AND OFFLINE_DATE &lt;= #{searchParams.offlineEndDate} -->
+        </if>
+        order by SORT_ORDER
+    </select>
+
+ <insert id="insert" parameterType="com.skynet.rimp.hisBaseInfo.vo.NoticeInfo">
+       insert into notice_info 
+       <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id!=null and id!=''">
+                ID, 
+            </if>
+            <if test="noticename!=null and noticename!=''">
+                NOTICE_NAME, 
+            </if>
+            <if test="noticetype!=null and noticetype!=''">
+                NOTICE_TYPE, 
+            </if>
+            <if test="hoscoding!=null and hoscoding!=''">
+                HOS_CODING, 
+            </if>
+            <if test="affiliatedhos!=null and affiliatedhos!=''">
+                AFFILIATED_HOS, 
+            </if>
+            <if test="briefcontent!=null and briefcontent!=''">
+                BRIEF_CONTENT, 
+            </if>
+            <if test="sortorder!=null and sortorder!=''">
+                SORT_ORDER, 
+            </if>
+            <if test="uploadpictures!=null and uploadpictures!=''">
+                UPLOAD_PICTURES, 
+            </if>
+            <if test="offlinedate!=null and offlinedate!=''">
+                OFFLINE_DATE, 
+            </if>
+            <if test="remark!=null and remark!=''">
+                REMARK, 
+            </if>
+            <if test="details!=null and details!=''">
+                DETAILS, 
+            </if>
+            <if test="updateuser!=null and updateuser!=''">
+                UPDATE_USER, 
+            </if>
+            <if test="updatedate!=null and updatedate!=''">
+                UPDATE_DATE, 
+            </if>
+            <if test="createuser!=null and createuser!=''">
+                CREATE_USER, 
+            </if>
+            <if test="createdate!=null and createdate!=''">
+                CREATE_DATE, 
+            </if>
+            <if test="releasedate!=null and releasedate!=''">
+                RELEASE_DATE, 
+            </if>
+        </trim>  
+        <trim prefix="values (" suffix=")" suffixOverrides="," > 
+            <if test="id!=null and id!=''">            
+                #{id,jdbcType=VARCHAR}, 
+            </if>
+            <if test="noticename!=null and noticename!=''">            
+                #{noticename,jdbcType=VARCHAR}, 
+            </if>
+            <if test="noticetype!=null and noticetype!=''">            
+                #{noticetype,jdbcType=VARCHAR}, 
+            </if>
+            <if test="hoscoding!=null and hoscoding!=''">            
+                #{hoscoding,jdbcType=VARCHAR}, 
+            </if>
+            <if test="affiliatedhos!=null and affiliatedhos!=''">            
+                #{affiliatedhos,jdbcType=VARCHAR}, 
+            </if>
+            <if test="briefcontent!=null and briefcontent!=''">            
+                #{briefcontent,jdbcType=VARCHAR}, 
+            </if>
+            <if test="sortorder!=null and sortorder!=''">            
+                #{sortorder,jdbcType=VARCHAR}, 
+            </if>
+            <if test="uploadpictures!=null and uploadpictures!=''">            
+                #{uploadpictures,jdbcType=VARCHAR}, 
+            </if>
+            <if test="offlinedate!=null and offlinedate!=''">            
+                #{offlinedate,jdbcType=TIMESTAMP}, 
+            </if>
+            <if test="remark!=null and remark!=''">            
+                #{remark,jdbcType=VARCHAR}, 
+            </if>
+            <if test="details!=null and details!=''">            
+                #{details,jdbcType=VARCHAR}, 
+            </if>
+            <if test="updateuser!=null and updateuser!=''">            
+                #{updateuser,jdbcType=VARCHAR}, 
+            </if>
+            <if test="updatedate!=null and updatedate!=''">            
+                #{updatedate,jdbcType=VARCHAR}, 
+            </if>
+            <if test="createuser!=null and createuser!=''">            
+                #{createuser,jdbcType=VARCHAR}, 
+            </if>
+            <if test="createdate!=null and createdate!=''">            
+                #{createdate,jdbcType=VARCHAR}, 
+            </if>
+            <if test="releasedate!=null and releasedate!=''">            
+                #{releasedate,jdbcType=TIMESTAMP}, 
+            </if>
+        </trim> 
+    </insert>
+
+ <!-- 新建的预约说明和停诊通知进行唯一性判断 -->
+ <select id="findByNoticeTypeAndHosId" parameterType="java.util.Map" resultType="java.lang.Integer"> 
+		SELECT COUNT(*) FROM notice_info WHERE 1 = 1 AND HOS_CODING = #{hoscoding} AND NOTICE_TYPE = #{noticetype} AND OFFLINE_DATE > now()
+</select>
+ <!-- 相同所属医院、通告类型的通告标题不能重复 -->
+ <select id="findBynoticeNameAndHosId" parameterType="java.util.Map" resultType="java.lang.Integer"> 
+		SELECT COUNT(*) FROM notice_info WHERE 1 = 1 AND HOS_CODING = #{hoscoding} AND NOTICE_NAME = #{noticename}
+</select>
+
+<!-- 根据主键修改 -->
+<update id="updateByPrimaryKey" parameterType="com.skynet.rimp.hisBaseInfo.vo.NoticeInfo" >
+	    update notice_info   
+        <set>
+            <if test="noticename!=null">
+              NOTICE_NAME = #{noticename,jdbcType=VARCHAR},
+            </if>
+            <if test="noticetype!=null">
+              NOTICE_TYPE = #{noticetype,jdbcType=VARCHAR},
+            </if>
+            <if test="hoscoding!=null">
+              HOS_CODING = #{hoscoding,jdbcType=VARCHAR},
+            </if>
+            <if test="affiliatedhos!=null">
+              AFFILIATED_HOS = #{affiliatedhos,jdbcType=VARCHAR},
+            </if>
+            <if test="briefcontent!=null">
+              BRIEF_CONTENT = #{briefcontent,jdbcType=VARCHAR},
+            </if>
+            <if test="sortorder!=null">
+              SORT_ORDER = #{sortorder,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadpictures!=null">
+              UPLOAD_PICTURES = #{uploadpictures,jdbcType=VARCHAR},
+            </if>
+            <if test="offlinedate!=null">
+              OFFLINE_DATE = #{offlinedate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark!=null">
+              REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="details!=null">
+              DETAILS = #{details,jdbcType=VARCHAR},
+            </if>
+            <if test="updateuser!=null">
+              UPDATE_USER = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedate!=null">
+              UPDATE_DATE = #{updatedate,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser!=null">
+              CREATE_USER = #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createdate!=null">
+              CREATE_DATE = #{createdate,jdbcType=VARCHAR},
+            </if>
+            <if test="releasedate!=null">
+              RELEASE_DATE = #{releasedate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where 1=1  
+           and ID = #{id,jdbcType=VARCHAR}       
+  	</update>
+    
+    <!-- 根据id删除 -->
+    <delete id="deleteByKeyArr" parameterType="java.util.List">
+		DELETE FROM notice_info WHERE ID IN
+		<foreach collection="array" index="index" item="item" open="(" separator="," close=")">  
+            #{item}   
+    	</foreach>  
+	</delete>
+  
+</mapper>

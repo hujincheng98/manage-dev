@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.hisBaseInfo.dao.HosAreaInfoDao">
+
+	<resultMap id="BaseResultMap" type="com.skynet.rimp.hisBaseInfo.vo.HosAreaInfo">
+		<id column="HOS_AREA_ID" property="areaId" jdbcType="VARCHAR" />
+		<result column="HOS_AREA_NAME" property="areaName" jdbcType="VARCHAR" />
+		<result column="HOS_AREA_ADDR" property="areaAddr" jdbcType="VARCHAR" />
+		<result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+		<result column="HOS_AREA_STATE" property="areaState" jdbcType="VARCHAR" />
+		<result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+		<result column="HOS_AREA_HIS_CODE" property="hosAreaHisCode" jdbcType="VARCHAR" />
+		<result column="HOS_AREA_PHOTO" property="hosAreaPhoto" jdbcType="VARCHAR" />
+		<result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+		<result column="EXT2" property="ext2" jdbcType="VARCHAR" />
+		<result column="EXT3" property="ext3" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"  />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+		<association property="hosInfo" javaType="com.skynet.rimp.hisBaseInfo.vo.HosInfo" column="HOS_ID" select="findByHosId">
+		</association>
+	</resultMap>
+	<resultMap id="RequestMapHos" type="com.skynet.rimp.hisBaseInfo.vo.HosInfo">
+		<id column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    	<result column="HOS_NAME" property="hosName" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="findByHosId" parameterType="java.lang.String"
+		resultMap="RequestMapHos">
+		select * from hos_info 
+		where hos_id =  #{hosId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getByAreaName" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select * from hos_area_info where HOS_AREA_NAME=#{areaName} limit 1
+	</select>
+	
+	
+	<insert id="insert" parameterType="com.skynet.rimp.hisBaseInfo.vo.HosAreaInfo">
+	insert into hos_area_info(HOS_AREA_ID,HOS_AREA_NAME,HOS_AREA_ADDR,HOS_ID,ORG_ID,HOS_AREA_STATE,REMARKS,HOS_AREA_HIS_CODE,HOS_AREA_PHOTO,CREATE_DATE,
+	CREATE_USER) values(#{areaId},#{areaName},#{areaAddr},#{hosId},#{orgId},#{areaState},#{remarks},#{hosAreaHisCode},#{hosAreaPhoto},#{createDate,jdbcType=TIMESTAMP},#{createUser})
+	</insert>
+	<update id="updateByPk" parameterType="com.skynet.rimp.hisBaseInfo.vo.HosAreaInfo">
+	update hos_area_info
+	<set>
+		<if test="hosId!=null">
+		HOS_ID=#{hosId},
+		</if>
+		<if test="areaName!=null">
+		HOS_AREA_NAME=#{areaName},
+		</if>
+		<if test="areaAddr!=null">
+		HOS_AREA_ADDR=#{areaAddr},
+		</if>
+		<if test="remarks!=null">
+		REMARKS=#{remarks},
+		</if>
+		<if test="hosAreaHisCode!=null">
+		HOS_AREA_HIS_CODE=#{hosAreaHisCode},
+		</if>
+		<if test="hosAreaPhoto!=null">
+		HOS_AREA_PHOTO=#{hosAreaPhoto},
+		</if>
+		<if test="updateUser!=null">
+		UPDATE_USER=#{updateUser},
+		</if>
+		<if test="updateDate!=null">
+		UPDATE_DATE=#{updateDate,jdbcType=TIMESTAMP}
+		</if>
+	</set>
+	<where>
+	HOS_AREA_ID=#{areaId}
+	</where>
+	</update>
+	
+	<delete id="deleteByPk" parameterType="java.lang.String">
+	delete from hos_area_info where HOS_AREA_ID=#{areaId}
+	</delete>
+	
+	<select id="findByAreaId" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select * from hos_area_info where HOS_AREA_ID=#{areaId} limit 1
+	</select>
+	
+	<select id="findByAreaName" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select * from hos_area_info where HOS_AREA_NAME=#{areaName} limit 1
+	</select>
+	
+	<select id="findByCondition" resultMap="BaseResultMap" parameterType="com.skynet.common.SearchParams">
+	select * from hos_area_info where 1=1
+	<if test="searchParams != null">
+		<if test="searchParams.areaName != null and searchParams.areaName != ''">
+			and HOS_AREA_NAME like '%${searchParams.areaName}%'
+		</if>
+		<if test="searchParams.areaAddr != null and searchParams.areaAddr != ''">
+			and HOS_AREA_ADDR  like '%${searchParams.areaAddr}%'
+		</if>
+		<if test="searchParams.remarks != null and searchParams.remarks != ''">
+			and REMARKS  like '%${searchParams.remarks}%'
+		</if>
+		<if test="searchParams.hosId != null and searchParams.hosId != ''">
+			and HOS_ID = #{searchParams.hosId, jdbcType=VARCHAR}
+		</if>
+	</if>
+		order by CREATE_DATE DESC
+	</select>
+	
+	<select id="findAll" resultMap="BaseResultMap">
+		select * from hos_area_info where 1=1
+	</select>
+</mapper>

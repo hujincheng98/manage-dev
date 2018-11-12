@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skynet.rimp.hisBaseInfo.dao.HisDocmInfoDao" >
+  <resultMap id="BaseResultMap" type="com.skynet.rimp.hisBaseInfo.vo.HisDocmInfo" >
+    <id column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <id column="DOCM_HIS_CODE" property="docmHisCode" jdbcType="VARCHAR" />
+    <result column="DOCM_NAME" property="docmName" jdbcType="VARCHAR" />
+    <result column="DOCM_SEX" property="docmSex" jdbcType="VARCHAR" />
+    <result column="DOCM_NATION" property="docmNation" jdbcType="VARCHAR" />
+    <result column="DOCM_DIPLOMA" property="docmDiploma" jdbcType="VARCHAR" />
+    <result column="DOCM_DUTY" property="docmDuty" jdbcType="VARCHAR" />
+    <result column="DOCM_ROLE" property="docmRole" jdbcType="VARCHAR" />
+    <result column="DOCM_DEPT_CODE" property="docmDeptCode" jdbcType="VARCHAR" />
+    <result column="DOCM_DEPT_NAME" property="docmDeptName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    HOS_ID, DOCM_HIS_CODE, DOCM_NAME, DOCM_SEX, DOCM_NATION, DOCM_DIPLOMA, DOCM_DUTY, 
+    DOCM_ROLE, DOCM_DEPT_CODE, DOCM_DEPT_NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.skynet.rimp.hisBaseInfo.vo.HisDocmInfoKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from his_docm_info
+    where HOS_ID = #{hosId,jdbcType=VARCHAR}
+      and DOCM_HIS_CODE = #{docmHisCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.skynet.rimp.hisBaseInfo.vo.HisDocmInfoKey" >
+    delete from his_docm_info
+    where HOS_ID = #{hosId,jdbcType=VARCHAR}
+      and DOCM_HIS_CODE = #{docmHisCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.skynet.rimp.hisBaseInfo.vo.HisDocmInfo" >
+    insert into his_docm_info (HOS_ID, DOCM_HIS_CODE, DOCM_NAME, 
+      DOCM_SEX, DOCM_NATION, DOCM_DIPLOMA, 
+      DOCM_DUTY, DOCM_ROLE, DOCM_DEPT_CODE, 
+      DOCM_DEPT_NAME)
+    values (#{hosId,jdbcType=VARCHAR}, #{docmHisCode,jdbcType=VARCHAR}, #{docmName,jdbcType=VARCHAR}, 
+      #{docmSex,jdbcType=VARCHAR}, #{docmNation,jdbcType=VARCHAR}, #{docmDiploma,jdbcType=VARCHAR}, 
+      #{docmDuty,jdbcType=VARCHAR}, #{docmRole,jdbcType=VARCHAR}, #{docmDeptCode,jdbcType=VARCHAR}, 
+      #{docmDeptName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.skynet.rimp.hisBaseInfo.vo.HisDocmInfo" >
+    insert into his_docm_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="hosId != null" >
+        HOS_ID,
+      </if>
+      <if test="docmHisCode != null" >
+        DOCM_HIS_CODE,
+      </if>
+      <if test="docmName != null" >
+        DOCM_NAME,
+      </if>
+      <if test="docmSex != null" >
+        DOCM_SEX,
+      </if>
+      <if test="docmNation != null" >
+        DOCM_NATION,
+      </if>
+      <if test="docmDiploma != null" >
+        DOCM_DIPLOMA,
+      </if>
+      <if test="docmDuty != null" >
+        DOCM_DUTY,
+      </if>
+      <if test="docmRole != null" >
+        DOCM_ROLE,
+      </if>
+      <if test="docmDeptCode != null" >
+        DOCM_DEPT_CODE,
+      </if>
+      <if test="docmDeptName != null" >
+        DOCM_DEPT_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="hosId != null" >
+        #{hosId,jdbcType=VARCHAR},
+      </if>
+      <if test="docmHisCode != null" >
+        #{docmHisCode,jdbcType=VARCHAR},
+      </if>
+      <if test="docmName != null" >
+        #{docmName,jdbcType=VARCHAR},
+      </if>
+      <if test="docmSex != null" >
+        #{docmSex,jdbcType=VARCHAR},
+      </if>
+      <if test="docmNation != null" >
+        #{docmNation,jdbcType=VARCHAR},
+      </if>
+      <if test="docmDiploma != null" >
+        #{docmDiploma,jdbcType=VARCHAR},
+      </if>
+      <if test="docmDuty != null" >
+        #{docmDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="docmRole != null" >
+        #{docmRole,jdbcType=VARCHAR},
+      </if>
+      <if test="docmDeptCode != null" >
+        #{docmDeptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="docmDeptName != null" >
+        #{docmDeptName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.skynet.rimp.hisBaseInfo.vo.HisDocmInfo" >
+    update his_docm_info
+    <set >
+      <if test="docmName != null" >
+        DOCM_NAME = #{docmName,jdbcType=VARCHAR},
+      </if>
+      <if test="docmSex != null" >
+        DOCM_SEX = #{docmSex,jdbcType=VARCHAR},
+      </if>
+      <if test="docmNation != null" >
+        DOCM_NATION = #{docmNation,jdbcType=VARCHAR},
+      </if>
+      <if test="docmDiploma != null" >
+        DOCM_DIPLOMA = #{docmDiploma,jdbcType=VARCHAR},
+      </if>
+      <if test="docmDuty != null" >
+        DOCM_DUTY = #{docmDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="docmRole != null" >
+        DOCM_ROLE = #{docmRole,jdbcType=VARCHAR},
+      </if>
+      <if test="docmDeptCode != null" >
+        DOCM_DEPT_CODE = #{docmDeptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="docmDeptName != null" >
+        DOCM_DEPT_NAME = #{docmDeptName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where HOS_ID = #{hosId,jdbcType=VARCHAR}
+      and DOCM_HIS_CODE = #{docmHisCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.skynet.rimp.hisBaseInfo.vo.HisDocmInfo" >
+    update his_docm_info
+    set DOCM_NAME = #{docmName,jdbcType=VARCHAR},
+      DOCM_SEX = #{docmSex,jdbcType=VARCHAR},
+      DOCM_NATION = #{docmNation,jdbcType=VARCHAR},
+      DOCM_DIPLOMA = #{docmDiploma,jdbcType=VARCHAR},
+      DOCM_DUTY = #{docmDuty,jdbcType=VARCHAR},
+      DOCM_ROLE = #{docmRole,jdbcType=VARCHAR},
+      DOCM_DEPT_CODE = #{docmDeptCode,jdbcType=VARCHAR},
+      DOCM_DEPT_NAME = #{docmDeptName,jdbcType=VARCHAR}
+    where HOS_ID = #{hosId,jdbcType=VARCHAR}
+      and DOCM_HIS_CODE = #{docmHisCode,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT * FROM his_docm_info
+  </select>
+  
+  <!-- 查询 -->
+  <select id="findByCondition" parameterType="com.skynet.common.SearchParams" resultMap="BaseResultMap">
+  	SELECT * FROM his_docm_info where 1=1
+    <if test="searchParams.docmName!=null and searchParams.docmName!=''">
+		AND docm_name  like '%${searchParams.docmName}%'
+	</if>
+	<if test="searchParams.hosId != null and searchParams.hosId != ''">
+			and HOS_ID =#{searchParams.hosId} 
+	</if>
+	
+	
+  </select>
+</mapper>
